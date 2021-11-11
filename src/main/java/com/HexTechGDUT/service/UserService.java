@@ -1,6 +1,7 @@
 package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.bo.LoginBo;
+import com.HexTechGDUT.bo.UserLoginBo;
 import com.HexTechGDUT.po.user.User;
 
 /**
@@ -20,7 +21,7 @@ public interface UserService {
      * @param loginBo 登录帐号和密码
      * @return Obj 登录凭证(还不知道要返回啥)
      */
-    Object login(LoginBo loginBo);
+    UserLoginBo login(LoginBo loginBo);
 
     /**
      * 用户信息更新

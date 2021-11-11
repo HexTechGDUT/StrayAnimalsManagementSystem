@@ -13,4 +13,12 @@ public interface AnimalPictureService {
      * @return 是否添加成功
      */
     boolean addPicture(AnimalPicture picture);
+
+    /**
+     * 删除动物图片
+     * @param id 图片id
+     * @return 是否删除成功
+     */
+    boolean deletePicture(String id);
+
 }

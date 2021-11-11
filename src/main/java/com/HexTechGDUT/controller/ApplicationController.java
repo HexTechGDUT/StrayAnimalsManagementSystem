@@ -1,12 +1,12 @@
 package com.HexTechGDUT.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author HexTechGDUT
  */
-@Controller
-@RequestMapping(value = "/Application")
+@RestController
+@RequestMapping(value = "/application")
 public class ApplicationController {
 }
