@@ -1,27 +1,34 @@
 package com.HexTechGDUT.dao;
 
-import com.HexTechGDUT.bo.LoginBo;
-import com.HexTechGDUT.bo.UserLoginBo;
 import com.HexTechGDUT.po.user.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
  * @author HexTechGDUT
  */
-@Mapper
 public interface UserMapper extends BaseMapper<User> {
 
     /**
-     * 登录
-     * @param loginBo loginBo
-     * @return UserLoginBo
+     * 新增用户
+     * @param user user
+     * @return 是否成功
      */
-    default UserLoginBo login(LoginBo loginBo){
-        return null;
+    default boolean addUser(User user){
+        return insert(user) == 1;
+    }
+
+    /**
+     * 通过uid删除用户
+     * @param uid uid
+     * @return 是否删除成功
+     */
+    default boolean deleteUser(String uid){
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(User::getUid, uid);
+        return delete(wrapper) == 1;
     }
 
     /**

@@ -1,6 +1,12 @@
 package com.HexTechGDUT.bo;
 
-import lombok.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -13,22 +19,27 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Component
+@ApiModel(value = "用户登录Bo", description = "包括用户id,密码和登录时间")
 public class LoginBo {
 
     /**
      * 登录帐号
      */
+    @ApiModelProperty(value = "登录id")
     @NotBlank(message = "帐号不能为空")
     private String uid;
 
     /**
      * 登录密码
      */
+    @ApiModelProperty(value = "登录密码")
     @NotBlank(message = "密码不能为空")
     private String pwd;
 
     /**
      * 登录时间
      */
+    @ApiModelProperty(value = "登录时间")
     private LocalDateTime loginTime;
 }

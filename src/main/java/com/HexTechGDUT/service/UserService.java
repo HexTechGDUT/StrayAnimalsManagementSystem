@@ -3,11 +3,14 @@ package com.HexTechGDUT.service;
 import com.HexTechGDUT.bo.LoginBo;
 import com.HexTechGDUT.bo.UserLoginBo;
 import com.HexTechGDUT.po.user.User;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * @author HexTechGDUT
  */
-public interface UserService {
+public interface UserService extends IService<User> {
 
     /**
      * 用户注册
@@ -28,5 +31,26 @@ public interface UserService {
      * @param user 更新信息的用户
      * @return 是否更新成功
      */
-    boolean update(User user);
+    boolean updateUser(User user);
+
+    /**
+     * 删除用户
+     * @param uid uid
+     * @return 是否删除成功
+     */
+    boolean deleteUser(String uid);
+
+    /**
+     * 通过uid查询用户
+     * @param uid uid
+     * @return User
+     */
+    User queryUserByUid(String uid);
+
+    /**
+     * 通过名字模糊查询用户
+     * @param name name
+     * @return 用户list
+     */
+    List<User> queryUserLikeName(String name);
 }

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +14,7 @@ import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
@@ -25,9 +28,12 @@ import java.time.LocalDateTime;
 @Component
 @Alias("Location")
 @TableName("location")
+@ApiModel(value = "位置", description = "用户或动物的位置信息")
 public class Location {
 
     @TableId("id")
+    @Size(max = 16)
+    @ApiModelProperty(value = "位置id", notes = "位置在数据库表中存储的id")
     private String id;
 
     /**
@@ -35,6 +41,7 @@ public class Location {
      * 每个用户都有唯一的Location
      */
     @TableField("uid")
+    @ApiModelProperty(value = "用户id", notes = "若位置为用户位置，则该属性为用户id，否则为空")
     private String uid;
 
     /**
@@ -43,6 +50,7 @@ public class Location {
      * 每个动物可有多条地址, 按时间排序后返回
      */
     @TableField("animal_id")
+    @ApiModelProperty(value = "动物id", notes = "若位置为动物位置，则该属性为动物id，否则为空")
     private String animalId;
 
     /**
@@ -51,6 +59,7 @@ public class Location {
      */
     @EnumValue
     @TableField("zone")
+    @ApiModelProperty(value = "区域Enum", notes = "位置的所在的区域")
     private Zone zone;
 
     /**
@@ -60,11 +69,13 @@ public class Location {
      */
     @TableField("spec_locate")
     @Max(value = 20)
+    @ApiModelProperty(value = "具体的位置", notes = "由用户填写具体的位置")
     private String specificLocate;
 
     /**
      * 更新时间
      */
     @TableField("update_time")
+    @ApiModelProperty(value = "位置更新时间", notes = "记录该条位置信息上传的时间")
     private LocalDateTime updateTime;
 }

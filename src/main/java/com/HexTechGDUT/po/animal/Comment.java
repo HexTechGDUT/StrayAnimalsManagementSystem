@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.ibatis.type.Alias;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class Comment {
      * 评论id
      */
     @TableId("id")
+    @Size(max = 16)
     private String id;
 
     /**
@@ -46,18 +48,19 @@ public class Comment {
      * 若该评论为另一条评论的子评论
      * 该属性记录该评论的父评论
      */
-    @TableField("parent_id")
-    private String parentCommentId;
+//    @TableField("parent_id")
+//    private String parentCommentId;
 
     /**
      * 该评论的子评论
      * 在连接查询时使用
      */
-    private List<Comment> commentList;
+//    private List<Comment> commentList;
 
     /**
      * 评论的具体内容
      */
+    @Size(max = 50)
     @TableField("comment_str")
     private String commentStr;
 

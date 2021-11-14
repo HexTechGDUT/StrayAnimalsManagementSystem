@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.HexTechGDUT.po.address.Location;
 
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class Animal {
      * 动物的id
      */
     @TableId("animal_id")
+    @Size(max = 16)
     private String animalId;
 
     /**
@@ -40,13 +42,6 @@ public class Animal {
      */
     @TableField("name")
     private String name;
-
-    /**
-     * 生日
-     * @deprecated
-     */
-    @TableField("birthday")
-    private LocalDateTime birthday;
 
     /**
      * 年龄
@@ -61,7 +56,7 @@ public class Animal {
      * 外貌
      * 最多50字
      */
-    @Max(value = 50)
+    @Size(max = 50)
     @TableField("appearance")
     private String appearance;
 
@@ -69,7 +64,7 @@ public class Animal {
      * 介绍
      * 最多50字
      */
-    @Max(value = 50)
+    @Size(max = 50)
     @TableField("introduction")
     private String introduction;
 
@@ -97,6 +92,12 @@ public class Animal {
      * 该属性只用于数据库查询
      */
     private Location location;
+
+    /**
+     * 上传者id
+     */
+    @TableField("uid")
+    private String uid;
 
     /**
      * 信息最后更新时间

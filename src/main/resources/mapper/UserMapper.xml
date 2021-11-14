@@ -4,4 +4,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.HexTechGDUT.dao.UserMapper">
 
+<!--    <resultMap id="UserMap" type="com.HexTechGDUT.po.user.User">-->
+<!--        <id property="uid" jdbcType="VARCHAR" javaType="String" column="uid"/>-->
+<!--        <result property="name" jdbcType="VARCHAR" javaType="String" column="name"/>-->
+<!--        <result property="pwd" jdbcType="VARCHAR" column="pwd"/>-->
+<!--        <result property="phone" jdbcType="VARCHAR" column="phone"/>-->
+<!--        <result property="email" jdbcType="VARCHAR" column="email"/>-->
+<!--        <result property="auth" jdbcType="VARCHAR" column="auth"/>-->
+<!--        <result property="lastUpdateTime" jdbcType="DATE" column="last_update_time"/>-->
+<!--    </resultMap>-->
+
 </mapper>

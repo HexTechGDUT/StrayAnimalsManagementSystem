@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
@@ -41,8 +42,9 @@ public class AnimalPicture {
     /**
      * 图片具体存储位置
      */
-    @TableField("pic_locate")
-    private String picLocate;
+    @Size(max = 50)
+    @TableField("pic_path")
+    private String picPath;
 
     /**
      * 图片上传时间

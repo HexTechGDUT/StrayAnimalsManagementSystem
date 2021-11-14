@@ -1,4 +1,4 @@
-package com.HexTechGDUT.po.application;
+package com.HexTechGDUT.po.article;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -9,55 +9,57 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.ibatis.type.Alias;
-import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 /**
- * 申请的处理结果
+ * 文章
  * @author HexTechGDUT
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
-@Alias("Answer")
-@TableName("answer")
-public class Answer {
+@Alias("Article")
+@TableName("article")
+public class Article {
 
     /**
-     * 该回复对应的申请id
+     * 存储位置的前缀
      */
-    @TableField("apply_id")
-    private String applyId;
+    private static String prefix = "";
 
     /**
-     * 处理结果
+     * 文章id
      */
+    @TableId("id")
+    private String id;
+
+    /**
+     *
+     */
+    @TableField("type")
     @EnumValue
-    @TableField("answer_type")
-    private AnswerType answerType;
+    private ArticleType type;
 
     /**
-     * 具体处理结果和原因
+     * 存储的位置
+     * specific_locate = prefix + article_locate
      */
-    @TableField("details")
+    @TableField("article_path")
     @Size(max = 50)
-    private String details;
+    private String articlePath;
 
     /**
-     * 处理人id
-     * 一般为管理员
+     * 文章的发布者id
      */
     @TableField("uid")
     private String uid;
 
     /**
-     * 处理时间
+     * 发布时间
      */
-    @TableField("answer_time")
-    private LocalDateTime answerTime;
+    @TableField("update_time")
+    private LocalDateTime updateTime;
 }

@@ -1,4 +1,4 @@
-package com.HexTechGDUT.po.application;
+package com.HexTechGDUT.po.article;
 
 import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
@@ -6,26 +6,33 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 申请的处理结果的类型
- * 允许/驳回
+ * 文章的类型
+ * 相关知识/功能介绍/操作指引
  * @author HexTechGDUT
  */
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public enum AnswerType implements IEnum<String> {
+public enum ArticleType implements IEnum<String> {
 
     /**
-     * 驳回申请
+     * 相关知识
+     * tips
      */
-    REJECT(0, "REJECT"),
+    TIPS("TIPS"),
 
     /**
-     * 允许申请
+     * 功能介绍
+     * intro
      */
-    PERMIT(1, "PERMIT");
+    INTRO("INTRO"),
 
-    private int code;
+    /**
+     * 操作指引
+     * guide
+     */
+    GUIDE("GUIDE");
 
     private String value;
 
