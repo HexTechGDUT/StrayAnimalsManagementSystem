@@ -1,0 +1,35 @@
+server:
+  port: 7777
+
+spring:
+  # 数据源
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/stray_animals_management_system?useSSL=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+      username: root
+      password: root
+      initial-size: 10
+      max-active: 30
+      min-idle: 5
+  main:
+    allow-bean-definition-overriding: true
+  web:
+    resources:
+      static-locations: classpath:/resources/
+
+# mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    call-setters-on-nulls: true
+    default-enum-type-handler: org.apache.ibatis.type.EnumTypeHandler
+  type-aliases-package: com.HexTechGDUT.po.user # ,com.HexTechGDUT.po.application,com.HexTechGDUT.po.address,com.HexTechGDUT.po.animal,com.HexTechGDUT.po.article,
+  type-enums-package: com.HexTechGDUT.po.user
+
+#logging:
+#  level: warn
+
+#shiro:
+#  enabled: false
