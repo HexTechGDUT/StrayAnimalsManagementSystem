@@ -2,6 +2,8 @@ package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.po.animal.Comment;
 
+import java.util.List;
+
 /**
  * @author HexTechGDUT
  */
@@ -28,4 +30,18 @@ public interface CommentService {
      * @return 是否删除成功
      */
     boolean delete(Comment comment);
+
+    /**
+     * 通过动物id查询动物信息下的评论
+     * @param animalId animalId
+     * @return comment list
+     */
+    List<Comment> queryCommentByAnimalId(String animalId);
+
+    /**
+     * 通过用户id查询该用户发表过哪些评论
+     * @param uid uid
+     * @return comment list
+     */
+    List<Comment> queryCommentByUid(String uid);
 }

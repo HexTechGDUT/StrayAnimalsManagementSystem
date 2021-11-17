@@ -1,17 +1,13 @@
 package com.HexTechGDUT.result;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * 返回给前端的结果对象
  * Controller中返回json
  * @author HexTechGDUT
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Result<T> {

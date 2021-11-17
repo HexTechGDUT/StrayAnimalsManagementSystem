@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 
 /**
  * 用户登录时传帐号和密码
@@ -20,7 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-@ApiModel(value = "用户登录Bo", description = "包括用户id,密码和登录时间")
+@ApiModel(value = "用户登录Bo", description = "包括用户id,密码")
 public class LoginBo {
 
     /**
@@ -36,10 +35,4 @@ public class LoginBo {
     @ApiModelProperty(value = "登录密码")
     @NotBlank(message = "密码不能为空")
     private String pwd;
-
-    /**
-     * 登录时间
-     */
-    @ApiModelProperty(value = "登录时间")
-    private LocalDateTime loginTime;
 }

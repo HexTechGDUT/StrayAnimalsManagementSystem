@@ -1,6 +1,6 @@
 package com.HexTechGDUT.dao;
 
-import com.HexTechGDUT.po.user.User;
+import com.HexTechGDUT.po.User;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -27,11 +27,12 @@ public interface UserMapper extends BaseMapper<User> {
      */
     default boolean deleteUser(String uid){
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(User::getUid, uid);
+        wrapper.lambda().eq(User::getUserId, uid);
         return delete(wrapper) == 1;
     }
 
     /**
+     * mybatis-plus wrapper
      * 通过uid查询一个用户
      * @param uid uid
      * @return 用户
@@ -39,16 +40,24 @@ public interface UserMapper extends BaseMapper<User> {
     default User queryUserByUid(String uid){
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.lambda()
-                .select(User::getUid)
-                .select(User::getName)
-                .select(User::getPwd)
-                .select(User::getPhone)
-                .select(User::getEmail)
-                .select(User::getAuth)
-                .select(User::getLastUpdateTime)
-                .eq(User::getUid, uid);
+                .select(User::getUserId)
+                .select(User::getUserName)
+                .select(User::getPassword)
+                .select(User::getPhoneNumber)
+                .select(User::getUserType)
+                .select(User::getCreateTime)
+                .select(User::getUpdateTime)
+                .eq(User::getUserId, uid);
         return selectOne(wrapper);
     }
+
+    /**
+     * mybatis mapper
+     * 通过uid查询一个用户
+     * @param uid uid
+     * @return 用户
+     */
+    User queryUserByUidFromMapper(String uid);
 
     /**
      * 根据相似名字查询用户
@@ -58,14 +67,14 @@ public interface UserMapper extends BaseMapper<User> {
     default List<User> queryUserLikeName(String name){
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.lambda()
-                .select(User::getUid)
-                .select(User::getName)
-                .select(User::getPwd)
-                .select(User::getPhone)
-                .select(User::getEmail)
-                .select(User::getAuth)
-                .select(User::getLastUpdateTime)
-                .like(User::getName, name);
+                .select(User::getUserId)
+                .select(User::getUserName)
+                .select(User::getPassword)
+                .select(User::getPhoneNumber)
+                .select(User::getUserType)
+                .select(User::getCreateTime)
+                .select(User::getUpdateTime)
+                .like(User::getUserName, name);
         return selectList(wrapper);
     }
 

@@ -1,7 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.application.Application;
-import com.HexTechGDUT.po.application.AnswerType;
+import com.HexTechGDUT.po.Application;
 
 /**
  * 申请服务
@@ -14,7 +13,7 @@ public interface ApplicationService {
      * @param application 申请信息
      * @return 处理结果
      */
-     AnswerType apply(Application application);
+     boolean apply(Application application);
 
     /**
      * 取消申请

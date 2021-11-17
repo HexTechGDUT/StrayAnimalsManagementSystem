@@ -44,4 +44,21 @@ public class SwaggerConfig {
                 new ArrayList<>()
         );
     }
+
+    public Docket docketByController(String groupName, String controller){
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
+                .enable(true)
+                //有空再分组
+                .groupName(groupName)
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.HexTechGDUT.controller"))
+                .paths(PathSelectors.regex("/"+controller+"/.*"))
+                .build();
+    }
+
+    @Bean
+    public Docket getUserDocket(){
+        return docketByController("User", "user");
+    }
 }
