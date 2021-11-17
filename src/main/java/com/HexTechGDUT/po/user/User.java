@@ -2,14 +2,16 @@ package com.HexTechGDUT.po.user;
 
 import com.HexTechGDUT.po.address.Location;
 import com.HexTechGDUT.security.UserAuth;
-import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.type.Alias;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Email;
@@ -25,7 +27,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Component
 @Alias("User")
-@TableName(value = "user", autoResultMap = true)
+@TableName(value = "user")
 @ApiModel(value = "用户", description = "用户")
 public class User {
 
@@ -77,6 +79,7 @@ public class User {
      * 位置
      * 查询用户时，通过uid连接查询Location表
      */
+    @TableField(exist = false)
     private Location location;
 
     /**

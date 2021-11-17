@@ -4,14 +4,34 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.HexTechGDUT.dao.UserMapper">
 
-<!--    <resultMap id="UserMap" type="com.HexTechGDUT.po.user.User">-->
-<!--        <id property="uid" jdbcType="VARCHAR" javaType="String" column="uid"/>-->
-<!--        <result property="name" jdbcType="VARCHAR" javaType="String" column="name"/>-->
-<!--        <result property="pwd" jdbcType="VARCHAR" column="pwd"/>-->
-<!--        <result property="phone" jdbcType="VARCHAR" column="phone"/>-->
-<!--        <result property="email" jdbcType="VARCHAR" column="email"/>-->
-<!--        <result property="auth" jdbcType="VARCHAR" column="auth"/>-->
-<!--        <result property="lastUpdateTime" jdbcType="DATE" column="last_update_time"/>-->
-<!--    </resultMap>-->
+    <resultMap id="UserMap" type="User">
+        <id property="uid" jdbcType="VARCHAR" javaType="String" column="uid"/>
+        <result property="name" jdbcType="VARCHAR" javaType="String" column="name"/>
+        <result property="pwd" jdbcType="VARCHAR" column="pwd"/>
+        <result property="phone" jdbcType="VARCHAR" column="phone"/>
+        <result property="email" jdbcType="VARCHAR" column="email"/>
+        <result property="auth" jdbcType="VARCHAR" column="auth"/>
+        <result property="lastUpdateTime" jdbcType="DATE" column="last_update_time"/>
+        <association property="location" javaType="Location">
+            <id property="id" jdbcType="VARCHAR" column="id"/>
+            <result property="uid" jdbcType="VARCHAR" column="uid"/>
+            <result property="zone" jdbcType="VARCHAR" column="zone"/>
+            <result property="specLocate" jdbcType="VARCHAR" column="spec_locate"/>
+            <result property="updateTime" jdbcType="DATE" column="update_time"/>
+        </association>
+    </resultMap>
+
+<!--#         select * from stray_animals_management_system.user where uid = #{uid} limit 1-->
+<!--#         select * from stray_animals_management_system.user u join stray_animals_management_system.location l on u.uid = l.uid-->
+<!--#         where u.uid = #{uid} limit 1-->
+    <select id="queryUserByUidFromMapper" resultMap="UserMap" parameterType="String">
+        select * from stray_animals_management_system.user u, stray_animals_management_system.location l
+        where u.uid = #{uid} and l.uid = u.uid limit 1
+    </select>
+
+    <select id="queryUserUidLikeNameFromMapper" resultMap="UserMap">
+        select * from stray_animals_management_system.user u, stray_animals_management_system.location l
+        where u.name like #{name} and l.uid = u.uid
+    </select>
 
 </mapper>

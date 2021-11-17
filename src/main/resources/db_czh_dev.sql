@@ -32,7 +32,7 @@ create table location (
     animal_id varchar(16) comment '动物id',
     # 若不指定所在区域，默认在西区
     zone enum ('WEST', 'EAST') comment '所在区域',
-    specific_locate varchar(20) comment '精确地址',
+    spec_locate varchar(20) comment '精确地址',
     update_time datetime not null comment '更新时间',
 
     foreign key (uid) references user(uid) ,
@@ -88,6 +88,7 @@ create table answer (
 
 create table article(
     id varchar(16) not null primary key comment '文章id',
+    title varchar(20) not null comment '文章标题',
     # 默认类型：相关知识TIPS
     type enum('TIPS', 'INTRO', 'GUIDE') not null comment '文章类型',
     article_path varchar(50) not null comment '存储路径',

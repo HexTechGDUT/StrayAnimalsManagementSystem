@@ -86,6 +86,7 @@ public class Application {
     /**
      * 该属性只用于数据库连接查询处理结果时返回
      */
+    @TableField(exist = false)
     private Answer answer;
 
 }

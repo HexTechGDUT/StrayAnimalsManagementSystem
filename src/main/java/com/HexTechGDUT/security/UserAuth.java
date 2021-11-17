@@ -1,8 +1,11 @@
 package com.HexTechGDUT.security;
 
+import com.baomidou.mybatisplus.annotation.IEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.lang.annotation.Inherited;
 
 /**
  * 用户权限等级
@@ -11,17 +14,17 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public enum UserAuth {
+public enum UserAuth implements IEnum<String> {
 
     /**
      * 管理员
      */
-    ADMIN(1, "admin"),
+    ADMIN(1, "ADMIN"),
 
     /**
      * 普通用户
      */
-    ORDINARY(2, "ordinary"),
+    ORDINARY(2, "ORDINARY"),
 
     /**
      * 恶意用户
@@ -30,7 +33,7 @@ public enum UserAuth {
      * 多次发布违规评论
      * 等等...
      */
-    FORBID(3, "forbid");
+    FORBID(3, "FORBID");
 
     /**
      * 等级
@@ -43,5 +46,10 @@ public enum UserAuth {
      * 权限等级的字符串
      * 用于在数据库中用户的表中存储
      */
-    private String authStr;
+    private String value;
+
+    @Override
+    public String getValue() {
+        return value;
+    }
 }

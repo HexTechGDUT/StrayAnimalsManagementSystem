@@ -32,6 +32,7 @@ public interface UserMapper extends BaseMapper<User> {
     }
 
     /**
+     * mybatis-plus wrapper
      * 通过uid查询一个用户
      * @param uid uid
      * @return 用户
@@ -49,6 +50,14 @@ public interface UserMapper extends BaseMapper<User> {
                 .eq(User::getUid, uid);
         return selectOne(wrapper);
     }
+
+    /**
+     * mybatis mapper
+     * 通过uid查询一个用户
+     * @param uid uid
+     * @return 用户
+     */
+    User queryUserByUidFromMapper(String uid);
 
     /**
      * 根据相似名字查询用户

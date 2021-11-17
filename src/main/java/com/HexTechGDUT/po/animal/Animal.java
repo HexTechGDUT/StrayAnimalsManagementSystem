@@ -85,12 +85,14 @@ public class Animal {
      * 动物的图片
      * 该属性只用于数据库查询
      */
+    @TableField(exist = false)
     private List<AnimalPicture> pictureList;
 
     /**
      * 位置
      * 该属性只用于数据库查询
      */
+    @TableField(exist = false)
     private Location location;
 
     /**

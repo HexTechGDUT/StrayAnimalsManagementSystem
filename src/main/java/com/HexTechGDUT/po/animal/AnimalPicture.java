@@ -31,6 +31,7 @@ public class AnimalPicture {
     /**
      * 图片存储位置的前缀
      */
+    @TableField(exist = false)
     private static String prefix = "";
 
     /**

@@ -1,7 +1,6 @@
 package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.bo.LoginBo;
-import com.HexTechGDUT.bo.UserLoginBo;
 import com.HexTechGDUT.po.user.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -22,9 +21,9 @@ public interface UserService extends IService<User> {
     /**
      * 用户登录
      * @param loginBo 登录帐号和密码
-     * @return Obj 登录凭证(还不知道要返回啥)
+     * @return String token
      */
-    UserLoginBo login(LoginBo loginBo);
+    String login(LoginBo loginBo);
 
     /**
      * 用户信息更新

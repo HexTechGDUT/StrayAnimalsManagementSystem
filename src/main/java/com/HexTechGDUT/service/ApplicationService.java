@@ -14,7 +14,7 @@ public interface ApplicationService {
      * @param application 申请信息
      * @return 处理结果
      */
-     AnswerType apply(Application application);
+     boolean apply(Application application);
 
     /**
      * 取消申请

@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
@@ -21,13 +18,12 @@ import java.time.LocalDateTime;
  * 位置信息
  * @author HexTechGDUT
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
 @Alias("Location")
-@TableName("location")
+@TableName(value = "location")
 @ApiModel(value = "位置", description = "用户或动物的位置信息")
 public class Location {
 
@@ -68,9 +64,9 @@ public class Location {
      * 字符串长度不超过20
      */
     @TableField("spec_locate")
-    @Max(value = 20)
+    @Size(max = 20)
     @ApiModelProperty(value = "具体的位置", notes = "由用户填写具体的位置")
-    private String specificLocate;
+    private String specLocate;
 
     /**
      * 更新时间

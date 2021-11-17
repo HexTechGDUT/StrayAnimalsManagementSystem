@@ -28,6 +28,7 @@ public class Article {
     /**
      * 存储位置的前缀
      */
+    @TableField(exist = false)
     private static String prefix = "";
 
     /**
@@ -37,7 +38,14 @@ public class Article {
     private String id;
 
     /**
-     *
+     * 文章标题
+     */
+    @TableField("title")
+    @Size(max = 20)
+    public String title;
+
+    /**
+     * 文章类型
      */
     @TableField("type")
     @EnumValue
