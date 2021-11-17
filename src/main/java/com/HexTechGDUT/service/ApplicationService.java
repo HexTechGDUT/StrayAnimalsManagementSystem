@@ -1,7 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.application.Application;
-import com.HexTechGDUT.po.application.AnswerType;
+import com.HexTechGDUT.po.Application;
 
 /**
  * 申请服务

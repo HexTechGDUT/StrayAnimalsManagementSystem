@@ -1,4 +1,4 @@
-package com.HexTechGDUT.po.animal;
+package com.HexTechGDUT.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,55 +9,36 @@ import org.apache.ibatis.type.Alias;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
- * 对动物的评论
+ * 文章
  * @author HexTechGDUT
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Alias("Comment")
-@TableName("comment")
-public class Comment {
+@Alias("Tips")
+@TableName("tips")
+public class Tips {
 
     /**
-     * 评论id
+     * 文章id
      */
     @TableId("id")
     private int id;
 
     /**
-     * 评论所属的动物id
+     * 文章标题
      */
-    @TableField("animal_record_id")
-    private String animalRecordId;
+    @TableField("title")
+    @Size(max = 16)
+    public String title;
 
     /**
-     * 发布评论的用户id
-     */
-    @TableField("user_id")
-    private String userId;
-
-    /**
-     * 评论的具体内容
+     * 内容
      */
     @TableField("content")
     private String content;
-
-    /**
-     * 若该评论为另一条评论的子评论
-     * 该属性记录该评论的父评论
-     */
-    @TableField("previous_comment_id")
-    private String previousCommentId;
-
-    /**
-     * 该评论的子评论
-     */
-    @TableField(exist = false)
-    private List<Comment> commentList;
 
     /**
      * 创建时间
@@ -71,5 +52,4 @@ public class Comment {
      */
     @TableField("update_time")
     private LocalDateTime updateTime;
-
 }

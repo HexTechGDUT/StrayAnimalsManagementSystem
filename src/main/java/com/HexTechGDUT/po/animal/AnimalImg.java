@@ -6,58 +6,57 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.apache.ibatis.type.Alias;
+import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
- * 对动物的评论
+ * 动物的图片
+ * 图片本身可能很大
+ * 将图片的存放路径存入数据库
+ * 取出后根据( 前缀prefix + 具体路径picLocate )在服务器上查找即可
  * @author HexTechGDUT
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Alias("Comment")
-@TableName("comment")
-public class Comment {
+@Component
+@Alias("AnimalImg")
+@TableName("animal_img")
+public class AnimalImg {
 
     /**
-     * 评论id
+     * 图片id
      */
     @TableId("id")
     private int id;
 
     /**
-     * 评论所属的动物id
+     * 图片存储位置的前缀
+     */
+    @TableField(exist = false)
+    private static String prefix = "";
+
+    /**
+     * 图片所属的动物id
      */
     @TableField("animal_record_id")
     private String animalRecordId;
 
     /**
-     * 发布评论的用户id
+     * 图片名字
      */
-    @TableField("user_id")
-    private String userId;
+    @TableField("name")
+    @Size(max = 16)
+    private String name;
 
     /**
-     * 评论的具体内容
+     * 图片具体存储位置
      */
-    @TableField("content")
-    private String content;
-
-    /**
-     * 若该评论为另一条评论的子评论
-     * 该属性记录该评论的父评论
-     */
-    @TableField("previous_comment_id")
-    private String previousCommentId;
-
-    /**
-     * 该评论的子评论
-     */
-    @TableField(exist = false)
-    private List<Comment> commentList;
+    @Size(max = 50)
+    @TableField("path")
+    private String path;
 
     /**
      * 创建时间
@@ -71,5 +70,4 @@ public class Comment {
      */
     @TableField("update_time")
     private LocalDateTime updateTime;
-
 }

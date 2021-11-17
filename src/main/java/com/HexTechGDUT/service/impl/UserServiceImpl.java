@@ -2,7 +2,7 @@ package com.HexTechGDUT.service.impl;
 
 import com.HexTechGDUT.bo.LoginBo;
 import com.HexTechGDUT.dao.UserMapper;
-import com.HexTechGDUT.po.user.User;
+import com.HexTechGDUT.po.User;
 import com.HexTechGDUT.service.TokenService;
 import com.HexTechGDUT.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -32,7 +32,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public String login(LoginBo loginBo) {
         log.debug(this.getClass().getName()+"\tparam:"+loginBo.toString());
         User user = userMapper.queryUserByUidFromMapper(loginBo.getUid());
-        if(user!=null && user.getPwd().equals(loginBo.getPwd())){
+        if(user!=null && user.getPassword().equals(loginBo.getPwd())){
             return tokenService.generate(loginBo);
         }
         throw new RuntimeException("帐号不存在或密码错误");

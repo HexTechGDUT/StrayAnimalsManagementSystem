@@ -1,7 +1,7 @@
 package com.HexTechGDUT.controller;
 
 import com.HexTechGDUT.bo.LoginBo;
-import com.HexTechGDUT.po.user.User;
+import com.HexTechGDUT.po.User;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
 import com.HexTechGDUT.security.PassToken;
@@ -31,7 +31,7 @@ public class UserController {
     @PostMapping("/register")
     public @ResponseBody Result<User> register(@ApiParam("用户注册信息")@Validated @RequestBody User user){
         boolean isSuccess = userService.register(user);
-        user.setPwd("");
+        user.setPassword("");
         if(isSuccess){
             return ResultUtils.successWithInfo(user, "注册成功");
         }
@@ -50,7 +50,7 @@ public class UserController {
     @PostMapping("/update")
     public @ResponseBody Result<User> update(@ApiParam("用户更新信息")@Validated @RequestBody User user){
         boolean isSuccess = userService.updateUser(user);
-        user.setPwd("");
+        user.setPassword("");
         if(isSuccess){
             return ResultUtils.successWithInfo(user, "更新成功");
         }
