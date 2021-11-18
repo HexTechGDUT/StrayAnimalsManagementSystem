@@ -40,16 +40,30 @@ public interface UserService extends IService<User> {
     boolean deleteUser(String uid);
 
     /**
-     * 通过uid查询用户
-     * @param uid uid
+     * 通过userid查询用户
+     * @param userid uid
      * @return User
      */
-    User queryUserByUid(String uid);
+    User queryUserByUserId(String userid);
 
     /**
      * 通过名字模糊查询用户
      * @param name name
-     * @return 用户list
+     * @return user list
      */
     List<User> queryUserLikeName(String name);
+
+    /**
+     * 根据地址模糊查询用户
+     * @param address address
+     * @return user list
+     */
+    List<User> queryUserLikeContactAddress(String address);
+
+    /**
+     * 根据用户权限查询所有相同权限的用户
+     * @param type type
+     * @return user list
+     */
+    List<User> queryUserByUserType(int type);
 }

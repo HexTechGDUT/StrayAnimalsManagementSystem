@@ -1,13 +1,16 @@
-package com.HexTechGDUT.po.animal;
+package com.HexTechGDUT.po;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,6 +21,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel("评论")
 @Alias("Comment")
 @TableName("comment")
 public class Comment {
@@ -31,6 +35,7 @@ public class Comment {
     /**
      * 评论所属的动物id
      */
+    @ApiModelProperty("评论所属的动物id")
     @TableField("animal_record_id")
     private String animalRecordId;
 
@@ -62,14 +67,13 @@ public class Comment {
     /**
      * 创建时间
      */
-    @ApiModelProperty("创建时间")
-    @TableField("create_time")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @TableField("update_time")
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 }

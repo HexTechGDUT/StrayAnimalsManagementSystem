@@ -27,9 +27,9 @@ public class JwtTokenServiceImpl implements TokenService {
     public static final int CALENDAR_FIELD = Calendar.DATE;
 
     /**
-     * token 过期时间: 10天
+     * token 过期时间: 7天
      */
-    public static final int CALENDAR_INTERVAL = 10;
+    public static final int CALENDAR_INTERVAL = 7;
 
     /**
      * token密钥
@@ -55,8 +55,11 @@ public class JwtTokenServiceImpl implements TokenService {
 
         return JWT.create().withHeader(map)
                 .withIssuer("SERVICE")
+                //token的有效持有者
                 .withAudience(loginBo.getUid())
-                .withIssuedAt(nowTime.getTime())
+                //token签发的时间
+                .withIssuedAt(Calendar.getInstance().getTime())
+                //token过期的时间
                 .withExpiresAt(expiresDate)
                 .sign(Algorithm.HMAC256(SECRET));
     }
@@ -77,6 +80,7 @@ public class JwtTokenServiceImpl implements TokenService {
 
     /**
      * 不验证token,直接获取token中的用户id
+     * 通常用于验证完token后验证用户是否存在
      * @param token token
      * @return uid
      */
