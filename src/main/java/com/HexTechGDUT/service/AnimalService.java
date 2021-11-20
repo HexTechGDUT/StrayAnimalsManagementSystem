@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.animal.AnimalRecord;
+import com.HexTechGDUT.po.AnimalRecord;
 
 import java.util.List;
 

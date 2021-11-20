@@ -1,8 +1,10 @@
-package com.HexTechGDUT.po.animal;
+package com.HexTechGDUT.po;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.apache.ibatis.type.Alias;
@@ -24,11 +26,13 @@ import java.time.LocalDateTime;
 @Component
 @Alias("AnimalImg")
 @TableName("animal_img")
+@ApiModel("动物图片")
 public class AnimalImg {
 
     /**
      * 图片id
      */
+    @ApiModelProperty("id")
     @TableId("id")
     private int id;
 
@@ -41,12 +45,14 @@ public class AnimalImg {
     /**
      * 图片所属的动物id
      */
+    @ApiModelProperty("图片所属的动物id")
     @TableField("animal_record_id")
     private String animalRecordId;
 
     /**
      * 图片名字
      */
+    @ApiModelProperty("图片名字")
     @TableField("name")
     @Size(max = 16)
     private String name;
@@ -54,6 +60,7 @@ public class AnimalImg {
     /**
      * 图片具体存储位置
      */
+    @ApiModelProperty("图片具体存储位置")
     @Size(max = 50)
     @TableField("path")
     private String path;
@@ -61,13 +68,12 @@ public class AnimalImg {
     /**
      * 创建时间
      */
-    @ApiModelProperty("创建时间")
-    @TableField("create_time")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @TableField("update_time")
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }
