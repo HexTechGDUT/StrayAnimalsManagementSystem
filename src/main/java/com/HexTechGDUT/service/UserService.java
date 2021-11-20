@@ -16,7 +16,7 @@ public interface UserService extends IService<User> {
      * @param user 注册用户
      * @return 是否注册成功
      */
-    boolean register(User user);
+    int register(User user);
 
     /**
      * 用户登录
@@ -30,14 +30,15 @@ public interface UserService extends IService<User> {
      * @param user 更新信息的用户
      * @return 是否更新成功
      */
-    boolean updateUser(User user);
+    int updateUser(User user);
 
     /**
      * 删除用户
+     * 将userType设为-1
      * @param uid uid
      * @return 是否删除成功
      */
-    boolean deleteUser(String uid);
+    int deleteUser(String uid);
 
     /**
      * 通过userid查询用户
@@ -54,11 +55,11 @@ public interface UserService extends IService<User> {
     List<User> queryUserLikeName(String name);
 
     /**
-     * 根据地址模糊查询用户
+     * 根据地址模糊查询地址周围的用户
      * @param address address
      * @return user list
      */
-    List<User> queryUserLikeContactAddress(String address);
+    List<User> queryUserLikeAddress(String address);
 
     /**
      * 根据用户权限查询所有相同权限的用户

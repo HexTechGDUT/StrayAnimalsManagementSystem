@@ -26,7 +26,7 @@ public class Tips {
      * 文章id
      */
     @TableId("id")
-    private int id;
+    private Integer id;
 
     /**
      * 文章标题

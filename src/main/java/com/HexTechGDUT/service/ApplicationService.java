@@ -1,6 +1,7 @@
 package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.po.Application;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
  * 申请服务
  * @author HexTechGDUT
  */
-public interface ApplicationService {
+public interface ApplicationService extends IService<Application> {
 
     /**
      * 添加申请(领养或弃养或别的...)
