@@ -21,6 +21,7 @@ import java.util.List;
  * @author HexTechGDUT
  */
 @Api("用户")
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -32,7 +33,7 @@ public class UserController {
     @ApiOperation("注册")
     @PostMapping("/register")
     public @ResponseBody Result<User> register(@ApiParam("用户注册信息")@Validated @RequestBody User user){
-        boolean isSuccess = userService.register(user);
+        boolean isSuccess = userService.register(user) == 1;
         user.setPassword("");
         if(isSuccess){
             return ResultUtils.successWithInfo(user, "注册成功");
@@ -51,7 +52,7 @@ public class UserController {
     @ApiOperation("更新用户信息")
     @PostMapping("/update")
     public @ResponseBody Result<String> update(@ApiParam("用户更新信息")@Validated @RequestBody User user){
-        boolean isSuccess = userService.updateUser(user);
+        boolean isSuccess = userService.updateUser(user) == 1;
         if(isSuccess){
             return ResultUtils.success("更新成功");
         }
@@ -65,6 +66,7 @@ public class UserController {
         if(user == null){
             return ResultUtils.failWithInfo(null, "用户不存在");
         }
+        user.setPassword("");
         return ResultUtils.success(user);
     }
 
@@ -74,6 +76,37 @@ public class UserController {
         List<User> userList = userService.queryUserLikeName(name);
         if(userList == null || userList.isEmpty()){
             return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
+        }
+        for (User user : userList) {
+            user.setPassword("");
+        }
+        return ResultUtils.success(userList);
+    }
+
+    @PassToken
+    @AuthToken
+    @PostMapping("/queryUserLikeAddress")
+    public @ResponseBody Result<List<User>> queryUserLikeAddress(@ApiParam("联系地址")@Validated @RequestBody String address){
+        List<User> userList = userService.queryUserLikeAddress(address);
+        if(userList == null || userList.isEmpty()){
+            return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
+        }
+        for (User user : userList) {
+            user.setPassword("");
+        }
+        return ResultUtils.success(userList);
+    }
+
+    @PassToken
+    @AuthToken
+    @PostMapping("/queryUserByUserType")
+    public @ResponseBody Result<List<User>> queryUserByUserType(@ApiParam("用户类型")@Validated @RequestBody int type){
+        List<User> userList = userService.queryUserByUserType(type);
+        if(userList == null || userList.isEmpty()){
+            return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
+        }
+        for (User user : userList) {
+            user.setPassword("");
         }
         return ResultUtils.success(userList);
     }

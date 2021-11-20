@@ -53,7 +53,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 }
                 //验证token
                 tokenService.verify(token);
-                //验证token中的登录用户id是否存在
+                //验证token中的登录用户id是否存在,暂时不写这个
             }
         }
         return true;

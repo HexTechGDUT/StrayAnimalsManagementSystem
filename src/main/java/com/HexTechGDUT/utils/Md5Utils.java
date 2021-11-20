@@ -119,7 +119,7 @@ public class Md5Utils {
             // 比较根据输入口令生成的消息摘要和数据库中消息摘要是否相同
             return Arrays.equals(digest, digestInDb);
         } catch (Exception e) {
-            new Exception("数据库中保存的密码，没有进行MD5加密，数据非常不安全，请尽快加密！").printStackTrace();
+            e.printStackTrace();
             return false;
         }
     }

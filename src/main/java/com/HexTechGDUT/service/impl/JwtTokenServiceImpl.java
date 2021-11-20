@@ -56,7 +56,7 @@ public class JwtTokenServiceImpl implements TokenService {
         return JWT.create().withHeader(map)
                 .withIssuer("SERVICE")
                 //token的有效持有者
-                .withAudience(loginBo.getUid())
+                .withAudience(loginBo.getUserId())
                 //token签发的时间
                 .withIssuedAt(Calendar.getInstance().getTime())
                 //token过期的时间

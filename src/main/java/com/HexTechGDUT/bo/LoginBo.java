@@ -2,10 +2,7 @@ package com.HexTechGDUT.bo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotBlank;
@@ -14,8 +11,7 @@ import javax.validation.constraints.NotBlank;
  * 用户登录时传帐号和密码
  * @author HexTechGDUT
  */
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
@@ -27,7 +23,7 @@ public class LoginBo {
      */
     @ApiModelProperty(value = "登录id")
     @NotBlank(message = "帐号不能为空")
-    private String uid;
+    private String userId;
 
     /**
      * 登录密码

@@ -1,13 +1,14 @@
 package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.po.Comment;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * @author HexTechGDUT
  */
-public interface CommentService {
+public interface CommentService extends IService<Comment> {
 
     /**
      * 发布评论(添加评论)

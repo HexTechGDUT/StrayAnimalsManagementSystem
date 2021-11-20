@@ -55,6 +55,7 @@ create table application (
     animal_record_id int not null comment '相关动物记录id',
     information text null default null comment '申请的具体信息',
     type int not null comment '申请类型',
+    # 默认申请状态为等待处理
     status int not null default 0 comment '申请状态',
     create_time timestamp not null default '0000-00-00 00:00:00' comment '创建时间',
     update_time timestamp not null default current_timestamp comment '更新时间'

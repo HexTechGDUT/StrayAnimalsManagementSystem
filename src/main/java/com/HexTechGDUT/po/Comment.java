@@ -30,7 +30,7 @@ public class Comment {
      * 评论id
      */
     @TableId("id")
-    private int id;
+    private Integer id;
 
     /**
      * 评论所属的动物id
