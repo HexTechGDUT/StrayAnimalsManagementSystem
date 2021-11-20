@@ -12,8 +12,8 @@ create table `user`(
     user_type int not null default 0 comment '用户类型',
     contact_address varchar(50) not null comment '联系地址',
     additional_information text null default null comment '额外信息',
-    create_time timestamp not null comment '创建时间',
-    update_time timestamp not null comment '更新时间'
+    create_time timestamp not null default '0000-00-00 00:00:00' comment '创建时间',
+    update_time timestamp not null default current_timestamp comment '更新时间'
 )comment '用户';
 
 create table animal_record (
@@ -34,8 +34,8 @@ create table animal_record (
     status int not null comment '动物状态',
     # 为流浪动物，还是弃养动物，还是寻找失去的宠物
     record_type varchar(10) not null comment '记录类型',
-    create_time timestamp not null comment '创建时间',
-    update_time timestamp not null comment '更新时间'
+    create_time timestamp not null default '0000-00-00 00:00:00' comment '创建时间',
+    update_time timestamp not null default current_timestamp comment '更新时间'
 
 )comment '动物记录';
 
@@ -44,8 +44,8 @@ create table animal_img (
     animal_record_id int not null comment '动物记录id',
     name varchar(16) null default null comment '名字',
     path varchar(50) not null comment '存储路径',
-    create_time timestamp not null comment '创建时间',
-    update_time timestamp not null comment '更新时间'
+    create_time timestamp not null default '0000-00-00 00:00:00' comment '创建时间',
+    update_time timestamp not null default current_timestamp comment '更新时间'
 
 )comment '动物图片';
 
@@ -56,8 +56,8 @@ create table application (
     information text null default null comment '申请的具体信息',
     type int not null comment '申请类型',
     status int not null default 0 comment '申请状态',
-    create_time timestamp not null comment '创建时间',
-    update_time timestamp not null comment '更新时间'
+    create_time timestamp not null default '0000-00-00 00:00:00' comment '创建时间',
+    update_time timestamp not null default current_timestamp comment '更新时间'
 
 )comment '申请';
 
@@ -65,8 +65,8 @@ create table  tips (
     id int not null primary key auto_increment,
     title varchar(16) not null comment '标题',
     content text not null comment '内容',
-    create_time timestamp not null comment '创建时间',
-    update_time timestamp not null comment '更新时间'
+    create_time timestamp not null default '0000-00-00 00:00:00' comment '创建时间',
+    update_time timestamp not null default current_timestamp comment '更新时间'
 )comment '提示';
 
 create table comment (
@@ -75,8 +75,14 @@ create table comment (
     user_id varchar(16) not null comment '评论的用户id',
     content text not null comment '评论内容',
     previous_comment_id int null default null comment '若为回复的评论，则为被回复的评论id',
-    create_time timestamp not null comment '创建时间',
-    update_time timestamp not null comment '更新时间'
+    create_time timestamp not null default '0000-00-00 00:00:00' comment '创建时间',
+    update_time timestamp not null default current_timestamp comment '更新时间'
 
 )comment '评论';
+
+# 默认三个管理员帐号
+insert into user(user_id, user_name, phone_number, password, user_type, contact_address, additional_information, create_time)
+values ('admin1', 'admin_name1', '123456', 'admin', 1, 'address1', 'info1', '2021-11-11 11:11:11'),
+       ('admin2', 'admin_name2', '123456', 'admin', 1, 'address2', 'info2', '2021-11-11 11:11:11'),
+       ('admin3', 'admin_name3', '123456', 'admin', 1, 'address3', 'info3', '2021-11-11 11:11:11');
 

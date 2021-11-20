@@ -35,19 +35,19 @@ public interface TipsService {
      * @param id id
      * @return article
      */
-    Tips queryArticleById(String id);
+    Tips queryTipsById(String id);
 
     /**
      * 通过uid查询该用户发表过的文章list
      * @param uid uid
      * @return article list
      */
-    List<Tips> queryArticleByUid(String uid);
+    List<Tips> queryTipsByUid(String uid);
 
     /**
      * 通过文章类型查询文章list
      * @param type String -> ArticleType
      * @return article list
      */
-    List<Tips> queryArticleByArticleType(String type);
+    List<Tips> queryTipsByArticleType(String type);
 }

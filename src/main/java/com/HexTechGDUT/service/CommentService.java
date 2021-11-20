@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.animal.Comment;
+import com.HexTechGDUT.po.Comment;
 
 import java.util.List;
 
