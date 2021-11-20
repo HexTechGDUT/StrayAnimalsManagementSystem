@@ -1,11 +1,12 @@
 package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.po.AnimalImg;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * @author HexTechGDUT
  */
-public interface AnimalImgService {
+public interface AnimalImgService extends IService<AnimalImg> {
 
     /**
      * 添加动物照片

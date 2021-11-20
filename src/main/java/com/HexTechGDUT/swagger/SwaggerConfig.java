@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class SwaggerConfig {
 
     @Bean
-    public Docket docket(){
+    public Docket docket() {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .enable(true)
@@ -32,7 +32,72 @@ public class SwaggerConfig {
                 .build();
     }
 
-    public ApiInfo apiInfo(){
+    @Bean
+    public Docket userDocket(){
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
+                .enable(true)
+                //有空再分组
+                .groupName("user")
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/user/**"))
+                .build();
+    }
+
+    @Bean
+    public Docket animalDocket(){
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
+                .enable(true)
+                //有空再分组
+                .groupName("animal")
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/animal/**"))
+                .build();
+    }
+
+    @Bean
+    public Docket applicationDocket(){
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
+                .enable(true)
+                //有空再分组
+                .groupName("application")
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/application/**"))
+                .build();
+    }
+
+    @Bean
+    public Docket commentDocket(){
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
+                .enable(true)
+                //有空再分组
+                .groupName("comment")
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/comment/**"))
+                .build();
+    }
+
+    @Bean
+    public Docket tipsDocket(){
+        return new Docket(DocumentationType.OAS_30)
+                .apiInfo(apiInfo())
+                .enable(true)
+                //有空再分组
+                .groupName("tips")
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/tips/**"))
+                .build();
+    }
+
+    public ApiInfo apiInfo() {
         return new ApiInfo(
                 "HexTechGDUT API",
                 "StrayAnimalsManagementSystem",
@@ -43,22 +108,5 @@ public class SwaggerConfig {
                 "https://www.apache.org/licenses/LICENSE-2.0",
                 new ArrayList<>()
         );
-    }
-
-    public Docket docketByController(String groupName, String controller){
-        return new Docket(DocumentationType.OAS_30)
-                .apiInfo(apiInfo())
-                .enable(true)
-                //有空再分组
-                .groupName(groupName)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.HexTechGDUT.controller"))
-                .paths(PathSelectors.regex("/"+controller+"/.*"))
-                .build();
-    }
-
-    @Bean
-    public Docket getUserDocket(){
-        return docketByController("User", "user");
     }
 }

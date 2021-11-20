@@ -1,7 +1,10 @@
 package com.HexTechGDUT.dao;
 
+import com.HexTechGDUT.po.Tips;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+
 /**
  * @author HexTechGDUT
  */
-public interface TipsMapper {
+public interface TipsMapper extends BaseMapper<Tips> {
 }

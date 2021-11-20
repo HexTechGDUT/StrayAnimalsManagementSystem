@@ -27,14 +27,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean register(User user) {
-        return baseMapper.addUser(user);
+    public int register(User user) {
+        return baseMapper.insert(user);
     }
 
     @Override
     public String login(LoginBo loginBo) {
         log.debug(this.getClass().getName()+"\tparam:"+loginBo.toString());
-        User user = userService.queryUserByUserId(loginBo.getUid());
+        User user = userService.queryUserByUserId(loginBo.getUserId());
         if(user!=null && user.getPassword().equals(loginBo.getPwd())){
             return tokenService.generate(loginBo);
         }
@@ -43,17 +43,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean updateUser(User user) {
+    public int updateUser(User user) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.select("user_id", "user_name", "phone_number", "contact_address", "additional_information")
-                .eq("user_id", user.getUserId());
-        return baseMapper.update(user, wrapper) == 1;
+        //更新密码可以选择另外多写一个方法，但是这里为了方便，设置所有属性都可以一起更新
+        wrapper.eq("user_id", user.getUserId());
+//        wrapper.select("user_name", "phone_number", "contact_address", "additional_information")
+//                .eq("user_id", user.getUserId());
+        return baseMapper.update(user, wrapper);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean deleteUser(String uid) {
-        return baseMapper.deleteUser(uid);
+    public int deleteUser(String userId) {
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId);
+        return baseMapper.delete(wrapper);
     }
 
     @Override
@@ -67,20 +71,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public List<User> queryUserLikeName(String name) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.like("user_name", name);
-        return baseMapper.queryUserLikeName(name);
+        return baseMapper.selectList(wrapper);
     }
 
     @Override
-    public List<User> queryUserLikeContactAddress(String address) {
+    public List<User> queryUserLikeAddress(String address) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.like("contact_address", address);
-        return baseMapper.queryUserLikeAddress(address);
+        return baseMapper.selectList(wrapper);
     }
 
     @Override
     public List<User> queryUserByUserType(int type) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("user_type", type);
-        return baseMapper.queryUserByUserType(type);
+        return baseMapper.selectList(wrapper);
     }
 }

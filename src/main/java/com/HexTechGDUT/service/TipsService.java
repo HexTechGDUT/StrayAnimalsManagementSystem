@@ -1,13 +1,14 @@
 package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.po.Tips;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * @author HexTechGDUT
  */
-public interface TipsService {
+public interface TipsService extends IService<Tips> {
 
     /**
      * 发布文章
@@ -33,21 +34,21 @@ public interface TipsService {
     /**
      * 通过id查询文章
      * @param id id
-     * @return article
+     * @return tips
      */
     Tips queryTipsById(String id);
 
     /**
      * 通过uid查询该用户发表过的文章list
-     * @param uid uid
-     * @return article list
+     * @param userId userId
+     * @return tips
      */
-    List<Tips> queryTipsByUid(String uid);
+    List<Tips> queryTipsByUserId(String userId);
 
     /**
-     * 通过文章类型查询文章list
-     * @param type String -> ArticleType
-     * @return article list
+     * 根据文章名字模糊查询文章
+     * @param title title
+     * @return tips
      */
-    List<Tips> queryTipsByArticleType(String type);
+    List<Tips> queryTipsLikeTitle(String title);
 }

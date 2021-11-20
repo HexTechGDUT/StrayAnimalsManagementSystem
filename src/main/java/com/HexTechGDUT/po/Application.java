@@ -31,7 +31,7 @@ public class Application {
      *  申请id
      */
     @TableId("id")
-    private int id;
+    private Integer id;
 
     /**
      * 申请用户id
@@ -55,6 +55,13 @@ public class Application {
 
     /**
      * 申请类型
+     * 10:发布新的流浪动物信息
+     * 11:追加新的流浪动物信息
+     * 12:申请领养流浪动物
+     * 20:发布新的弃养动物信息
+     * 21:申请领养弃养动物
+     * 30:发布新的走失动物信息
+     * 31:追加走失动物信息
      */
     @TableField("type")
     @ApiModelProperty(value = "申请类型", notes = "申请类型,包括领养/弃养/申请走失等")
@@ -62,6 +69,7 @@ public class Application {
 
     /**
      * 申请状态
+     * 0:等待处理,1:申请被通过,2:申请被驳回,3:被申请用户撤销
      */
     @TableField("status")
     @ApiModelProperty(value = "申请的状态", notes = "申请的状态等待处理/处理中/已处理等")

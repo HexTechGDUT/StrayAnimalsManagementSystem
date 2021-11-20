@@ -29,7 +29,7 @@ public class User {
      * User表的id
      */
     @TableId("id")
-    private int id;
+    private Integer id;
 
     /**
      * 用户id
@@ -67,7 +67,8 @@ public class User {
     private String password;
 
     /**
-     * 用户权限
+     * 用户类型
+     * 1为管理员，0为普通用户，-1为已删除用户
      */
     @ApiModelProperty(value = "权限", notes = "用于判断登录用户的操作权限")
     @TableField("user_type")

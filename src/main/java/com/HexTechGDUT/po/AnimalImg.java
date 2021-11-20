@@ -34,7 +34,7 @@ public class AnimalImg {
      */
     @ApiModelProperty("id")
     @TableId("id")
-    private int id;
+    private Integer id;
 
     /**
      * 图片存储位置的前缀
