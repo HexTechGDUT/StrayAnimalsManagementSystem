@@ -54,7 +54,7 @@ public class User {
      */
     @ApiModelProperty(value = "电话号", notes = "长度固定为11位")
     @TableField("phone_number")
-    @Size(min = 11, max = 11)
+    @Size(max = 16)
     private String phoneNumber;
 
     /**
@@ -63,7 +63,7 @@ public class User {
      */
     @ApiModelProperty(value = "密码", notes = "用户登录时使用")
     @TableField("password")
-    @Size(min = 8, max = 16)
+    @Size(max = 16)
     private String password;
 
     /**
@@ -84,14 +84,12 @@ public class User {
     /**
      * 创建时间
      */
-    @ApiModelProperty(value = "注册时间", notes = "用户创建该用户的时间")
-    @TableField("create_time")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @ApiModelProperty(value = "更新时间", notes = "用户修改信息的时间")
-    @TableField("update_time")
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }

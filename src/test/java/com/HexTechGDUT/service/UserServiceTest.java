@@ -1,25 +1,16 @@
-package com.HexTechGDUT;
+package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.bo.LoginBo;
-import com.HexTechGDUT.dao.UserMapper;
-import com.HexTechGDUT.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
 @SpringBootTest
-public class UserTest {
+public class UserServiceTest {
 
     @Resource
     UserService userService;
-
-    @Resource
-    UserMapper userMapper;
-
-    public void beanTest(){
-
-    }
 
     @Test
     public void loginTest(){
@@ -30,9 +21,7 @@ public class UserTest {
 
     @Test
     public void queryUserByIdTest(){
-//        System.out.println(userMapper.queryUserByUid("uid0001"));
-        System.out.println(userService.queryUserByUid("uid0002"));
-//        System.out.println(userMapper.queryUserByUidFromMapper("uid0001"));
+        System.out.println(userService.queryUserByUserId("uid0002"));
     }
 
     @Test

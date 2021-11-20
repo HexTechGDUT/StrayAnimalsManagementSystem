@@ -14,6 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author HexTechGDUT
@@ -35,7 +37,7 @@ public class UserController {
         if(isSuccess){
             return ResultUtils.successWithInfo(user, "注册成功");
         }
-        return ResultUtils.failWithInfo(user, "注册失败");
+        return ResultUtils.failWithInfo(null, "注册失败");
     }
 
     @PassToken
@@ -48,13 +50,32 @@ public class UserController {
     @AuthToken
     @ApiOperation("更新用户信息")
     @PostMapping("/update")
-    public @ResponseBody Result<User> update(@ApiParam("用户更新信息")@Validated @RequestBody User user){
+    public @ResponseBody Result<String> update(@ApiParam("用户更新信息")@Validated @RequestBody User user){
         boolean isSuccess = userService.updateUser(user);
-        user.setPassword("");
         if(isSuccess){
-            return ResultUtils.successWithInfo(user, "更新成功");
+            return ResultUtils.success("更新成功");
         }
-        return ResultUtils.failWithInfo(user, "更新失败");
+        return ResultUtils.fail("更新失败");
+    }
+
+    @AuthToken
+    @PostMapping("/queryUserByUserId")
+    public @ResponseBody Result<User> queryUserByUserId(@ApiParam("用户id")@Validated @RequestBody String userId){
+        User user = userService.queryUserByUserId(userId);
+        if(user == null){
+            return ResultUtils.failWithInfo(null, "用户不存在");
+        }
+        return ResultUtils.success(user);
+    }
+
+    @AuthToken
+    @PostMapping("/queryUserLikeName")
+    public @ResponseBody Result<List<User>> queryUserLikeName(@ApiParam("用户名")@Validated @RequestBody String name){
+        List<User> userList = userService.queryUserLikeName(name);
+        if(userList == null || userList.isEmpty()){
+            return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
+        }
+        return ResultUtils.success(userList);
     }
 
     @PassToken

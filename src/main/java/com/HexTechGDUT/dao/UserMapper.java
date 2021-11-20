@@ -1,7 +1,6 @@
 package com.HexTechGDUT.dao;
 
 import com.HexTechGDUT.po.User;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
@@ -12,70 +11,39 @@ import java.util.List;
 public interface UserMapper extends BaseMapper<User> {
 
     /**
-     * 新增用户
+     * 新增用户;
      * @param user user
      * @return 是否成功
      */
-    default boolean addUser(User user){
-        return insert(user) == 1;
-    }
+    boolean addUser(User user);
 
     /**
-     * 通过uid删除用户
+     * 通过uid删除用户;
      * @param uid uid
      * @return 是否删除成功
      */
-    default boolean deleteUser(String uid){
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(User::getUserId, uid);
-        return delete(wrapper) == 1;
-    }
+    boolean deleteUser(String uid);
 
     /**
-     * mybatis-plus wrapper
-     * 通过uid查询一个用户
-     * @param uid uid
-     * @return 用户
-     */
-    default User queryUserByUid(String uid){
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.lambda()
-                .select(User::getUserId)
-                .select(User::getUserName)
-                .select(User::getPassword)
-                .select(User::getPhoneNumber)
-                .select(User::getUserType)
-                .select(User::getCreateTime)
-                .select(User::getUpdateTime)
-                .eq(User::getUserId, uid);
-        return selectOne(wrapper);
-    }
-
-    /**
-     * mybatis mapper
-     * 通过uid查询一个用户
-     * @param uid uid
-     * @return 用户
-     */
-    User queryUserByUidFromMapper(String uid);
-
-    /**
-     * 根据相似名字查询用户
+     * 根据相似名字查询用户;
      * @param name 名字
      * @return 用户List
      */
-    default List<User> queryUserLikeName(String name){
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.lambda()
-                .select(User::getUserId)
-                .select(User::getUserName)
-                .select(User::getPassword)
-                .select(User::getPhoneNumber)
-                .select(User::getUserType)
-                .select(User::getCreateTime)
-                .select(User::getUpdateTime)
-                .like(User::getUserName, name);
-        return selectList(wrapper);
-    }
+    List<User> queryUserLikeName(String name);
+
+    /**
+     * 通过地址模糊查询附近用户;
+     * @param address address
+     * @return user list
+     */
+    List<User> queryUserLikeAddress(String address);
+
+    /**
+     * 根据用户类型查询用户;
+     * 管理员‘1’ & 普通用户‘0’;
+     * @param type type
+     * @return user list
+     */
+    List<User> queryUserByUserType(int type);
 
 }
