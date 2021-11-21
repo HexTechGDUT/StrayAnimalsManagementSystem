@@ -25,7 +25,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     call-setters-on-nulls: true
     map-underscore-to-camel-case: true
-  type-aliases-package: com.HexTechGDUT.po
+  type-aliases-package: com.HexTechGDUT.entity.po
 
 #logging:
 #  level: warn

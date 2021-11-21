@@ -1,8 +1,8 @@
 package com.HexTechGDUT.service.impl;
 
-import com.HexTechGDUT.bo.LoginBo;
+import com.HexTechGDUT.entity.bo.LoginBo;
 import com.HexTechGDUT.dao.UserMapper;
-import com.HexTechGDUT.po.User;
+import com.HexTechGDUT.entity.po.User;
 import com.HexTechGDUT.service.TokenService;
 import com.HexTechGDUT.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -36,7 +36,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         log.debug(this.getClass().getName()+"\tparam:"+loginBo.toString());
         User user = userService.queryUserByUserId(loginBo.getUserId());
         if(user!=null && user.getPassword().equals(loginBo.getPwd())){
-            return tokenService.generate(loginBo);
+            return tokenService.generate(user);
         }
         throw new RuntimeException("帐号不存在或密码错误");
     }
@@ -57,7 +57,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public int deleteUser(String userId) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", userId);
-        return baseMapper.delete(wrapper);
+        User user = baseMapper.selectOne(wrapper);
+        user.setUserType(-1);
+        return baseMapper.update(user, wrapper);
     }
 
     @Override
