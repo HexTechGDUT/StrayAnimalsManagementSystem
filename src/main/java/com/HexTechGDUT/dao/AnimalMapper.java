@@ -1,6 +1,6 @@
 package com.HexTechGDUT.dao;
 
-import com.HexTechGDUT.po.AnimalRecord;
+import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

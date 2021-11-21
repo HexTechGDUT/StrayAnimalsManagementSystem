@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service.impl;
 
-import com.HexTechGDUT.bo.LoginBo;
+import com.HexTechGDUT.entity.po.User;
 import com.HexTechGDUT.service.TokenService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -38,11 +38,11 @@ public class JwtTokenServiceImpl implements TokenService {
 
     /**
      * 生成token
-     * @param loginBo uid & pwd
+     * @param user user
      * @return String token
      */
     @Override
-    public String generate(LoginBo loginBo){
+    public String generate(User user){
         // 获取过期时间
         Calendar nowTime = Calendar.getInstance();
         nowTime.add(CALENDAR_FIELD, CALENDAR_INTERVAL);
@@ -54,9 +54,12 @@ public class JwtTokenServiceImpl implements TokenService {
         map.put("typ", "JWT");
 
         return JWT.create().withHeader(map)
+                //token的签发证明人
                 .withIssuer("SERVICE")
                 //token的有效持有者
-                .withAudience(loginBo.getUserId())
+                .withAudience(user.getUserId())
+                //token的用户权限
+                .withClaim("auth", user.getUserType())
                 //token签发的时间
                 .withIssuedAt(Calendar.getInstance().getTime())
                 //token过期的时间
@@ -84,11 +87,25 @@ public class JwtTokenServiceImpl implements TokenService {
      * @param token token
      * @return uid
      */
-    public String getTokenUid(String token){
+    public static String getTokenUid(String token){
         if(StringUtils.isEmpty(token)) {
             return "";
         }
         DecodedJWT jwt = JWT.decode(token);
         return jwt.getAudience().get(0);
+    }
+
+    /**
+     * 用于获取登录用户的权限等级
+     * 不验证token,直接获取token中的userType
+     * @param token token
+     * @return user type ( 0 , 1 )
+     */
+    public static int getTokenAuth(String token){
+        if(StringUtils.isEmpty(token)) {
+            return 0;
+        }
+        DecodedJWT jwt = JWT.decode(token);
+        return jwt.getClaims().get("auth").asInt();
     }
 }

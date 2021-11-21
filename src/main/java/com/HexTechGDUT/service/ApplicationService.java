@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.Application;
+import com.HexTechGDUT.entity.po.Application;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface ApplicationService extends IService<Application> {
      * @param application 申请信息
      * @return 处理结果
      */
-     boolean apply(Application application);
+     int apply(Application application);
 
     /**
      * 处理申请
@@ -31,7 +31,7 @@ public interface ApplicationService extends IService<Application> {
      * @param id 申请的id
      * @return 是否取消成功
      */
-    boolean cancel(String id);
+    int cancel(String id);
 
     /**
      * 通过id查询一个申请

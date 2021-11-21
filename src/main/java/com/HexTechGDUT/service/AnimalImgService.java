@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.AnimalImg;
+import com.HexTechGDUT.entity.po.AnimalImg;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -13,13 +13,13 @@ public interface AnimalImgService extends IService<AnimalImg> {
      * @param picture 照片路径
      * @return 是否添加成功
      */
-    boolean addImg(AnimalImg picture);
+    int addImg(AnimalImg picture);
 
     /**
      * 删除动物图片
      * @param id 图片id
      * @return 是否删除成功
      */
-    boolean deleteImg(String id);
+    int deleteImg(String id);
 
 }

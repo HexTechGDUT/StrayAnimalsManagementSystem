@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthToken {
     boolean required() default true;
-    //区分token权限的时候使用，目前暂时没有作用
-    String value() default "";
+    //区分token权限的时候使用,默认为普通用户
+    int value() default 0;
+//    String value() default "0";
 }

@@ -19,7 +19,8 @@ create table `user`(
 create table animal_record (
     id int not null primary key auto_increment,
     user_id varchar(16) not null comment '上传该记录的用户id',
-    previous_record_id int null default null comment '该动物更早的记录的id',
+    animal_name varchar(10) not null comment '动物名称',
+    # previous_record_id int null default null comment '该动物更早的记录的id',
     # 若为弃养动物则为null
     found_date timestamp null default null comment '发现的时间',
     # 若为弃养动物则为null
@@ -28,12 +29,9 @@ create table animal_record (
     animal_type varchar(10) not null comment '动物类型',
     additional_information text null default null comment '额外信息',
     # 动物目前的状态
-    # 流浪动物：0:未被领养；1已被领养
-    # 寻找丢失动物：0:未找到，1已找到
-    # 弃养：0:未被领养，1已被领养，2放弃弃养
     status int not null comment '动物状态',
     # 为流浪动物，还是弃养动物，还是寻找失去的宠物
-    record_type varchar(10) not null comment '记录类型',
+    record_type int not null comment '记录类型',
     create_time timestamp not null default '0000-00-00 00:00:00' comment '创建时间',
     update_time timestamp not null default current_timestamp comment '更新时间'
 

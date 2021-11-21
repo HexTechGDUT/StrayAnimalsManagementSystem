@@ -1,7 +1,7 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.bo.LoginBo;
-import com.HexTechGDUT.po.User;
+import com.HexTechGDUT.entity.bo.LoginBo;
+import com.HexTechGDUT.entity.po.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
