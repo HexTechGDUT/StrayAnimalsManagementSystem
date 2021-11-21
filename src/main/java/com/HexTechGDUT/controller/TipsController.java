@@ -3,7 +3,6 @@ package com.HexTechGDUT.controller;
 import com.HexTechGDUT.entity.po.Tips;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
-import com.HexTechGDUT.security.PassToken;
 import com.HexTechGDUT.service.TipsService;
 import com.HexTechGDUT.utils.ResultUtils;
 import io.swagger.annotations.Api;
@@ -80,7 +79,6 @@ public class TipsController {
      * 登录即可查询tips
      * @return tips list
      */
-    @PassToken
     @AuthToken
     @ApiOperation("查询全部文章")
     @PostMapping("/queryAllTips")
@@ -97,7 +95,6 @@ public class TipsController {
      * @param id id
      * @return tips
      */
-    @PassToken
     @AuthToken
     @ApiOperation("根据文章id查询文章")
     @PostMapping("/queryTipsById")
@@ -114,7 +111,6 @@ public class TipsController {
      * @param title tips 标题
      * @return tips list
      */
-    @PassToken
     @AuthToken
     @ApiOperation("根据题目模糊查询文章")
     @PostMapping("/queryTipsLikeTitle")
