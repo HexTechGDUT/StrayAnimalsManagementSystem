@@ -1,4 +1,4 @@
-package com.HexTechGDUT.po;
+package com.HexTechGDUT.entity.po;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -10,8 +10,11 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 动物
@@ -36,6 +39,12 @@ public class AnimalRecord {
      */
     @TableField("user_id")
     private String userId;
+
+    /**
+     * 动物昵称
+     */
+    @TableField("animal_nickname")
+    private String animalNickname;
 
     /**
      * 该动物更早的记录id
@@ -86,7 +95,7 @@ public class AnimalRecord {
      */
     @TableField("record_type")
     @Size(max = 10)
-    private String recordType;
+    private int recordType;
 
     /**
      * 创建时间
@@ -100,4 +109,9 @@ public class AnimalRecord {
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
+    /**
+     * 一个动物可能对应多张图片，用ArrayList存储
+     */
+    @TableField(exist = false)
+    private List<AnimalImg> animalImgList = new ArrayList<>();
 }

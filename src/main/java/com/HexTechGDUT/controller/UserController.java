@@ -1,7 +1,7 @@
 package com.HexTechGDUT.controller;
 
-import com.HexTechGDUT.bo.LoginBo;
-import com.HexTechGDUT.po.User;
+import com.HexTechGDUT.entity.bo.LoginBo;
+import com.HexTechGDUT.entity.po.User;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
 import com.HexTechGDUT.security.PassToken;

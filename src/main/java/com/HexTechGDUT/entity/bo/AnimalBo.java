@@ -1,7 +1,7 @@
-package com.HexTechGDUT.bo;
+package com.HexTechGDUT.entity.bo;
 
-import com.HexTechGDUT.po.AnimalImg;
-import com.HexTechGDUT.po.AnimalRecord;
+import com.HexTechGDUT.entity.po.AnimalImg;
+import com.HexTechGDUT.entity.po.AnimalRecord;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;

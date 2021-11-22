@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.bo.LoginBo;
+import com.HexTechGDUT.entity.bo.LoginBo;
 
 /**
  * token相关的接口

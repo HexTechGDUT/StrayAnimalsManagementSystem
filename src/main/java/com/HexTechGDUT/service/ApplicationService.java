@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.Application;
+import com.HexTechGDUT.entity.po.Application;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;

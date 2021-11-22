@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service.impl;
 
-import com.HexTechGDUT.bo.LoginBo;
+import com.HexTechGDUT.entity.bo.LoginBo;
 import com.HexTechGDUT.service.TokenService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

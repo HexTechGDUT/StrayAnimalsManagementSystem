@@ -8,7 +8,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/stray_animals_management_system?useSSL=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
       username: root
-      password: root
+      password:
       initial-size: 10
       max-active: 30
       min-idle: 5
@@ -25,7 +25,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     call-setters-on-nulls: true
     map-underscore-to-camel-case: true
-  type-aliases-package: com.HexTechGDUT.po
+  type-aliases-package: com.HexTechGDUT.entity.po
 
 #logging:
 #  level: warn

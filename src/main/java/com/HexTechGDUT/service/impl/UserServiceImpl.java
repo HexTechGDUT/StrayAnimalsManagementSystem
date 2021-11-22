@@ -1,8 +1,8 @@
 package com.HexTechGDUT.service.impl;
 
-import com.HexTechGDUT.bo.LoginBo;
+import com.HexTechGDUT.entity.bo.LoginBo;
 import com.HexTechGDUT.dao.UserMapper;
-import com.HexTechGDUT.po.User;
+import com.HexTechGDUT.entity.po.User;
 import com.HexTechGDUT.service.TokenService;
 import com.HexTechGDUT.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
