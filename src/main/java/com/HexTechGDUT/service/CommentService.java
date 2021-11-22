@@ -2,12 +2,14 @@ package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.po.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @author HexTechGDUT
  */
+@Repository
 public interface CommentService extends IService<Comment> {
 
     /**
@@ -16,14 +18,6 @@ public interface CommentService extends IService<Comment> {
      * @return 是否发布(添加)成功
      */
     boolean publish(Comment comment);
-
-    /**
-     * 修改评论
-     * 该方法只用于管理员修改不当评论
-     * @param comment 评论
-     * @return 是否修改成功
-     */
-    boolean update(Comment comment);
 
     /**
      * 删除评论
