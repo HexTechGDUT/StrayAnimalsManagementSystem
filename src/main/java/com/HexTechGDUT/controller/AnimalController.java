@@ -1,5 +1,6 @@
 package com.HexTechGDUT.controller;
 
+import com.HexTechGDUT.entity.bo.PageQueryAnimalBo;
 import com.HexTechGDUT.entity.po.AnimalImg;
 import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.HexTechGDUT.entity.vo.AnimalQuery;
@@ -9,6 +10,7 @@ import com.HexTechGDUT.service.AnimalService;
 import com.HexTechGDUT.utils.ResultUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,9 +37,16 @@ public class AnimalController {
      * 查询所有动物
      * @return recordList 结果集
      */
-    @GetMapping("queryAll")
-    public Result<List<AnimalRecord>> queryAllAnimals(){
-        List<AnimalRecord> recordList = animalService.list(null);
+    @GetMapping("queryAll/{current}/{limit}")
+    public Result<PageQueryAnimalBo> queryAllAnimals(@PathVariable long current,@PathVariable long limit){
+        //创建Bo对象
+        PageQueryAnimalBo bo = new PageQueryAnimalBo();
+        //创建page对象
+        Page<AnimalRecord> page = new Page<>(current,limit);
+        //调用方法实现分页功能
+        animalService.page(page,null);
+        //获取每个动物信息
+        List<AnimalRecord> recordList = page.getRecords();
         //为了查询所查动物对应的图片，首先遍历结果集
         for(AnimalRecord record:recordList){
             //取出每一个动物信息对象的id
@@ -47,7 +56,14 @@ public class AnimalController {
             //将图片的list存入record中
             record.setAnimalImgList(animalImgList);
         }
-        return ResultUtils.success(recordList);
+        //总记录数
+        long total = page.getTotal();
+
+        bo.setTotal(total);
+
+        bo.setAnimalRecordList(recordList);
+
+        return ResultUtils.success(bo);
     }
 
     /**
@@ -83,15 +99,23 @@ public class AnimalController {
             return ResultUtils.success("修改动物信息成功");
         }
         return ResultUtils.fail("修改动物信息失败");
+
     }
 
     /**
      * 条件查询动物信息
+     * @param current 当前页码
+     * @param limit 每页的页码数
      * @param animalQuery 条件查询Vo类：包含动物昵称、最后出现的地点、动物中列、状态、记录类型5个属性
      * @return animalRecordList 包含动物信息的List
      */
-    @PostMapping("queryAnimal")
-    public Result<List<AnimalRecord>> queryAnimal(@RequestBody AnimalQuery animalQuery){
+    @PostMapping("queryAnimal/{current}/{limit}")
+    public Result<PageQueryAnimalBo> queryAnimal(@PathVariable long current, @PathVariable long limit, @RequestBody AnimalQuery animalQuery){
+        //创建Bo对象
+        PageQueryAnimalBo bo = new PageQueryAnimalBo();
+        //创建分页对象
+        Page<AnimalRecord> page = new Page<>(current,limit);
+        //条件查询对象
         QueryWrapper<AnimalRecord> wrapper = new QueryWrapper<>();
         //使用动态sql完成组合条件查询
         String animalNickname = animalQuery.getAnimalNickname();
@@ -99,22 +123,27 @@ public class AnimalController {
         String animalType = animalQuery.getAnimalType();
         Integer status = animalQuery.getStatus();
         Integer recordType = animalQuery.getRecordType();
-        if(StringUtils.isNotBlank(animalNickname)){
+        if(!StringUtils.isEmpty(animalNickname)){
             wrapper.like("animal_nickname",animalNickname);
         }
-        if(StringUtils.isNotBlank(lastAddress)){
+        if(!StringUtils.isEmpty(lastAddress)){
             wrapper.like("last_address",lastAddress);
         }
-        if(StringUtils.isNotBlank(animalType)){
+        if(!StringUtils.isEmpty(animalType)){
             wrapper.eq("animal_type",animalType);
         }
-        if(org.springframework.util.StringUtils.isEmpty(status)){
+        if(!org.springframework.util.StringUtils.isEmpty(status)){
             wrapper.eq("status",status);
         }
-        if(org.springframework.util.StringUtils.isEmpty(recordType)){
+        if(!org.springframework.util.StringUtils.isEmpty(recordType)){
             wrapper.eq("record_type",recordType);
         }
-        List<AnimalRecord> recordList = animalService.list(wrapper);
+        //根据最新的创建时间进行排序
+        wrapper.orderByDesc("create_time");
+        //调用方法实现分页的条件查询
+        animalService.page(page,wrapper);
+        //获取当前页的记录
+        List<AnimalRecord> recordList = page.getRecords();
         //为了查询所查动物对应的图片，首先遍历结果集
         for(AnimalRecord record:recordList){
             //取出每一个动物信息对象的id
@@ -124,7 +153,14 @@ public class AnimalController {
             //将图片的list存入record中
             record.setAnimalImgList(animalImgList);
         }
-        return ResultUtils.success(recordList);
+        //获取总记录数
+        long total = page.getTotal();
+
+        bo.setAnimalRecordList(recordList);
+
+        bo.setTotal(total);
+
+        return ResultUtils.success(bo);
     }
 
     /**

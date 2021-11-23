@@ -33,7 +33,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public String login(LoginBo loginBo) {
-        log.debug(this.getClass().getName()+"\tparam:"+loginBo.toString());
+        //log.debug(this.getClass().getName()+"\tparam:"+loginBo.toString());
         User user = userService.queryUserByUserId(loginBo.getUserId());
         if(user!=null && user.getPassword().equals(loginBo.getPwd())){
             return tokenService.generate(loginBo);
