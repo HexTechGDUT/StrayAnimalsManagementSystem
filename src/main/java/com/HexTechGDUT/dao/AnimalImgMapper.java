@@ -1,6 +1,6 @@
 package com.HexTechGDUT.dao;
 
-import com.HexTechGDUT.po.AnimalImg;
+import com.HexTechGDUT.entity.po.AnimalImg;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

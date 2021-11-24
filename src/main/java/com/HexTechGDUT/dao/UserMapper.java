@@ -1,6 +1,6 @@
 package com.HexTechGDUT.dao;
 
-import com.HexTechGDUT.po.User;
+import com.HexTechGDUT.entity.po.User;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

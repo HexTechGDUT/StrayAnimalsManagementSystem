@@ -1,4 +1,4 @@
-package com.HexTechGDUT.po;
+package com.HexTechGDUT.entity.po;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

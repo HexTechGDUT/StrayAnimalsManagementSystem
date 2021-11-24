@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.Comment;
+import com.HexTechGDUT.entity.po.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.stereotype.Repository;
 
@@ -17,14 +17,14 @@ public interface CommentService extends IService<Comment> {
      * @param comment 评论
      * @return 是否发布(添加)成功
      */
-    boolean publish(Comment comment);
+    int publish(Comment comment);
 
     /**
      * 删除评论
      * @param comment 评论
      * @return 是否删除成功
      */
-    boolean delete(Comment comment);
+    int delete(Comment comment);
 
     /**
      * 通过动物id查询动物信息下的评论
@@ -35,8 +35,8 @@ public interface CommentService extends IService<Comment> {
 
     /**
      * 通过用户id查询该用户发表过哪些评论
-     * @param uid uid
+     * @param userId userId
      * @return comment list
      */
-    List<Comment> queryCommentByUid(String uid);
+    List<Comment> queryCommentByUserId(String userId);
 }

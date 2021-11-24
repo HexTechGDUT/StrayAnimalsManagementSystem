@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.AnimalRecord;
+import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface AnimalService extends IService<AnimalRecord> {
      * @param animal 要登记的动物
      * @return 是否登记成功
      */
-     boolean register(AnimalRecord animal);
+     int register(AnimalRecord animal);
 
     /**
      * 动物信息更新;
@@ -24,7 +24,7 @@ public interface AnimalService extends IService<AnimalRecord> {
      * @param animal 要更新信息的动物
      * @return 是否更新成功
      */
-    boolean update(AnimalRecord animal);
+    int update(AnimalRecord animal);
 
     /**
      * 通过动物id查询动物;
@@ -37,10 +37,10 @@ public interface AnimalService extends IService<AnimalRecord> {
 
     /**
      * 通过上传者id查询动物list;
-     * @param uid userId
+     * @param userId userId
      * @return animal list
      */
-    List<AnimalRecord> queryAnimalByUserId(String uid);
+    List<AnimalRecord> queryAnimalByUserId(String userId);
 
     /**
      * 根据动物状态查询动物list;
