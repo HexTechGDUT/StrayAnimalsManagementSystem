@@ -2,6 +2,7 @@ package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.entity.po.Application;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * 申请服务
  * @author HexTechGDUT
  */
+@Repository
 public interface ApplicationService extends IService<Application> {
 
     /**
@@ -23,7 +25,7 @@ public interface ApplicationService extends IService<Application> {
      * @param application 处理前的申请
      * @return 处理后的申请
      */
-     Application process(Application application);
+     boolean process(Application application);
 
     /**
      * 取消申请
