@@ -29,6 +29,7 @@ public class Comment {
     /**
      * 评论id
      */
+    @ApiModelProperty("评论id")
     @TableId("id")
     private Integer id;
 
@@ -42,12 +43,14 @@ public class Comment {
     /**
      * 发布评论的用户id
      */
+    @ApiModelProperty("发布评论的用户id")
     @TableField("user_id")
     private String userId;
 
     /**
      * 评论的具体内容
      */
+    @ApiModelProperty("评论的具体内容")
     @TableField("content")
     private String content;
 
@@ -55,24 +58,28 @@ public class Comment {
      * 若该评论为另一条评论的子评论
      * 该属性记录该评论的父评论
      */
+    @ApiModelProperty("若该评论为另一条评论的子评论,该属性记录该评论的父评论")
     @TableField("previous_comment_id")
     private String previousCommentId;
 
     /**
      * 该评论的子评论
      */
+    @ApiModelProperty("该评论的子评论")
     @TableField(exist = false)
     private List<Comment> commentList;
 
     /**
      * 创建时间
      */
+    @ApiModelProperty("创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
+    @ApiModelProperty("更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 

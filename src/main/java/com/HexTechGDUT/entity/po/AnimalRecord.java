@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
+
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -21,6 +24,7 @@ import java.util.List;
  * @author HexTechGDUT
  */
 @Data
+@ApiModel("动物")
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
@@ -31,18 +35,21 @@ public class AnimalRecord {
     /**
      * 动物记录id
      */
+    @ApiModelProperty("动物id")
     @TableId("id")
     private Integer id;
 
     /**
      * 上传者id
      */
+    @ApiModelProperty("上传者id")
     @TableField("user_id")
     private String userId;
 
     /**
      * 动物昵称
      */
+    @ApiModelProperty("动物昵称")   
     @TableField("animal_nickname")
     private String animalNickname;
 
@@ -56,6 +63,7 @@ public class AnimalRecord {
      * 该动物出现的时间
      * 若为弃养动物则为null
      */
+    @ApiModelProperty("该动物出现的时间")
     @TableField("found_date")
     private LocalDateTime foundDate;
 
@@ -63,6 +71,7 @@ public class AnimalRecord {
      * 该动物最后出现的位置
      * 若为弃养动物则为null
      */
+    @ApiModelProperty("该动物最后出现的位置")
     @TableField("last_address")
     @Size(max = 50)
     private String lastAddress;
@@ -70,6 +79,7 @@ public class AnimalRecord {
     /**
      * 动物的品种
      */
+    @ApiModelProperty("动物的品种")
     @TableField("animal_type")
     @Size(max = 10)
     private String animalType;
@@ -77,6 +87,7 @@ public class AnimalRecord {
     /**
      * 额外信息
      */
+    @ApiModelProperty("额外信息")
     @TableField("additional_information")
     private String additionalInformation;
 
@@ -86,6 +97,7 @@ public class AnimalRecord {
      * 寻找丢失动物：0:未找到，1已找到
      * 弃养：0:未被领养，1已被领养，2放弃弃养
      */
+    @ApiModelProperty("目前状态")
     @TableField("status")
     private int status;
 
@@ -93,6 +105,7 @@ public class AnimalRecord {
      * 记录的类型
      * 为流浪动物，还是弃养动物，还是寻找失去的宠物
      */
+    @ApiModelProperty("记录的类型")
     @TableField("record_type")
     @Size(max = 10)
     private int recordType;
@@ -100,12 +113,14 @@ public class AnimalRecord {
     /**
      * 创建时间
      */
+    @ApiModelProperty("创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
+    @ApiModelProperty("更新时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 

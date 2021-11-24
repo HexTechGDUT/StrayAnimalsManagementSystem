@@ -1,20 +1,20 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.entity.bo.LoginBo;
+import com.HexTechGDUT.entity.po.User;
 
 /**
  * token相关的接口
  * 允许实现自定义token
  * @author HexTechGDUT
  */
-public interface TokenService {
+public interface TokenService{
 
     /**
      * 生成token
-     * @param loginBo uid & pwd
+     * @param user user
      * @return String token
      */
-    String generate(LoginBo loginBo);
+    String generate(User user);
 
     /**
      * 验证Token

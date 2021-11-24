@@ -32,7 +32,7 @@ public class UserController {
     @PassToken
     @ApiOperation("注册")
     @PostMapping("/register")
-    public @ResponseBody Result<User> register(@ApiParam("用户注册信息")@Validated @RequestBody User user){
+    public Result<User> register(@ApiParam("用户注册信息")@Validated @RequestBody User user){
         boolean isSuccess = userService.register(user) == 1;
         user.setPassword("");
         if(isSuccess){
@@ -44,14 +44,14 @@ public class UserController {
     @PassToken
     @ApiOperation("登录")
     @PostMapping("/login")
-    public @ResponseBody Result<String> login(@ApiParam("用户登录Bo") @Validated @RequestBody LoginBo loginBo){
+    public Result<String> login(@ApiParam("用户登录Bo") @Validated @RequestBody LoginBo loginBo){
         return ResultUtils.successWithInfo(userService.login(loginBo), "登录成功");
     }
 
     @AuthToken
     @ApiOperation("更新用户信息")
     @PostMapping("/update")
-    public @ResponseBody Result<String> update(@ApiParam("用户更新信息")@Validated @RequestBody User user){
+    public Result<String> update(@ApiParam("用户更新信息")@Validated @RequestBody User user){
         boolean isSuccess = userService.updateUser(user) == 1;
         if(isSuccess){
             return ResultUtils.success("更新成功");
@@ -61,7 +61,7 @@ public class UserController {
 
     @AuthToken
     @PostMapping("/queryUserByUserId")
-    public @ResponseBody Result<User> queryUserByUserId(@ApiParam("用户id")@Validated @RequestBody String userId){
+    public Result<User> queryUserByUserId(@ApiParam("用户id")@Validated @RequestBody String userId){
         User user = userService.queryUserByUserId(userId);
         if(user == null){
             return ResultUtils.failWithInfo(null, "用户不存在");
@@ -72,7 +72,7 @@ public class UserController {
 
     @AuthToken
     @PostMapping("/queryUserLikeName")
-    public @ResponseBody Result<List<User>> queryUserLikeName(@ApiParam("用户名")@Validated @RequestBody String name){
+    public Result<List<User>> queryUserLikeName(@ApiParam("用户名")@Validated @RequestBody String name){
         List<User> userList = userService.queryUserLikeName(name);
         if(userList == null || userList.isEmpty()){
             return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
@@ -83,10 +83,9 @@ public class UserController {
         return ResultUtils.success(userList);
     }
 
-    @PassToken
     @AuthToken
     @PostMapping("/queryUserLikeAddress")
-    public @ResponseBody Result<List<User>> queryUserLikeAddress(@ApiParam("联系地址")@Validated @RequestBody String address){
+    public Result<List<User>> queryUserLikeAddress(@ApiParam("联系地址")@Validated @RequestBody String address){
         List<User> userList = userService.queryUserLikeAddress(address);
         if(userList == null || userList.isEmpty()){
             return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
@@ -97,10 +96,9 @@ public class UserController {
         return ResultUtils.success(userList);
     }
 
-    @PassToken
     @AuthToken
     @PostMapping("/queryUserByUserType")
-    public @ResponseBody Result<List<User>> queryUserByUserType(@ApiParam("用户类型")@Validated @RequestBody int type){
+    public Result<List<User>> queryUserByUserType(@ApiParam("用户类型")@Validated @RequestBody int type){
         List<User> userList = userService.queryUserByUserType(type);
         if(userList == null || userList.isEmpty()){
             return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
@@ -114,7 +112,7 @@ public class UserController {
     @PassToken
     @ApiOperation("来到首页")
     @GetMapping("/index")
-    public @ResponseBody Result<String> toIndex(){
+    public Result<String> toIndex(){
         return ResultUtils.success("来到首页");
     }
 }

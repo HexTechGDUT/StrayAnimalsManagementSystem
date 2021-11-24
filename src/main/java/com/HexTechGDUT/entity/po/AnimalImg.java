@@ -49,6 +49,7 @@ public class AnimalImg {
     @TableField("animal_record_id")
     private Integer animalRecordId;
 
+
     /**
      * 图片名字
      */

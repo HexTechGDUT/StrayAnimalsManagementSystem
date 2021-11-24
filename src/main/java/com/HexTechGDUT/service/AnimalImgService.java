@@ -22,7 +22,7 @@ public interface AnimalImgService extends IService<AnimalImg> {
      * @param id 图片id
      * @return 是否删除成功
      */
-    boolean deleteImg(String id);
+    int deleteImg(String id);
 
     /**
      * 根据动物id查询这个动物所有的图片

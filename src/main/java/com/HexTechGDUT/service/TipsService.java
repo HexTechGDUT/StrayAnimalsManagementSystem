@@ -11,39 +11,45 @@ import java.util.List;
 public interface TipsService extends IService<Tips> {
 
     /**
-     * 发布文章
-     * @param article article
+     * insert新的文章
+     * @param tips tips
      * @return 是否发布成功
      */
-    boolean publish(Tips article);
+    int insert(Tips tips);
 
     /**
      * 修改文章
-     * @param article article
+     * @param tips tips
      * @return 是否修改成功
      */
-    boolean update(Tips article);
+    int update(Tips tips);
 
     /**
      * 删除文章
      * @param id 文章id
      * @return 是否删除成功
      */
-    boolean delete(String id);
+    int delete(int id);
+
+    /**
+     * 查询全部tips
+     * @return tips list
+     */
+    List<Tips> queryAllTips();
 
     /**
      * 通过id查询文章
      * @param id id
      * @return tips
      */
-    Tips queryTipsById(String id);
+    Tips queryTipsById(int id);
 
     /**
      * 通过uid查询该用户发表过的文章list
      * @param userId userId
      * @return tips
      */
-    List<Tips> queryTipsByUserId(String userId);
+//    List<Tips> queryTipsByAuthor(String userId);
 
     /**
      * 根据文章名字模糊查询文章

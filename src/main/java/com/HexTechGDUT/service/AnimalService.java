@@ -40,7 +40,7 @@ public interface AnimalService extends IService<AnimalRecord>{
 
     /**
      * 通过上传者id查询动物list;
-     * @param uid userId
+     * @param userId userId
      * @return animal list
      */
     List<AnimalRecord> queryAnimalByUid(String uid);
