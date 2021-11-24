@@ -12,8 +12,12 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
+
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 动物
@@ -43,12 +47,17 @@ public class AnimalRecord {
     private String userId;
 
     /**
-     * 动物名字
-     * 由上传者自定义
+     * 动物昵称
      */
-    @ApiModelProperty("动物名字")
-    @TableField("animal_name")
-    private String animalName;
+    @ApiModelProperty("动物昵称")   
+    @TableField("animal_nickname")
+    private String animalNickname;
+
+    /**
+     * 该动物更早的记录id
+     */
+    @TableField("previous_record_id")
+    private int previousRecordId;
 
     /**
      * 该动物出现的时间
@@ -115,4 +124,9 @@ public class AnimalRecord {
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
+    /**
+     * 一个动物可能对应多张图片，用ArrayList存储
+     */
+    @TableField(exist = false)
+    private List<AnimalImg> animalImgList = new ArrayList<>();
 }

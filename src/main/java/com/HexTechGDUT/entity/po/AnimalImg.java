@@ -47,7 +47,8 @@ public class AnimalImg {
      */
     @ApiModelProperty("图片所属的动物id")
     @TableField("animal_record_id")
-    private String animalRecordId;
+    private Integer animalRecordId;
+
 
     /**
      * 图片名字
@@ -61,7 +62,6 @@ public class AnimalImg {
      * 图片具体存储位置
      */
     @ApiModelProperty("图片具体存储位置")
-    @Size(max = 50)
     @TableField("path")
     private String path;
 
