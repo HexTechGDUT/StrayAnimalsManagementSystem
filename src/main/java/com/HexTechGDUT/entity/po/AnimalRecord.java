@@ -12,8 +12,6 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 import org.springframework.stereotype.Component;
 
-
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -54,12 +52,6 @@ public class AnimalRecord {
     private String animalNickname;
 
     /**
-     * 该动物更早的记录id
-     */
-    @TableField("previous_record_id")
-    private int previousRecordId;
-
-    /**
      * 该动物出现的时间
      * 若为弃养动物则为null
      */
@@ -75,6 +67,12 @@ public class AnimalRecord {
     @TableField("last_address")
     @Size(max = 50)
     private String lastAddress;
+
+    /**
+     * 返回给前端时切分后的地址数组
+     */
+    @TableField(exist = false)
+    private String[] returnAddress;
 
     /**
      * 动物的品种

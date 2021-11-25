@@ -1,7 +1,7 @@
 package com.HexTechGDUT.service.impl;
 
 import com.HexTechGDUT.dao.CommentMapper;
-import com.HexTechGDUT.po.Comment;
+import com.HexTechGDUT.entity.po.Comment;
 import com.HexTechGDUT.service.CommentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,33 +10,38 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * @author HexTechGDUT
+ */
 @Service
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService{
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean publish(Comment comment) {
-        return baseMapper.insert(comment) != 0;
+    public int publish(Comment comment) {
+        return baseMapper.insert(comment);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean delete(Comment comment) {
+    public int delete(int id) {
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-        wrapper.eq("id",comment.getId());
-        return baseMapper.delete(wrapper) != 0;
+        wrapper.eq("id", id);
+        return baseMapper.delete(wrapper);
     }
 
     @Override
-    public List<Comment> queryCommentByAnimalId(String animalId) {
+    public List<Comment> queryCommentByAnimalId(int animalId) {
+        //该方法未能查询回复评论
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("animal_record_id",animalId);
         return baseMapper.selectList(wrapper);
     }
 
     @Override
-    public List<Comment> queryCommentByUid(String uid) {
+    public List<Comment> queryCommentByUserId(String userId) {
+        //该方法未能查询回复评论
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id",uid);
+        wrapper.eq("user_id",userId);
         return baseMapper.selectList(wrapper);
     }
 }

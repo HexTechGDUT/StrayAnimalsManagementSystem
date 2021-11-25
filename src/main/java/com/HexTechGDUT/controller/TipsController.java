@@ -3,6 +3,7 @@ package com.HexTechGDUT.controller;
 import com.HexTechGDUT.entity.po.Tips;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
+import com.HexTechGDUT.security.PassToken;
 import com.HexTechGDUT.service.TipsService;
 import com.HexTechGDUT.utils.ResultUtils;
 import io.swagger.annotations.Api;
@@ -76,10 +77,10 @@ public class TipsController {
     }
 
     /**
-     * 登录即可查询tips
+     * 无需登录即可查询tips
      * @return tips list
      */
-    @AuthToken
+    @PassToken
     @ApiOperation("查询全部文章")
     @PostMapping("/queryAllTips")
     public Result<List<Tips>> queryAllTips(){
@@ -91,11 +92,11 @@ public class TipsController {
     }
 
     /**
-     * 登录即可查询tips
+     * 无需登录即可查询tips
      * @param id id
      * @return tips
      */
-    @AuthToken
+    @PassToken
     @ApiOperation("根据文章id查询文章")
     @PostMapping("/queryTipsById")
     public Result<Tips> queryTipsById(@ApiParam("tips id") @Validated @RequestBody int id){
@@ -107,11 +108,11 @@ public class TipsController {
     }
 
     /**
-     * 登录即可查询tips
+     * 无需登录即可查询tips
      * @param title tips 标题
      * @return tips list
      */
-    @AuthToken
+    @PassToken
     @ApiOperation("根据题目模糊查询文章")
     @PostMapping("/queryTipsLikeTitle")
     public Result<List<Tips>> queryTipsLikeTitle(@ApiParam("tips标题") @Validated @RequestBody String title){

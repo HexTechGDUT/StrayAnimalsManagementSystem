@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author HexTechGDUT
+ */
 @Service
 public class AnimalImgServiceImpl extends ServiceImpl<AnimalImgMapper, AnimalImg> implements AnimalImgService {
     /**
@@ -29,8 +32,8 @@ public class AnimalImgServiceImpl extends ServiceImpl<AnimalImgMapper, AnimalImg
      * @return 是否删除成功
      */
     @Override
-    public boolean deleteImg(String id) {
-        return false;
+    public int deleteImg(String id) {
+        return 0;
     }
 
     /**

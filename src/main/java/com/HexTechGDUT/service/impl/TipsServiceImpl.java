@@ -50,11 +50,6 @@ public class TipsServiceImpl extends ServiceImpl<TipsMapper, Tips> implements Ti
         QueryWrapper<Tips> wrapper = new QueryWrapper<>();
         return baseMapper.selectList(wrapper);
     }
-//
-//    @Override
-//    public List<Tips> queryTipsByAuthor(String userId) {
-//        return null;
-//    }
 
     @Override
     public List<Tips> queryTipsLikeTitle(String title) {

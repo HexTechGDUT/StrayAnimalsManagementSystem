@@ -24,13 +24,14 @@ import java.time.LocalDateTime;
 @Component
 @Alias("Application")
 @TableName("application")
-@ApiModel(value = "申请", description = "用户提交的申请,由管理员进行回复")
+@ApiModel(value = "申请", description = "用户提交的申请")
 public class Application {
 
     /**
      *  申请id
      */
     @TableId("id")
+    @ApiModelProperty("申请id")
     private Integer id;
 
     /**
@@ -45,12 +46,13 @@ public class Application {
      */
     @TableField("animal_record_id")
     @ApiModelProperty(value = "动物id", notes = "该申请相关的动物id")
-    private String animalRecordId;
+    private int animalRecordId;
 
     /**
      * 申请的具体信息
      */
     @TableField("information")
+    @ApiModelProperty("申请的具体信息")
     private String information;
 
     /**

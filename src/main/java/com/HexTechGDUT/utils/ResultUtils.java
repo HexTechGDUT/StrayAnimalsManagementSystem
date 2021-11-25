@@ -34,59 +34,59 @@ public class ResultUtils implements Serializable {
     }
 
     /**
-     * 返回操作成功的结果
-     * @param p 附带的对象
+     * 返回操作成功的结果;
+     * @param e 附带的对象element
      * @return Result
      */
-    public static <P> Result<P> success(P p){
-        return new Result<>(ResultType.SUCCESS.getCode(), ResultType.SUCCESS.getInfo(), p);
+    public static <E> Result<E> success(E e){
+        return new Result<>(ResultType.SUCCESS.getCode(), ResultType.SUCCESS.getInfo(), e);
     }
 
     /**
-     * 返回操作成功的结果
-     * @param p 附带的对象
+     * 返回操作成功的结果;
+     * @param e 附带的对象element
      * @param info 信息
      * @return Result
      */
-    public static <P> Result<P> successWithInfo(P p, String info){
-        return new Result<>(ResultType.SUCCESS.getCode(), info, p);
+    public static <E> Result<E> successWithInfo(E e, String info){
+        return new Result<>(ResultType.SUCCESS.getCode(), info, e);
     }
 
     /**
-     * 返回操作失败的结果
-     * @param p 附带的对象
+     * 返回操作失败的结果;
+     * @param e 附带的对象element
      * @return Result
      */
-    public static <P> Result<P> fail(P p){
-        return new Result<>(ResultType.FAIL.getCode(), ResultType.FAIL.getInfo(), p);
+    public static <E> Result<E> fail(E e){
+        return new Result<>(ResultType.FAIL.getCode(), ResultType.FAIL.getInfo(), e);
     }
 
     /**
-     * 返回操作失败的结果
-     * @param p 附带的对象
+     * 返回操作失败的结果;
+     * @param e 附带的对象element
      * @param info 信息
      * @return Result
      */
-    public static <P> Result<P> failWithInfo(P p, String info){
-        return new Result<>(ResultType.FAIL.getCode(), info, p);
+    public static <E> Result<E> failWithInfo(E e, String info){
+        return new Result<>(ResultType.FAIL.getCode(), info, e);
     }
 
     /**
-     * 返回没有操作权限的结果
-     * @param p 附带的对象
+     * 返回没有操作权限的结果;
+     * @param e 附带的对象element
      * @return Result
      */
-    public static <P> Result<P> noPermit(P p){
-        return new Result<>(ResultType.NO_PERMIT.getCode(), ResultType.NO_PERMIT.getInfo(), p);
+    public static <E> Result<E> noPermit(E e){
+        return new Result<>(ResultType.NO_PERMIT.getCode(), ResultType.NO_PERMIT.getInfo(), e);
     }
 
     /**
-     * 返回没有操作权限的结果
-     * @param p 附带的对象
+     * 返回没有操作权限的结果;
+     * @param e 附带的对象element
      * @param info 信息
      * @return Result
      */
-    public static <P> Result<P> noPermitWithInfo(P p, String info){
-        return new Result<>(ResultType.NO_PERMIT.getCode(), info, p);
+    public static <E> Result<E> noPermitWithInfo(E e, String info){
+        return new Result<>(ResultType.NO_PERMIT.getCode(), info, e);
     }
 }

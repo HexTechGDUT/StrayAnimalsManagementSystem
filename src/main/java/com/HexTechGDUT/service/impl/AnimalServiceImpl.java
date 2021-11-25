@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author HexTechGDUT
+ */
 @Service
 public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> implements AnimalService{
     /**
@@ -59,11 +62,11 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
     /**
      * 通过上传者id查询动物list;
      *
-     * @param uid userId
+     * @param userId userId
      * @return animal list
      */
     @Override
-    public List<AnimalRecord> queryAnimalByUid(String uid) {
+    public List<AnimalRecord> queryAnimalByUserId(String userId) {
         return null;
     }
 
@@ -81,11 +84,11 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
     /**
      * 根据地区查询动物list;
      *
-     * @param zone String -> Zone
+     * @param address address
      * @return animal list
      */
     @Override
-    public List<AnimalRecord> queryAnimalByZone(String zone) {
+    public List<AnimalRecord> queryAnimalLikeAddress(String address) {
         return null;
     }
 
