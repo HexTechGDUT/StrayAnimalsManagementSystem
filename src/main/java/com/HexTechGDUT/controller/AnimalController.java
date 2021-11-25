@@ -5,6 +5,8 @@ import com.HexTechGDUT.entity.po.AnimalImg;
 import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.HexTechGDUT.entity.vo.AnimalQuery;
 import com.HexTechGDUT.result.Result;
+import com.HexTechGDUT.security.AuthToken;
+import com.HexTechGDUT.security.PassToken;
 import com.HexTechGDUT.service.AnimalImgService;
 import com.HexTechGDUT.service.AnimalService;
 import com.HexTechGDUT.utils.ResultUtils;
@@ -12,6 +14,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,6 +30,11 @@ import java.util.List;
 @RequestMapping(value = "/animal")
 public class AnimalController {
 
+    /**
+     * 切分地址的regex
+     */
+    private static final String ADDRESS_REGEX = ":";
+
     @Resource
     public AnimalService animalService;
 
@@ -37,6 +45,8 @@ public class AnimalController {
      * 查询所有动物
      * @return recordList 结果集
      */
+    @PassToken
+    @ApiOperation("查询全部动物")
     @GetMapping("queryAll/{current}/{limit}")
     public Result<PageQueryAnimalBo> queryAllAnimals(@PathVariable long current,@PathVariable long limit){
         //创建Bo对象
@@ -48,18 +58,16 @@ public class AnimalController {
         //获取每个动物信息
         List<AnimalRecord> recordList = page.getRecords();
         //为了查询所查动物对应的图片，首先遍历结果集
-        for(AnimalRecord record:recordList){
-            //取出每一个动物信息对象的id
-            Integer id = record.getId();
-            //调用根据动物id查询对应图片的方法，同样用list存储
-            List<AnimalImg> animalImgList = animalImgService.queryAnimalImgListByAnimalId(id);
+        for(AnimalRecord record : recordList){
+            //切分动物的地址, 便于前端处理
+            record.setReturnAddress(record.getLastAddress().split(ADDRESS_REGEX));
+            //取出动物信息的id, 并查询id对应的图片list
+            List<AnimalImg> animalImgList = animalImgService.queryAnimalImgListByAnimalId(record.getId());
             //将图片的list存入record中
             record.setAnimalImgList(animalImgList);
         }
         //总记录数
-        long total = page.getTotal();
-
-        bo.setTotal(total);
+        bo.setTotal(page.getTotal());
 
         bo.setAnimalRecordList(recordList);
 
@@ -71,6 +79,8 @@ public class AnimalController {
      * @param animalRecord 动物信息类
      * @return 结果
      */
+    @AuthToken
+    @ApiOperation("插入一条动物记录")
     @PostMapping("insertAnimal")
     public Result<String> insertAnimal(@RequestBody AnimalRecord animalRecord){
         boolean isSuccess = animalService.register(animalRecord)==1;
@@ -92,6 +102,8 @@ public class AnimalController {
      * @param animalRecord 动物信息实体类
      * @return 结果
      */
+    @AuthToken
+    @ApiOperation("更新动物记录")
     @PostMapping("updateAnimal")
     public Result<String> updateAnimal(@RequestBody AnimalRecord animalRecord){
         boolean isSuccess = animalService.update(animalRecord)==1;
@@ -109,6 +121,8 @@ public class AnimalController {
      * @param animalQuery 条件查询Vo类：包含动物昵称、最后出现的地点、动物中列、状态、记录类型5个属性
      * @return animalRecordList 包含动物信息的List
      */
+    @PassToken
+    @ApiOperation("通过多种条件查询动物")
     @PostMapping("queryAnimal/{current}/{limit}")
     public Result<PageQueryAnimalBo> queryAnimal(@PathVariable long current, @PathVariable long limit, @RequestBody AnimalQuery animalQuery){
         //创建Bo对象
@@ -144,21 +158,20 @@ public class AnimalController {
         animalService.page(page,wrapper);
         //获取当前页的记录
         List<AnimalRecord> recordList = page.getRecords();
+
         //为了查询所查动物对应的图片，首先遍历结果集
         for(AnimalRecord record:recordList){
-            //取出每一个动物信息对象的id
-            Integer id = record.getId();
-            //调用根据动物id查询对应图片的方法，同样用list存储
-            List<AnimalImg> animalImgList = animalImgService.queryAnimalImgListByAnimalId(id);
+            //切分地址便于前端处理
+            record.setReturnAddress(record.getLastAddress().split(ADDRESS_REGEX));
+            //取出动物信息的id 并查询id对应的图片list
+            List<AnimalImg> animalImgList = animalImgService.queryAnimalImgListByAnimalId(record.getId());
             //将图片的list存入record中
             record.setAnimalImgList(animalImgList);
         }
-        //获取总记录数
-        long total = page.getTotal();
-
         bo.setAnimalRecordList(recordList);
 
-        bo.setTotal(total);
+        //获取总记录数
+        bo.setTotal(page.getTotal());
 
         return ResultUtils.success(bo);
     }
@@ -168,6 +181,8 @@ public class AnimalController {
      * @param id 动物id
      * @return 是否删除成功
      */
+    @AuthToken
+    @ApiOperation("通过动物id删除动物")
     @DeleteMapping({"{id}"})
     public Result<String> deleteAnimalRecord(@PathVariable int id){
         boolean res = animalService.removeById(id);

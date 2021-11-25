@@ -80,7 +80,7 @@ public class SwaggerConfig {
                 .groupName("comment")
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/comment/**"))
+                .paths(PathSelectors.ant("/animal/comment/**"))
                 .build();
     }
 

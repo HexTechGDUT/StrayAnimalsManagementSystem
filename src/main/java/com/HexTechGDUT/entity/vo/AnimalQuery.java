@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+/**
+ * @author HexTechGDUT
+ */
 @Data
 public class AnimalQuery {
 

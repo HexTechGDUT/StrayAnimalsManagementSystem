@@ -45,13 +45,6 @@ public interface TipsService extends IService<Tips> {
     Tips queryTipsById(int id);
 
     /**
-     * 通过uid查询该用户发表过的文章list
-     * @param userId userId
-     * @return tips
-     */
-//    List<Tips> queryTipsByAuthor(String userId);
-
-    /**
      * 根据文章名字模糊查询文章
      * @param title title
      * @return tips

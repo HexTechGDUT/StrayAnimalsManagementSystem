@@ -59,7 +59,8 @@ public class UserController {
         return ResultUtils.fail("更新失败");
     }
 
-    @AuthToken
+    @AuthToken(value = 1)
+    @ApiOperation("通过用户id查询用户")
     @PostMapping("/queryUserByUserId")
     public Result<User> queryUserByUserId(@ApiParam("用户id")@Validated @RequestBody String userId){
         User user = userService.queryUserByUserId(userId);
@@ -70,7 +71,8 @@ public class UserController {
         return ResultUtils.success(user);
     }
 
-    @AuthToken
+    @AuthToken(value = 1)
+    @ApiOperation("通过名字模糊查询用户")
     @PostMapping("/queryUserLikeName")
     public Result<List<User>> queryUserLikeName(@ApiParam("用户名")@Validated @RequestBody String name){
         List<User> userList = userService.queryUserLikeName(name);
@@ -83,7 +85,8 @@ public class UserController {
         return ResultUtils.success(userList);
     }
 
-    @AuthToken
+    @AuthToken(value = 1)
+    @ApiOperation("通过地址模糊查询用户")
     @PostMapping("/queryUserLikeAddress")
     public Result<List<User>> queryUserLikeAddress(@ApiParam("联系地址")@Validated @RequestBody String address){
         List<User> userList = userService.queryUserLikeAddress(address);
@@ -96,7 +99,8 @@ public class UserController {
         return ResultUtils.success(userList);
     }
 
-    @AuthToken
+    @AuthToken(value = 1)
+    @ApiOperation("通过用户权限查询用户")
     @PostMapping("/queryUserByUserType")
     public Result<List<User>> queryUserByUserType(@ApiParam("用户类型")@Validated @RequestBody int type){
         List<User> userList = userService.queryUserByUserType(type);
@@ -110,7 +114,7 @@ public class UserController {
     }
 
     @PassToken
-    @ApiOperation("来到首页")
+    @ApiOperation("测试首页")
     @GetMapping("/index")
     public Result<String> toIndex(){
         return ResultUtils.success("来到首页");

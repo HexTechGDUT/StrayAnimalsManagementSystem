@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * 异常处理器
  * @author HexTechGDUT
  */
 @ControllerAdvice
@@ -17,9 +18,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result<String> handleException(Exception e) {
         String msg = e.getMessage();
-//        if(StringUtils.isEmpty(msg)){
-//            msg = "服务器出错";
-//        }
         if (msg == null || "".equals(msg)) {
             msg = "服务器出错";
         }

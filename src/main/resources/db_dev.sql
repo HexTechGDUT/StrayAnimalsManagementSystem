@@ -19,8 +19,7 @@ create table `user`(
 create table animal_record (
     id int not null primary key auto_increment,
     user_id varchar(16) not null comment '上传该记录的用户id',
-    animal_name varchar(10) not null comment '动物名称',
-    # previous_record_id int null default null comment '该动物更早的记录的id',
+    animal_nickname varchar(10) not null comment '动物名称',
     # 若为弃养动物则为null
     found_date timestamp null default null comment '发现的时间',
     # 若为弃养动物则为null

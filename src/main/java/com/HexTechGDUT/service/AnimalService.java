@@ -43,7 +43,7 @@ public interface AnimalService extends IService<AnimalRecord>{
      * @param userId userId
      * @return animal list
      */
-    List<AnimalRecord> queryAnimalByUid(String uid);
+    List<AnimalRecord> queryAnimalByUserId(String userId);
 
     /**
      * 根据动物状态查询动物list;
@@ -53,10 +53,10 @@ public interface AnimalService extends IService<AnimalRecord>{
     List<AnimalRecord> queryAnimalByStatus(String status);
 
     /**
-     * 根据地区查询动物list;
-     * @param zone String -> Zone
+     * 根据地区模糊查询动物list;
+     * @param address address
      * @return animal list
      */
-    List<AnimalRecord> queryAnimalByZone(String zone);
+    List<AnimalRecord> queryAnimalLikeAddress(String address);
 
 }
