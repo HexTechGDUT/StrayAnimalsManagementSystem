@@ -37,26 +37,18 @@ public class AnimalImg {
     private Integer id;
 
     /**
-     * 图片存储位置的前缀
-     */
-    @TableField(exist = false)
-    private static String prefix = "";
-
-    /**
      * 图片所属的动物id
      */
     @ApiModelProperty("图片所属的动物id")
     @TableField("animal_record_id")
     private Integer animalRecordId;
 
-
     /**
-     * 图片名字
+     * 图片的宽高比
      */
-    @ApiModelProperty("图片名字")
-    @TableField("name")
-    @Size(max = 16)
-    private String name;
+    @ApiModelProperty("图片的宽高比")
+    @TableField("aspect_ratio")
+    private String aspectRatio;
 
     /**
      * 图片具体存储位置

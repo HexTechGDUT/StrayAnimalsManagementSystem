@@ -100,6 +100,13 @@ public class AnimalRecord {
     private int status;
 
     /**
+     * 动物的健康状况
+     */
+    @ApiModelProperty("健康状况")
+    @TableField("health")
+    private String health;
+
+    /**
      * 记录的类型
      * 为流浪动物，还是弃养动物，还是寻找失去的宠物
      */
