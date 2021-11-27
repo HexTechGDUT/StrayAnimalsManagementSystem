@@ -6,11 +6,12 @@ create table `user`(
     id int not null primary key auto_increment,
     user_id varchar(16) not null comment '用户id',
     user_name varchar(12) not null default 'user' comment '用户名',
-    phone_number varchar(16) not null comment '电话号',
+    avatar varchar(50) null default null comment '用户头像',
+    phone_number varchar(16) null default null comment '电话号',
     password varchar(16) not null comment '密码',
     # 默认为普通用户：0普通用户，1管理员
     user_type int not null default 0 comment '用户类型',
-    contact_address varchar(50) not null comment '联系地址',
+    contact_address varchar(50) null default null comment '联系地址',
     additional_information text null default null comment '额外信息',
     create_time timestamp not null default '0000-00-00 00:00:00' comment '创建时间',
     update_time timestamp not null default current_timestamp comment '更新时间'
@@ -18,7 +19,6 @@ create table `user`(
 
 create table animal_record (
     id int not null primary key auto_increment,
-    user_id varchar(16) not null comment '上传该记录的用户id',
     animal_nickname varchar(10) not null comment '动物名称',
     # 若为弃养动物则为null
     found_date timestamp null default null comment '发现的时间',

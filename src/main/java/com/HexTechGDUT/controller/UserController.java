@@ -1,6 +1,7 @@
 package com.HexTechGDUT.controller;
 
-import com.HexTechGDUT.entity.bo.LoginBo;
+import com.HexTechGDUT.entity.bo.UidAndPwdBo;
+import com.HexTechGDUT.entity.bo.UserLoginBo;
 import com.HexTechGDUT.entity.po.User;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
@@ -32,11 +33,10 @@ public class UserController {
     @PassToken
     @ApiOperation("注册")
     @PostMapping("/register")
-    public Result<User> register(@ApiParam("用户注册信息")@Validated @RequestBody User user){
-        boolean isSuccess = userService.register(user) == 1;
-        user.setPassword("");
+    public Result<UserLoginBo> register(@ApiParam("用户注册信息")@Validated @RequestBody UidAndPwdBo uidAndPwdBo){
+        boolean isSuccess = userService.register(uidAndPwdBo) == 1;
         if(isSuccess){
-            return ResultUtils.successWithInfo(user, "注册成功");
+            return ResultUtils.successWithInfo(userService.login(uidAndPwdBo), "登录成功");
         }
         return ResultUtils.failWithInfo(null, "注册失败");
     }
@@ -44,8 +44,8 @@ public class UserController {
     @PassToken
     @ApiOperation("登录")
     @PostMapping("/login")
-    public Result<String> login(@ApiParam("用户登录Bo") @Validated @RequestBody LoginBo loginBo){
-        return ResultUtils.successWithInfo(userService.login(loginBo), "登录成功");
+    public Result<UserLoginBo> login(@ApiParam("用户登录Bo") @Validated @RequestBody UidAndPwdBo uidAndPwdBo){
+        return ResultUtils.successWithInfo(userService.login(uidAndPwdBo), "登录成功");
     }
 
     @AuthToken
@@ -53,6 +53,17 @@ public class UserController {
     @PostMapping("/update")
     public Result<String> update(@ApiParam("用户更新信息")@Validated @RequestBody User user){
         boolean isSuccess = userService.updateUser(user) == 1;
+        if(isSuccess){
+            return ResultUtils.success("更新成功");
+        }
+        return ResultUtils.fail("更新失败");
+    }
+
+    @AuthToken
+    @ApiOperation("删除用户")
+    @PostMapping("/delete")
+    private Result<String> deleteUser(@ApiParam("要删除的用户id")@Validated @RequestBody String userId){
+        boolean isSuccess = userService.deleteUser(userId) == 1;
         if(isSuccess){
             return ResultUtils.success("更新成功");
         }

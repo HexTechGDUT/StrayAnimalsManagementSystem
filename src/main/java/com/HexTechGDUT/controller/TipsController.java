@@ -60,11 +60,6 @@ public class TipsController {
         return ResultUtils.failWithInfo(null, "发布文章失败");
     }
 
-    /**
-     * 删除tips
-     * @param id tip id
-     * @return 返回信息
-     */
     @AuthToken(value = 1)
     @ApiOperation("删除文章")
     @PostMapping("/delete")
@@ -82,13 +77,24 @@ public class TipsController {
      */
     @PassToken
     @ApiOperation("查询全部文章")
-    @PostMapping("/queryAllTips")
+    @GetMapping("/queryAllTips")
     public Result<List<Tips>> queryAllTips(){
         List<Tips> tipsList = tipsService.queryAllTips();
         if(tipsList == null || tipsList.isEmpty()){
             return ResultUtils.failWithInfo(null, "没有查询到相关tips");
         }
         return ResultUtils.success(tipsList);
+    }
+
+    @PassToken
+    @ApiOperation("随机查询一篇文章")
+    @GetMapping("/queryRandomTips")
+    public Result<Tips> queryRandomTips(){
+        Tips tips = tipsService.queryRandomTips();
+        if(tips == null){
+            return ResultUtils.failWithInfo(null, "没有查询到tips");
+        }
+        return ResultUtils.success(tips);
     }
 
     /**
