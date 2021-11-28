@@ -64,8 +64,11 @@ public class AnimalController {
 
         for(int i=0;i<recordList.size();i++){
             QueryAllAnimalsBo bo = new QueryAllAnimalsBo();
+            Integer animalId = recordList.get(i).getId();
             //首页每个动物只需显示一张图片，故直接取第一张图片的url即可
             String imgUrl = animalImgService.queryAnimalImgListByAnimalId(recordList.get(0).getId()).get(0).getPath();
+            //同理，获取该动物第一张图片的纵横比
+            String aspectRatio = animalImgService.queryAnimalImgListByAnimalId(recordList.get(0).getId()).get(0).getAspectRatio();
             //获取结果集中每个动物的昵称
             String nickname = recordList.get(i).getAnimalNickname();
             //获取结果集中每个动物的上传时间
@@ -74,6 +77,8 @@ public class AnimalController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             //规范化时间
             String formatCreateTime = createTime.format(formatter);
+            bo.setAnimalId(animalId);
+            bo.setAspectRatio(aspectRatio);
             bo.setImgUrl(imgUrl);
             bo.setAnimalNickname(nickname);
             bo.setCreateTime(formatCreateTime);
@@ -81,6 +86,22 @@ public class AnimalController {
             boList.add(bo);
         }
         return ResultUtils.success(boList);
+    }
+
+    /**
+     * 前端点入动物详情时，查询这个动物的所有信息
+     * @param animalId 动物id
+     * @return 结果
+     */
+    @PassToken
+    @ApiOperation("查询一条动物记录")
+    @GetMapping("queryOneAnimal")
+    public Result<AnimalRecord> queryOneAnimal(Integer animalId){
+        AnimalRecord animalRecord = animalService.getById(animalId);
+        if(animalRecord==null){
+            return ResultUtils.failWithInfo(null,"没有查询到该动物");
+        }
+        return ResultUtils.success(animalRecord);
     }
 
     /**
@@ -132,8 +153,8 @@ public class AnimalController {
      */
     @PassToken
     @ApiOperation("通过多种条件查询动物")
-    @PostMapping("queryAnimal/{current}/{limit}")
-    public Result<PageQueryAnimalBo> queryAnimal(@PathVariable long current, @PathVariable long limit, @RequestBody AnimalQuery animalQuery){
+    @PostMapping("queryAnimal")
+    public Result<PageQueryAnimalBo> queryAnimal(long current,long limit, @RequestBody AnimalQuery animalQuery){
         //创建Bo对象
         PageQueryAnimalBo bo = new PageQueryAnimalBo();
         //创建分页对象

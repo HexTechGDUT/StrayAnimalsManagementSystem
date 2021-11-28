@@ -37,12 +37,6 @@ public class AnimalRecord {
     @TableId("id")
     private Integer id;
 
-    /**
-     * 上传者id
-     */
-    @ApiModelProperty("上传者id")
-    @TableField("user_id")
-    private String userId;
 
     /**
      * 动物昵称
