@@ -34,7 +34,7 @@ public class JwtTokenServiceImpl implements TokenService {
     /**
      * token密钥
      */
-    public static final String SECRET = "...";
+    public static final String SECRET = "token secret service";
 
     /**
      * 生成token

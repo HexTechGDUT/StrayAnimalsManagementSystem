@@ -1,6 +1,9 @@
 package com.HexTechGDUT.entity.po;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -44,10 +47,17 @@ public class User {
      * 初始默认设置为user
      * 待定
      */
-    @ApiModelProperty(value = "用户名", notes = "由用户随意填写的名称")
+    @ApiModelProperty(value = "用户名", notes = "由用户随意填写的名称,初始默认值为user")
     @TableField("user_name")
     @Size(max = 12)
     private String userName;
+
+    /**
+     * 用户头像
+     */
+    @ApiModelProperty("用户头像")
+    @TableField("avatar")
+    private String avatar;
 
     /**
      * 电话号
@@ -63,14 +73,13 @@ public class User {
      */
     @ApiModelProperty(value = "密码", notes = "用户登录时使用")
     @TableField("password")
-    @Size(max = 16)
     private String password;
 
     /**
      * 用户类型
-     * 1为管理员，0为普通用户，-1为已删除用户
+     * 1为管理员, 0为普通用户, -1为已删除用户
      */
-    @ApiModelProperty(value = "权限", notes = "用于判断登录用户的操作权限")
+    @ApiModelProperty(value = "权限", notes = "用于判断登录用户的操作权限：1为管理员, 0为普通用户, -1为已删除用户")
     @TableField("user_type")
     private int userType;
 
