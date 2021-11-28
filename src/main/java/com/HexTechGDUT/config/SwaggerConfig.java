@@ -33,7 +33,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket userDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
                 .groupName("user")
@@ -45,7 +45,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket animalDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
                 .groupName("animal")
@@ -57,7 +57,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket applicationDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
                 .groupName("application")
@@ -69,7 +69,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket commentDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
                 .groupName("comment")
@@ -81,7 +81,7 @@ public class SwaggerConfig {
 
     @Bean
     public Docket tipsDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
                 .groupName("tips")
@@ -104,3 +104,4 @@ public class SwaggerConfig {
         );
     }
 }
+

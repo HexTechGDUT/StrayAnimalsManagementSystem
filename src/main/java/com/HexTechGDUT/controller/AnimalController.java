@@ -1,6 +1,7 @@
 package com.HexTechGDUT.controller;
 
 import com.HexTechGDUT.entity.bo.PageQueryAnimalBo;
+import com.HexTechGDUT.entity.bo.QueryAllAnimalsBo;
 import com.HexTechGDUT.entity.po.AnimalImg;
 import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.HexTechGDUT.entity.vo.AnimalQuery;
@@ -18,6 +19,9 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,31 +51,57 @@ public class AnimalController {
      */
     @PassToken
     @ApiOperation("查询全部动物")
-    @GetMapping("queryAll/{current}/{limit}")
-    public Result<PageQueryAnimalBo> queryAllAnimals(@PathVariable long current,@PathVariable long limit){
+    @GetMapping("queryAll")
+    public Result<List<QueryAllAnimalsBo>> queryAllAnimals(long current, long limit){
         //创建Bo对象
-        PageQueryAnimalBo bo = new PageQueryAnimalBo();
+        List<QueryAllAnimalsBo> boList = new ArrayList<>();
         //创建page对象
         Page<AnimalRecord> page = new Page<>(current,limit);
         //调用方法实现分页功能
         animalService.page(page,null);
         //获取每个动物信息
         List<AnimalRecord> recordList = page.getRecords();
-        //为了查询所查动物对应的图片，首先遍历结果集
-        for(AnimalRecord record : recordList){
-            //切分动物的地址, 便于前端处理
-            record.setReturnAddress(record.getLastAddress().split(ADDRESS_REGEX));
-            //取出动物信息的id, 并查询id对应的图片list
-            List<AnimalImg> animalImgList = animalImgService.queryAnimalImgListByAnimalId(record.getId());
-            //将图片的list存入record中
-            record.setAnimalImgList(animalImgList);
+
+        for(int i=0;i<recordList.size();i++){
+            QueryAllAnimalsBo bo = new QueryAllAnimalsBo();
+            Integer animalId = recordList.get(i).getId();
+            //首页每个动物只需显示一张图片，故直接取第一张图片的url即可
+            String imgUrl = animalImgService.queryAnimalImgListByAnimalId(recordList.get(0).getId()).get(0).getPath();
+            //同理，获取该动物第一张图片的纵横比
+            String aspectRatio = animalImgService.queryAnimalImgListByAnimalId(recordList.get(0).getId()).get(0).getAspectRatio();
+            //获取结果集中每个动物的昵称
+            String nickname = recordList.get(i).getAnimalNickname();
+            //获取结果集中每个动物的上传时间
+            LocalDateTime createTime = recordList.get(i).getCreateTime();
+            //将上传时间转换为"年-月-日"的格式，方便前端显示
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            //规范化时间
+            String formatCreateTime = createTime.format(formatter);
+            bo.setAnimalId(animalId);
+            bo.setAspectRatio(aspectRatio);
+            bo.setImgUrl(imgUrl);
+            bo.setAnimalNickname(nickname);
+            bo.setCreateTime(formatCreateTime);
+            //将对象传给boList
+            boList.add(bo);
         }
-        //总记录数
-        bo.setTotal(page.getTotal());
+        return ResultUtils.success(boList);
+    }
 
-        bo.setAnimalRecordList(recordList);
-
-        return ResultUtils.success(bo);
+    /**
+     * 前端点入动物详情时，查询这个动物的所有信息
+     * @param animalId 动物id
+     * @return 结果
+     */
+    @PassToken
+    @ApiOperation("查询一条动物记录")
+    @GetMapping("queryOneAnimal")
+    public Result<AnimalRecord> queryOneAnimal(Integer animalId){
+        AnimalRecord animalRecord = animalService.getById(animalId);
+        if(animalRecord==null){
+            return ResultUtils.failWithInfo(null,"没有查询到该动物");
+        }
+        return ResultUtils.success(animalRecord);
     }
 
     /**
@@ -123,8 +153,8 @@ public class AnimalController {
      */
     @PassToken
     @ApiOperation("通过多种条件查询动物")
-    @PostMapping("queryAnimal/{current}/{limit}")
-    public Result<PageQueryAnimalBo> queryAnimal(@PathVariable long current, @PathVariable long limit, @RequestBody AnimalQuery animalQuery){
+    @PostMapping("queryAnimal")
+    public Result<PageQueryAnimalBo> queryAnimal(long current,long limit, @RequestBody AnimalQuery animalQuery){
         //创建Bo对象
         PageQueryAnimalBo bo = new PageQueryAnimalBo();
         //创建分页对象

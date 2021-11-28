@@ -37,6 +37,7 @@ public class AnimalRecord {
     @TableId("id")
     private Integer id;
 
+
     /**
      * 动物昵称
      */
@@ -91,6 +92,13 @@ public class AnimalRecord {
     @ApiModelProperty("目前状态")
     @TableField("status")
     private int status;
+
+    /**
+     * 动物的健康状况
+     */
+    @ApiModelProperty("健康状况")
+    @TableField("health")
+    private String health;
 
     /**
      * 记录的类型
