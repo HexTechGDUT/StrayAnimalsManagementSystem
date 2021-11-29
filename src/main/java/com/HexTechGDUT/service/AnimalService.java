@@ -59,4 +59,14 @@ public interface AnimalService extends IService<AnimalRecord>{
      */
     List<AnimalRecord> queryAnimalLikeAddress(String address);
 
+    /**
+     * 通过申请的id获取动物信息
+     * @param applicationId 申请id
+     * @return animalRecord 动物信息实体类
+     */
+    AnimalRecord getAnimalByApplicationId(Integer applicationId);
+
+    int acceptApplication(Integer applicationId);
+
+    int denyApplication(Integer applicationId);
 }

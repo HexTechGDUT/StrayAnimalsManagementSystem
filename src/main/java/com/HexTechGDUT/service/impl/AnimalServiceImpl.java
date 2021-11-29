@@ -1,12 +1,18 @@
 package com.HexTechGDUT.service.impl;
 
 import com.HexTechGDUT.dao.AnimalMapper;
+import com.HexTechGDUT.dao.ApplicationMapper;
 import com.HexTechGDUT.entity.po.AnimalRecord;
+
+import com.HexTechGDUT.entity.po.Application;
 import com.HexTechGDUT.service.AnimalService;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -14,6 +20,10 @@ import java.util.List;
  */
 @Service
 public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> implements AnimalService{
+
+    @Resource
+    ApplicationMapper applicationMapper;
+
     /**
      * 动物登记;
      *
@@ -92,6 +102,41 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
         return null;
     }
 
+    /**
+     * 通过申请的id获取动物信息
+     *
+     * @param applicationId 申请id
+     * @return animalRecord 动物信息实体类
+     */
+    @Override
+    public AnimalRecord getAnimalByApplicationId(Integer applicationId) {
+        //首先通过id获取application对象
+        Application application = applicationMapper.selectById(applicationId);
+        String animalRecordJson = application.getInformation();
+        return JSONObject.parseObject(animalRecordJson,AnimalRecord.class);
+    }
 
+    /**
+     * 通过申请id将申请字段的状态改为已通过，由于这部分的逻辑是和增加和修改动物信息绑定在一起的，故不需要Application模块编写
+     * @param applicationId 申请id
+     * @return 是否成功通过申请
+     */
+    public int acceptApplication(Integer applicationId){
+        //首先通过id获取application对象
+        Application application = applicationMapper.selectById(applicationId);
+        application.setStatus(1);
+        return applicationMapper.update(application,null);
+    }
 
+    /**
+     * 通过申请id将申请字段的状态改为已拒绝
+     * @param applicationId 申请id
+     * @return 是否成功拒绝申请
+     */
+    public int denyApplication(Integer applicationId){
+        //首先通过id获取application对象
+        Application application = applicationMapper.selectById(applicationId);
+        application.setStatus(2);
+        return applicationMapper.update(application,null);
+    }
 }

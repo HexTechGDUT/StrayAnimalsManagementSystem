@@ -63,10 +63,11 @@ public class AnimalRecord {
     private String lastAddress;
 
     /**
-     * 返回给前端时切分后的地址数组
+     * 最后出现位置的索引
      */
-    @TableField(exist = false)
-    private String[] returnAddress;
+    @ApiModelProperty("该动物最后出现的位置的索引，方便前端处理")
+    @TableField("last_address_index")
+    private String lastAddressIndex;
 
     /**
      * 动物的品种
@@ -75,6 +76,13 @@ public class AnimalRecord {
     @TableField("animal_type")
     @Size(max = 10)
     private String animalType;
+
+    /**
+     * 动物品种的索引
+     */
+    @ApiModelProperty("动物品种的索引，方便前端处理")
+    @TableField("animal_type_index")
+    private String animalTypeIndex;
 
     /**
      * 额外信息
@@ -99,6 +107,13 @@ public class AnimalRecord {
     @ApiModelProperty("健康状况")
     @TableField("health")
     private String health;
+
+    /**
+     * 健康状况的索引
+     */
+    @ApiModelProperty("健康状况的索引，方便前端处理")
+    @TableField("health_index")
+    private String healthIndex;
 
     /**
      * 记录的类型
