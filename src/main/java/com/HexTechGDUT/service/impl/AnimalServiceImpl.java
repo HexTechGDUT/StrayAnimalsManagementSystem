@@ -23,9 +23,7 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
 
     @Resource
     ApplicationMapper applicationMapper;
-
-    @Resource
-    AnimalUserMapper animalUserMapper;
+    
 
     /**
      * 动物登记;
