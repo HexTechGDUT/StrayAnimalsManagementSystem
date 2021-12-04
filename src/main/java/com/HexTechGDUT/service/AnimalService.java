@@ -1,6 +1,8 @@
 package com.HexTechGDUT.service;
 
+import com.HexTechGDUT.entity.bo.ApplicationListBo;
 import com.HexTechGDUT.entity.po.AnimalRecord;
+import com.HexTechGDUT.entity.po.Application;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -69,4 +71,6 @@ public interface AnimalService extends IService<AnimalRecord>{
     int acceptApplication(Integer applicationId);
 
     int denyApplication(Integer applicationId);
+
+    List<Application> queryApplicationListByUserId(String userId);
 }

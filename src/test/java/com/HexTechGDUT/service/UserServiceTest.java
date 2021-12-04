@@ -12,12 +12,12 @@ public class UserServiceTest {
     @Resource
     UserService userService;
 
-    @Test
-    public void loginTest(){
-        UidAndPwdBo uidAndPwdBo = new UidAndPwdBo("uid0001", "password01");
-        System.out.println(userService.login(uidAndPwdBo));
-
-    }
+//    @Test
+//    public void loginTest(){
+//        UidAndPwdBo uidAndPwdBo = new UidAndPwdBo("uid0001", "password01");
+//        System.out.println(userService.login(uidAndPwdBo));
+//
+//    }
 
     @Test
     public void queryUserByIdTest(){

@@ -1,9 +1,11 @@
 package com.HexTechGDUT.controller;
 
+import com.HexTechGDUT.entity.bo.ApplicationListBo;
 import com.HexTechGDUT.entity.bo.ConditionalQueryAnimalsBo;
 import com.HexTechGDUT.entity.bo.QueryAllAnimalsBo;
 import com.HexTechGDUT.entity.po.AnimalImg;
 import com.HexTechGDUT.entity.po.AnimalRecord;
+import com.HexTechGDUT.entity.po.Application;
 import com.HexTechGDUT.entity.vo.AnimalQuery;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
@@ -218,4 +220,30 @@ public class AnimalController {
         }
         return ResultUtils.fail("删除失败");
     }
+
+    /**
+     * 查看一名用户的所有申请
+     * @param userId 用户id
+     * @return 申请列表
+     */
+    @AuthToken
+    @ApiOperation("通过用户id查询该用户的所有申请")
+    @GetMapping("queryApplicationList")
+    public Result<List<ApplicationListBo>> queryApplicationList(String userId){
+        List<ApplicationListBo> boList = new ArrayList<>();
+        List<Application> applicationList = animalService.queryApplicationListByUserId(userId);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        for(int i=0;i<applicationList.size();i++){
+            Application application = applicationList.get(i);
+            ApplicationListBo bo = new ApplicationListBo();
+            bo.setApplicationId(application.getId());
+            bo.setImgUrl(animalService.getAnimalByApplicationId(application.getId()).getAnimalImgList().get(0).getPath());
+            bo.setStatus(application.getStatus());
+            bo.setUpdateTime(application.getUpdateTime().format(formatter));
+            boList.set(i,bo);
+        }
+    return ResultUtils.success(boList);
+    }
+
+
 }

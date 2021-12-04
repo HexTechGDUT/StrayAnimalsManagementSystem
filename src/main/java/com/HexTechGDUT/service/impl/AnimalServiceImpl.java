@@ -24,6 +24,9 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
     @Resource
     ApplicationMapper applicationMapper;
 
+    @Resource
+    AnimalUserMapper animalUserMapper;
+
     /**
      * 动物登记;
      *
@@ -121,6 +124,7 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
      * @param applicationId 申请id
      * @return 是否成功通过申请
      */
+    @Override
     public int acceptApplication(Integer applicationId){
         //首先通过id获取application对象
         Application application = applicationMapper.selectById(applicationId);
@@ -133,10 +137,26 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
      * @param applicationId 申请id
      * @return 是否成功拒绝申请
      */
+    @Override
     public int denyApplication(Integer applicationId){
         //首先通过id获取application对象
         Application application = applicationMapper.selectById(applicationId);
         application.setStatus(2);
         return applicationMapper.update(application,null);
     }
+
+    /**
+     * 通过用户id查询该用户的所有申请
+     * @param userId 用户id
+     * @return 申请列表
+     */
+    @Override
+    public List<Application> queryApplicationListByUserId(String userId) {
+        List<Application> applicationList;
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",userId);
+        applicationList = applicationMapper.selectList(wrapper);
+        return applicationList;
+    }
+
 }
