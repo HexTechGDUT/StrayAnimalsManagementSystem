@@ -7,6 +7,7 @@ import com.HexTechGDUT.security.PassToken;
 import com.HexTechGDUT.service.TipsService;
 import com.HexTechGDUT.utils.ResultUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.validation.annotation.Validated;
@@ -62,6 +63,7 @@ public class TipsController {
 
     @AuthToken(value = 1)
     @ApiOperation("删除文章")
+    @ApiImplicitParam(name = "id", value = "文章id", dataType = "Integer",required = true)
     @PostMapping("/delete")
     public Result<String> delete(@ApiParam("tips id") @Validated @RequestBody int id){
         boolean isSuccess = tipsService.delete(id) == 1;
@@ -104,6 +106,7 @@ public class TipsController {
      */
     @PassToken
     @ApiOperation("根据文章id查询文章")
+    @ApiImplicitParam(name = "id", value = "文章id", dataType = "Integer", required = true)
     @PostMapping("/queryTipsById")
     public Result<Tips> queryTipsById(@ApiParam("tips id") @Validated @RequestBody int id){
         Tips tips = tipsService.queryTipsById(id);
@@ -120,6 +123,7 @@ public class TipsController {
      */
     @PassToken
     @ApiOperation("根据题目模糊查询文章")
+    @ApiImplicitParam(name = "title", value = "标题", dataType = "String", required = true)
     @PostMapping("/queryTipsLikeTitle")
     public Result<List<Tips>> queryTipsLikeTitle(@ApiParam("tips标题") @Validated @RequestBody String title){
         List<Tips> tipsList = tipsService.queryTipsLikeTitle(title);
