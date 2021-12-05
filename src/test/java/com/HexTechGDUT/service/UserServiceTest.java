@@ -13,10 +13,15 @@ public class UserServiceTest {
     UserService userService;
 
     @Test
-    public void loginTest(){
-        UidAndPwdBo uidAndPwdBo = new UidAndPwdBo("uid0001", "password01");
-        System.out.println(userService.login(uidAndPwdBo));
+    public void registerTest(){
+//        UidAndPwdBo uidAndPwdBo = new UidAndPwdBo("u1", "p1");
+//        System.out.println(userService.register(uidAndPwdBo));
+    }
 
+    @Test
+    public void loginTest(){
+//        UidAndPwdBo uidAndPwdBo = new UidAndPwdBo("uid0001", "password01");
+//        System.out.println(userService.login(uidAndPwdBo));
     }
 
     @Test
