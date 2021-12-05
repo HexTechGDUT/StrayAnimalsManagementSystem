@@ -6,9 +6,9 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/stray_animals_management_system?useSSL=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
-      username: root
-      password: root
+      url: url=jdbc:mysql://1.14.202.218:3306/stray_animals_management_system?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      username: moxiaoxiao
+      password: moxiaoxiao-mysql
       initial-size: 10
       max-active: 30
       min-idle: 5
@@ -27,6 +27,7 @@ mybatis-plus:
     map-underscore-to-camel-case: true
   type-aliases-package: com.HexTechGDUT.entity.po
 
-#logging:
-#  level: warn
-
+aliyun.oss.file.endpoint: oss-cn-shenzhen.aliyuncs.com
+aliyun.oss.file.keyid: LTAI5tKz4Pn4Rjw8xYN5Wp4b
+aliyun.oss.file.keysecret: D3c0IfghhPj0de7aqahSn0tTGd7mW7
+aliyun.oss.file.bucketname: se-byflandre

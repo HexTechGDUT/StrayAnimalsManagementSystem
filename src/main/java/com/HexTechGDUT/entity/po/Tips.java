@@ -1,9 +1,6 @@
 package com.HexTechGDUT.entity.po;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -16,6 +13,7 @@ import java.time.LocalDateTime;
  * 文章
  * @author HexTechGDUT
  */
+
 @ApiModel("文章")
 @Data
 @NoArgsConstructor
@@ -28,7 +26,7 @@ public class Tips {
      * 文章id
      */
     @ApiModelProperty("文章id")
-    @TableId("id")
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**

@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 动物
@@ -35,20 +37,13 @@ public class AnimalRecord {
     @TableId("id")
     private Integer id;
 
-    /**
-     * 上传者id
-     */
-    @ApiModelProperty("上传者id")
-    @TableField("user_id")
-    private String userId;
 
     /**
-     * 动物名字
-     * 由上传者自定义
+     * 动物昵称
      */
-    @ApiModelProperty("动物名字")
-    @TableField("animal_name")
-    private String animalName;
+    @ApiModelProperty("动物昵称")   
+    @TableField("animal_nickname")
+    private String animalNickname;
 
     /**
      * 该动物出现的时间
@@ -66,6 +61,12 @@ public class AnimalRecord {
     @TableField("last_address")
     @Size(max = 50)
     private String lastAddress;
+
+    /**
+     * 返回给前端时切分后的地址数组
+     */
+    @TableField(exist = false)
+    private String[] returnAddress;
 
     /**
      * 动物的品种
@@ -93,6 +94,13 @@ public class AnimalRecord {
     private int status;
 
     /**
+     * 动物的健康状况
+     */
+    @ApiModelProperty("健康状况")
+    @TableField("health")
+    private String health;
+
+    /**
      * 记录的类型
      * 为流浪动物，还是弃养动物，还是寻找失去的宠物
      */
@@ -115,4 +123,9 @@ public class AnimalRecord {
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
+    /**
+     * 一个动物可能对应多张图片，用ArrayList存储
+     */
+    @TableField(exist = false)
+    private List<AnimalImg> animalImgList = new ArrayList<>();
 }

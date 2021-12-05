@@ -3,6 +3,8 @@ package com.HexTechGDUT.service;
 import com.HexTechGDUT.entity.po.AnimalImg;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * @author HexTechGDUT
  */
@@ -22,4 +24,10 @@ public interface AnimalImgService extends IService<AnimalImg> {
      */
     int deleteImg(String id);
 
+    /**
+     * 根据动物id查询这个动物所有的图片
+     * @param animalId 动物id
+     * @return animalImgList 动物图片的List
+     */
+    List<AnimalImg> queryAnimalImgListByAnimalId(int animalId);
 }

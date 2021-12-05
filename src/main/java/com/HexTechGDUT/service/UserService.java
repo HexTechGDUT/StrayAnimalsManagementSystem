@@ -1,6 +1,7 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.entity.bo.LoginBo;
+import com.HexTechGDUT.entity.bo.UidAndPwdBo;
+import com.HexTechGDUT.entity.bo.UserLoginBo;
 import com.HexTechGDUT.entity.po.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,17 +14,17 @@ public interface UserService extends IService<User> {
 
     /**
      * 用户注册
-     * @param user 注册用户
+     * @param uidAndPwdBo 注册用户
      * @return 是否注册成功
      */
-    int register(User user);
+    int register(UidAndPwdBo uidAndPwdBo);
 
     /**
      * 用户登录
-     * @param loginBo 登录帐号和密码
+     * @param uidAndPwdBo 登录帐号和密码
      * @return String token
      */
-    String login(LoginBo loginBo);
+    UserLoginBo login(UidAndPwdBo uidAndPwdBo);
 
     /**
      * 用户信息更新
@@ -35,10 +36,10 @@ public interface UserService extends IService<User> {
     /**
      * 删除用户
      * 将userType设为-1
-     * @param uid uid
+     * @param userId userId
      * @return 是否删除成功
      */
-    int deleteUser(String uid);
+    int deleteUser(String userId);
 
     /**
      * 通过userid查询用户

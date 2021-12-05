@@ -1,14 +1,14 @@
-package com.HexTechGDUT.swagger;
+package com.HexTechGDUT.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 
@@ -16,15 +16,14 @@ import java.util.ArrayList;
  * @author HexTechGDUT
  */
 @Configuration
-@EnableOpenApi
+@EnableSwagger2
 public class SwaggerConfig {
 
     @Bean
     public Docket docket() {
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
-                //有空再分组
                 .groupName("All")
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.HexTechGDUT.controller"))
@@ -34,10 +33,9 @@ public class SwaggerConfig {
 
     @Bean
     public Docket userDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
-                //有空再分组
                 .groupName("user")
                 .select()
                 .apis(RequestHandlerSelectors.any())
@@ -47,10 +45,9 @@ public class SwaggerConfig {
 
     @Bean
     public Docket animalDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
-                //有空再分组
                 .groupName("animal")
                 .select()
                 .apis(RequestHandlerSelectors.any())
@@ -60,10 +57,9 @@ public class SwaggerConfig {
 
     @Bean
     public Docket applicationDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
-                //有空再分组
                 .groupName("application")
                 .select()
                 .apis(RequestHandlerSelectors.any())
@@ -73,23 +69,21 @@ public class SwaggerConfig {
 
     @Bean
     public Docket commentDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
-                //有空再分组
                 .groupName("comment")
                 .select()
                 .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.ant("/comment/**"))
+                .paths(PathSelectors.ant("/animal/comment/**"))
                 .build();
     }
 
     @Bean
     public Docket tipsDocket(){
-        return new Docket(DocumentationType.OAS_30)
+        return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .enable(true)
-                //有空再分组
                 .groupName("tips")
                 .select()
                 .apis(RequestHandlerSelectors.any())
@@ -110,3 +104,4 @@ public class SwaggerConfig {
         );
     }
 }
+

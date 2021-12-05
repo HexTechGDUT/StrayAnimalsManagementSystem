@@ -8,27 +8,27 @@ import org.springframework.stereotype.Component;
 import javax.validation.constraints.NotBlank;
 
 /**
- * 用户登录时传帐号和密码
+ * 用户注册或登录时传帐号和密码
  * @author HexTechGDUT
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Component
-@ApiModel(value = "用户登录Bo", description = "包括用户id,密码")
-public class LoginBo {
+@ApiModel(value = "用户注册或登录Bo", description = "包括用户id,密码")
+public class UidAndPwdBo {
 
     /**
-     * 登录帐号
+     * 帐号
      */
-    @ApiModelProperty(value = "登录id")
+    @ApiModelProperty(value = "用户id")
     @NotBlank(message = "帐号不能为空")
     private String userId;
 
     /**
-     * 登录密码
+     * 密码
      */
-    @ApiModelProperty(value = "登录密码")
+    @ApiModelProperty(value = "密码")
     @NotBlank(message = "密码不能为空")
     private String pwd;
 }
