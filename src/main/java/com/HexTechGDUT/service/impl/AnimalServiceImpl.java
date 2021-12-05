@@ -23,7 +23,7 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
 
     @Resource
     ApplicationMapper applicationMapper;
-    
+
 
     /**
      * 动物登记;
@@ -126,8 +126,10 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
     public int acceptApplication(Integer applicationId){
         //首先通过id获取application对象
         Application application = applicationMapper.selectById(applicationId);
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",applicationId);
         application.setStatus(1);
-        return applicationMapper.update(application,null);
+        return applicationMapper.update(application,wrapper);
     }
 
     /**
@@ -139,8 +141,10 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
     public int denyApplication(Integer applicationId){
         //首先通过id获取application对象
         Application application = applicationMapper.selectById(applicationId);
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",applicationId);
         application.setStatus(2);
-        return applicationMapper.update(application,null);
+        return applicationMapper.update(application,wrapper);
     }
 
     /**
@@ -155,6 +159,21 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
         wrapper.eq("user_id",userId);
         applicationList = applicationMapper.selectList(wrapper);
         return applicationList;
+    }
+
+    /**
+     * 将一个动物的状态改为已被领养
+     *
+     * @param animalId 动物id
+     * @return 结果
+     */
+    @Override
+    public int animalAdoption(Integer animalId) {
+        AnimalRecord animalRecord = baseMapper.selectById(animalId);
+        QueryWrapper<AnimalRecord> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",animalId);
+        animalRecord.setStatus(1);
+        return baseMapper.update(animalRecord,wrapper);
     }
 
 }

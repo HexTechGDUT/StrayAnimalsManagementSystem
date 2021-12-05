@@ -1,9 +1,6 @@
 package com.HexTechGDUT.entity.po;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -34,7 +31,7 @@ public class AnimalRecord {
      * 动物记录id
      */
     @ApiModelProperty("动物id")
-    @TableId("id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
 
 
@@ -65,9 +62,13 @@ public class AnimalRecord {
     /**
      * 最后出现位置的索引
      */
-    @ApiModelProperty("该动物最后出现的位置的索引，方便前端处理")
-    @TableField("last_address_index")
-    private String lastAddressIndex;
+    @ApiModelProperty("该动物最后出现的位置的一级索引，方便前端处理")
+    @TableField("address_first_index")
+    private int addressFirstIndex;
+
+    @ApiModelProperty("该动物最后出现的位置的二级索引，方便前端处理")
+    @TableField("address_second_index")
+    private int addressSecondIndex;
 
     /**
      * 动物的品种

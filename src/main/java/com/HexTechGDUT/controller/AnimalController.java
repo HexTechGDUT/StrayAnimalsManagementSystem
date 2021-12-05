@@ -59,17 +59,17 @@ public class AnimalController {
         //获取每个动物信息
         List<AnimalRecord> recordList = page.getRecords();
 
-        for(int i=0;i<recordList.size();i++){
+        for (AnimalRecord animalRecord : recordList) {
             QueryAllAnimalsBo bo = new QueryAllAnimalsBo();
-            Integer animalId = recordList.get(i).getId();
+            Integer animalId = animalRecord.getId();
             //首页每个动物只需显示一张图片，故直接取第一张图片的url即可
-            String imgUrl = animalImgService.queryAnimalImgListByAnimalId(recordList.get(0).getId()).get(0).getPath();
+            String imgUrl = animalImgService.queryAnimalImgListByAnimalId(animalRecord.getId()).get(0).getPath();
             //同理，获取该动物第一张图片的纵横比
-            String aspectRatio = animalImgService.queryAnimalImgListByAnimalId(recordList.get(0).getId()).get(0).getAspectRatio();
+            String aspectRatio = animalImgService.queryAnimalImgListByAnimalId(animalRecord.getId()).get(0).getAspectRatio();
             //获取结果集中每个动物的昵称
-            String nickname = recordList.get(i).getAnimalNickname();
+            String nickname = animalRecord.getAnimalNickname();
             //获取结果集中每个动物的上传时间
-            LocalDateTime createTime = recordList.get(i).getCreateTime();
+            LocalDateTime createTime = animalRecord.getCreateTime();
             //将上传时间转换为"年-月-日"的格式，方便前端显示
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             //规范化时间
@@ -178,7 +178,7 @@ public class AnimalController {
         String addressIndex = animalQuery.getLastAddressIndex();
         int status = animalQuery.getStatus();
 
-        wrapper.eq("last_address_index",addressIndex);
+        wrapper.eq("address_first_index",addressIndex);
         wrapper.eq("status",status);
 
         //根据最新的修改时间时间进行排序
@@ -192,10 +192,13 @@ public class AnimalController {
         for(int i=0;i<recordList.size();i++){
             //创建bo对象
             ConditionalQueryAnimalsBo bo = new ConditionalQueryAnimalsBo();
+            //获取动物id
+            Integer animalId = recordList.get(i).getId();
             bo.setAnimalNickname(recordList.get(i).getAnimalNickname());
             bo.setAnimalType(recordList.get(i).getAnimalType());
+            bo.setLastAddress(recordList.get(i).getLastAddress());
             //只需要显示一张动物图片，所以只需要取每个动物图片List里的第一张图片
-            bo.setImgUrl(recordList.get(i).getAnimalImgList().get(0).getPath());
+            bo.setImgUrl(animalImgService.queryAnimalImgListByAnimalId(animalId).get(0).getPath());
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             //规范化时间
             String formatCreateTime = recordList.get(i).getCreateTime().format(formatter);
@@ -203,6 +206,14 @@ public class AnimalController {
             boList.add(i,bo);
         }
         return ResultUtils.success(boList);
+    }
+
+    @PassToken
+    @ApiOperation("用户申请领养动物")
+    @PostMapping("animalAdoption")
+    public Result<String> applyForAnimalAdoption(Integer animalId){
+        animalService.animalAdoption(animalId);
+        return ResultUtils.success("申请领养成功！");
     }
 
     /**

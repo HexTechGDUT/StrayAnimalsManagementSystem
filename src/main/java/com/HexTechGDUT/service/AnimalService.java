@@ -73,4 +73,11 @@ public interface AnimalService extends IService<AnimalRecord>{
     int denyApplication(Integer applicationId);
 
     List<Application> queryApplicationListByUserId(String userId);
+
+    /**
+     * 将一个动物的状态改为已被领养
+     * @param animalId 动物id
+     * @return 结果
+     */
+    int animalAdoption(Integer animalId);
 }

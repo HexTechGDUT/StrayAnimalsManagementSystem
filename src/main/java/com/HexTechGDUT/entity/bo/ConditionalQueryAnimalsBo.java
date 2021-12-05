@@ -33,6 +33,11 @@ public class ConditionalQueryAnimalsBo {
     public String updateTime;
 
     /**
+     * 最后出现的位置
+     */
+    public String lastAddress;
+
+    /**
      * 图片路径
      */
     public String imgUrl;
