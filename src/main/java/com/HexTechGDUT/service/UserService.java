@@ -24,7 +24,7 @@ public interface UserService extends IService<User> {
      * @param uidAndPwdBo 登录帐号和密码
      * @return String token
      */
-    UserLoginBo login(UidAndPwdBo uidAndPwdBo);
+    String login(UidAndPwdBo uidAndPwdBo);
 
     /**
      * 用户信息更新

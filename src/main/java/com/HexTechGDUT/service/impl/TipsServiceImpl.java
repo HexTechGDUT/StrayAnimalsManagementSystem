@@ -49,7 +49,7 @@ public class TipsServiceImpl extends ServiceImpl<TipsMapper, Tips> implements Ti
     public Tips queryRandomTips(){
         QueryWrapper<Tips> wrapper = new QueryWrapper<>();
         List<Tips> tipsList = baseMapper.selectList(wrapper);
-        return queryTipsById(RandomUtils.randomInt(tipsList.size()));
+        return tipsList.get(RandomUtils.randomInt(tipsList.size()-1));
     }
 
     @Override

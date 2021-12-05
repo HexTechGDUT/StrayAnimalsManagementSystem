@@ -2,7 +2,6 @@ package com.HexTechGDUT.service.impl;
 
 import com.HexTechGDUT.entity.bo.UidAndPwdBo;
 import com.HexTechGDUT.dao.UserMapper;
-import com.HexTechGDUT.entity.bo.UserLoginBo;
 import com.HexTechGDUT.entity.po.User;
 import com.HexTechGDUT.service.TokenService;
 import com.HexTechGDUT.service.UserService;
@@ -39,17 +38,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public UserLoginBo login(UidAndPwdBo uidAndPwdBo) {
+    public String login(UidAndPwdBo uidAndPwdBo) {
         User user = userService.queryUserByUserId(uidAndPwdBo.getUserId());
-        if(user != null && user.getPassword().equals(uidAndPwdBo.getPwd())){
-            return new UserLoginBo(
-                    user.getUserId(),
-                    user.getUserName(),
-                    user.getUserType(),
-                    user.getAvatar() ,
-                    tokenService.generate(user));
+        if(user == null){
+            throw new RuntimeException("帐号不存在");
         }
-        throw new RuntimeException("帐号不存在或密码错误");
+        if(!user.getPassword().equals(uidAndPwdBo.getPwd())){
+            throw new RuntimeException("密码错误");
+        }
+        return tokenService.generate(user);
     }
 
     @Override
