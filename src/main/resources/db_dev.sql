@@ -79,8 +79,8 @@ create table comment (
 )comment '评论';
 
 # 默认三个管理员帐号
-insert into user(user_id, user_name, phone_number, password, user_type, contact_address, additional_information, create_time)
-values ('admin1', 'admin_name1', '123456', 'admin', 1, 'address1', 'info1', '2021-11-11 11:11:11'),
-       ('admin2', 'admin_name2', '123456', 'admin', 1, 'address2', 'info2', '2021-11-11 11:11:11'),
-       ('admin3', 'admin_name3', '123456', 'admin', 1, 'address3', 'info3', '2021-11-11 11:11:11');
+insert into `user`(user_id, user_name, phone_number, `password`, user_type, contact_address, additional_information, create_time, update_time)
+VALUES ('admin1', 'admin_name1', '123456', 'admin', 1, 'address1', 'info1', '2021-11-11 11:11:11', '2021-12-3 11:11:11'),
+       ('admin2', 'admin_name2', '123456', 'admin', 1, 'address2', 'info2', '2021-11-11 11:11:11', '2021-12-3 11:11:11'),
+       ('admin3', 'admin_name3', '123456', 'admin', 1, 'address3', 'info3', '2021-11-11 11:11:11', '2021-12-3 11:11:11');
 
