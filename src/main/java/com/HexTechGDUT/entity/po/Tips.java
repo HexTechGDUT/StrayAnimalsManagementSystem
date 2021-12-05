@@ -26,7 +26,7 @@ public class Tips {
      * 文章id
      */
     @ApiModelProperty("文章id")
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Integer id;
 
     /**

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
  * 登录成功时返回给前端的信息
  * @author HexTechGDUT
  */
+@Deprecated
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

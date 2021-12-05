@@ -24,8 +24,16 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     call-setters-on-nulls: true
+    # 下划线命名 <---> 驼峰命名
     map-underscore-to-camel-case: true
+    # 别名所在的package
   type-aliases-package: com.HexTechGDUT.entity.po
+  global-config:
+    db-config:
+      # 字段为 null 或 “” 时不更新
+      field-strategy: not_empty
+      # 自动更新id的值
+      id-type: auto
 
 aliyun.oss.file.endpoint: oss-cn-shenzhen.aliyuncs.com
 aliyun.oss.file.keyid: LTAI5tKz4Pn4Rjw8xYN5Wp4b
