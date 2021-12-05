@@ -1,14 +1,16 @@
 package com.HexTechGDUT.controller;
 
 import com.HexTechGDUT.entity.bo.UidAndPwdBo;
-import com.HexTechGDUT.entity.bo.UserLoginBo;
 import com.HexTechGDUT.entity.po.User;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
 import com.HexTechGDUT.security.PassToken;
+import com.HexTechGDUT.service.TokenService;
 import com.HexTechGDUT.service.UserService;
 import com.HexTechGDUT.utils.ResultUtils;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,10 +30,13 @@ public class UserController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private TokenService tokenService;
+
     @PassToken
     @ApiOperation("注册")
     @PostMapping("/register")
-    public Result<UserLoginBo> register(@Validated @RequestBody UidAndPwdBo uidAndPwdBo){
+    public Result<String> register(@Validated @RequestBody UidAndPwdBo uidAndPwdBo){
         boolean isSuccess = userService.register(uidAndPwdBo) == 1;
         if(isSuccess){
             return ResultUtils.successWithInfo(userService.login(uidAndPwdBo), "注册成功");
@@ -42,7 +47,7 @@ public class UserController {
     @PassToken
     @ApiOperation("登录")
     @PostMapping("/login")
-    public Result<UserLoginBo> login(@Validated @RequestBody UidAndPwdBo uidAndPwdBo){
+    public Result<String> login(@Validated @RequestBody UidAndPwdBo uidAndPwdBo){
         return ResultUtils.successWithInfo(userService.login(uidAndPwdBo), "登录成功");
     }
 
@@ -67,6 +72,18 @@ public class UserController {
             return ResultUtils.success("更新成功");
         }
         return ResultUtils.fail("更新失败");
+    }
+
+    @PassToken
+    @ApiOperation("通过请求头携带的token查询用户")
+    @PostMapping("queryUserByToken")
+    public Result<User> queryUserByToken(@Validated @RequestBody String token){
+        User user = userService.queryUserByUserId(tokenService.getTokenUid(token));
+        if(user == null){
+            return ResultUtils.failWithInfo(null, "用户不存在");
+        }
+        user.setPassword("");
+        return ResultUtils.success(user);
     }
 
     @AuthToken(value = 1)

@@ -28,7 +28,7 @@ public class User {
     /**
      * User表的id
      */
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id")
     private Integer id;
 
     /**

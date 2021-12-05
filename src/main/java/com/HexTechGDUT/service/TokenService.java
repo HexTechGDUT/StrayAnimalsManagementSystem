@@ -21,7 +21,14 @@ public interface TokenService{
      * 验证成功什么也不做
      * 验证失败抛出异常
      * @param token token
-     * @throws Exception e
      */
-    void verify(String token) throws Exception;
+    void verify(String token);
+
+    /**
+     * 不验证token,直接获取token中的用户id
+     * 通常用于验证完token后验证用户是否存在
+     * @param token token
+     * @return uid
+     */
+    String getTokenUid(String token);
 }
