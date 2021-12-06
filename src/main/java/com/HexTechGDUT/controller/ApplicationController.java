@@ -25,7 +25,7 @@ public class ApplicationController {
     @Resource
     private ApplicationService applicationService;
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("提交申请")
     @PostMapping("/apply")
     public Result<Application> apply(@Validated @RequestBody Application application){
@@ -36,7 +36,7 @@ public class ApplicationController {
         return ResultUtils.failWithInfo(null,"提交失败");
     }
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("取消申请")
     @PostMapping("/cancel")
     public Result<String> cancel(@Validated @RequestBody int id){
@@ -46,7 +46,7 @@ public class ApplicationController {
         return ResultUtils.fail("取消失败");
     }
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("用户修改申请")
     @PostMapping("/update")
     public Result<String> update(@Validated @RequestBody Application application){
@@ -57,7 +57,7 @@ public class ApplicationController {
         return ResultUtils.fail("更新失败");
     }
 
-    @AuthToken(value = 1)
+//    @AuthToken(value = 1)
     @ApiOperation("管理员处理申请")
     @PostMapping("/process")
     public Result<String> process(@Validated @RequestBody Application application){
@@ -67,7 +67,7 @@ public class ApplicationController {
         return ResultUtils.fail("处理失败");
     }
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("通过申请id查询申请")
     @PostMapping("/queryApplicationById")
     public Result<Application> queryApplicationById(@Validated @RequestBody int id){
@@ -78,7 +78,7 @@ public class ApplicationController {
         return ResultUtils.success(application);
     }
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("通过动物id查询申请")
     @PostMapping("/queryApplicationByAnimalId")
     public  Result<List<Application>> queryApplicationByAnimalId(@Validated @RequestBody int animalId){
@@ -89,7 +89,7 @@ public class ApplicationController {
         return ResultUtils.success(applicationList);
     }
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("通过申请状态查询申请")
     @PostMapping("/queryApplicationByStatus")
     public  Result<List<Application>> queryApplicationByStatus(@Validated @RequestBody int status){
@@ -100,7 +100,7 @@ public class ApplicationController {
         return ResultUtils.success(applicationList);
     }
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("通过用户id查询申请")
     @PostMapping("/queryApplicationByUserId")
     public  Result<List<Application>> queryApplicationByUserId(@Validated @RequestBody String userId){

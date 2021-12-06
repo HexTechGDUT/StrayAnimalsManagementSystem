@@ -3,7 +3,7 @@ package com.HexTechGDUT.service.impl;
 import com.HexTechGDUT.entity.bo.UidAndPwdBo;
 import com.HexTechGDUT.dao.UserMapper;
 import com.HexTechGDUT.entity.po.User;
-import com.HexTechGDUT.service.TokenService;
+import com.HexTechGDUT.security.TokenService;
 import com.HexTechGDUT.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

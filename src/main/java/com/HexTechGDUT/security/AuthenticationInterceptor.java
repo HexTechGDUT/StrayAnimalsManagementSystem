@@ -1,8 +1,6 @@
 package com.HexTechGDUT.security;
 
-import com.HexTechGDUT.service.TokenService;
 import com.HexTechGDUT.service.UserService;
-import com.HexTechGDUT.service.impl.JwtTokenServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
@@ -17,6 +15,7 @@ import java.lang.reflect.Method;
 /**
  * @author HexTechGDUT
  */
+@Deprecated
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
@@ -29,7 +28,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest,
                              @Nullable HttpServletResponse httpServletResponse,
-                             @Nullable Object object) throws Exception {
+                             @Nullable Object object) {
         // 从 http 请求头中取出 token
         String token = httpServletRequest.getHeader("token");
         // 如果不是映射到方法直接通过
