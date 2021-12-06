@@ -120,7 +120,6 @@ public class AnimalController {
             animalImg.setAnimalRecordId(animalRecordId);
             animalImgService.addImg(animalImg);
         }
-
         if(isSuccess){
             return ResultUtils.success("添加动物信息成功");
         }
