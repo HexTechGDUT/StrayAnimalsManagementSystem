@@ -52,14 +52,14 @@ public class User {
     /**
      * 用户头像
      */
-    @ApiModelProperty("用户头像")
+    @ApiModelProperty(value = "用户头像", notes = "用户头像存放的路径")
     @TableField("avatar")
     private String avatar;
 
     /**
      * 电话号
      */
-    @ApiModelProperty(value = "电话号", notes = "长度固定为11位")
+    @ApiModelProperty(value = "电话号", notes = "长度为16位以下")
     @TableField("phone_number")
     @Size(max = 16)
     private String phoneNumber;
@@ -67,6 +67,7 @@ public class User {
     /**
      * 密码
      * 长度为8-16位
+     * 以后可能会通过加密存储，因此不设长度上限
      */
     @ApiModelProperty(value = "密码", notes = "用户登录时使用")
     @TableField("password")
@@ -83,10 +84,17 @@ public class User {
     /**
      * 位置
      */
-    @ApiModelProperty(value = "位置", notes = "该字符串最多50字")
+    @ApiModelProperty(value = "位置", notes = "位置信息最多50字")
     @TableField("contact_address")
     @Size(max = 50)
     private String contactAddress;
+
+    /**
+     * 额外信息
+     */
+    @ApiModelProperty("用户额外信息")
+    @TableField("additional_information")
+    private String additionalInformation;
 
     /**
      * 创建时间

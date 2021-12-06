@@ -32,7 +32,7 @@ public class Tips {
     /**
      * 文章标题
      */
-    @ApiModelProperty("文章标题")
+    @ApiModelProperty(value = "文章标题", notes = "标题最长16字")
     @TableField("title")
     @Size(max = 16)
     public String title;
