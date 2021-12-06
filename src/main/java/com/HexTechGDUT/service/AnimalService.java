@@ -36,7 +36,7 @@ public interface AnimalService extends IService<AnimalRecord>{
      * @param animalId animalId
      * @return animal
      */
-    AnimalRecord queryAnimalByAnimalId(String animalId);
+    AnimalRecord queryAnimalByAnimalId(Integer animalId);
 
     /**
      * 通过上传者id查询动物list;

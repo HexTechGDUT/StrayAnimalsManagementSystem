@@ -34,13 +34,8 @@ public class JwtTokenServiceImpl implements TokenService {
     /**
      * token密钥
      */
-    public static final String SECRET = "...";
+    public static final String SECRET = "token secret service";
 
-    /**
-     * 生成token
-     * @param user user
-     * @return String token
-     */
     @Override
     public String generate(User user){
         // 获取过期时间
@@ -67,10 +62,6 @@ public class JwtTokenServiceImpl implements TokenService {
                 .sign(Algorithm.HMAC256(SECRET));
     }
 
-    /**
-     * 验证Token
-     * @param token token
-     */
     @Override
     public void verify(String token) {
         try {
@@ -81,13 +72,8 @@ public class JwtTokenServiceImpl implements TokenService {
         }
     }
 
-    /**
-     * 不验证token,直接获取token中的用户id
-     * 通常用于验证完token后验证用户是否存在
-     * @param token token
-     * @return uid
-     */
-    public static String getTokenUid(String token){
+    @Override
+    public String getTokenUserId(String token){
         if(StringUtils.isEmpty(token)) {
             return "";
         }

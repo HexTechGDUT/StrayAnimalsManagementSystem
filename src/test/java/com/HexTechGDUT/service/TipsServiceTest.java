@@ -48,6 +48,11 @@ public class TipsServiceTest {
     }
 
     @Test
+    public void queryRandomTipsTest(){
+        System.out.println(tipsService.queryRandomTips());
+    }
+
+    @Test
     public void queryTipsByIdTest(){
         System.out.println(tipsService.queryTipsById(1));
     }

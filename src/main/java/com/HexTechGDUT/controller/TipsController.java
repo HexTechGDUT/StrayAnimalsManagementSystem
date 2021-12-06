@@ -7,6 +7,7 @@ import com.HexTechGDUT.security.PassToken;
 import com.HexTechGDUT.service.TipsService;
 import com.HexTechGDUT.utils.ResultUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.validation.annotation.Validated;
@@ -60,13 +61,9 @@ public class TipsController {
         return ResultUtils.failWithInfo(null, "发布文章失败");
     }
 
-    /**
-     * 删除tips
-     * @param id tip id
-     * @return 返回信息
-     */
     @AuthToken(value = 1)
     @ApiOperation("删除文章")
+    @ApiImplicitParam(name = "id", value = "文章id", dataType = "Integer",required = true)
     @PostMapping("/delete")
     public Result<String> delete(@ApiParam("tips id") @Validated @RequestBody int id){
         boolean isSuccess = tipsService.delete(id) == 1;
@@ -82,13 +79,24 @@ public class TipsController {
      */
     @PassToken
     @ApiOperation("查询全部文章")
-    @PostMapping("/queryAllTips")
+    @GetMapping("/queryAllTips")
     public Result<List<Tips>> queryAllTips(){
         List<Tips> tipsList = tipsService.queryAllTips();
         if(tipsList == null || tipsList.isEmpty()){
             return ResultUtils.failWithInfo(null, "没有查询到相关tips");
         }
         return ResultUtils.success(tipsList);
+    }
+
+    @PassToken
+    @ApiOperation("随机查询一篇文章")
+    @GetMapping("/queryRandomTips")
+    public Result<Tips> queryRandomTips(){
+        Tips tips = tipsService.queryRandomTips();
+        if(tips == null){
+            return ResultUtils.failWithInfo(null, "没有查询到tips");
+        }
+        return ResultUtils.success(tips);
     }
 
     /**
@@ -98,6 +106,7 @@ public class TipsController {
      */
     @PassToken
     @ApiOperation("根据文章id查询文章")
+    @ApiImplicitParam(name = "id", value = "文章id", dataType = "Integer", required = true)
     @PostMapping("/queryTipsById")
     public Result<Tips> queryTipsById(@ApiParam("tips id") @Validated @RequestBody int id){
         Tips tips = tipsService.queryTipsById(id);
@@ -114,6 +123,7 @@ public class TipsController {
      */
     @PassToken
     @ApiOperation("根据题目模糊查询文章")
+    @ApiImplicitParam(name = "title", value = "标题", dataType = "String", required = true)
     @PostMapping("/queryTipsLikeTitle")
     public Result<List<Tips>> queryTipsLikeTitle(@ApiParam("tips标题") @Validated @RequestBody String title){
         List<Tips> tipsList = tipsService.queryTipsLikeTitle(title);

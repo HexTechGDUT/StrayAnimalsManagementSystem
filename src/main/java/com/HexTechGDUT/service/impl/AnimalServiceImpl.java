@@ -55,7 +55,7 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
      * @return animal
      */
     @Override
-    public AnimalRecord queryAnimalByAnimalId(String animalId) {
+    public AnimalRecord queryAnimalByAnimalId(Integer animalId) {
         return null;
     }
 

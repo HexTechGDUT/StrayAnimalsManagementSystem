@@ -38,6 +38,12 @@ public interface TipsService extends IService<Tips> {
     List<Tips> queryAllTips();
 
     /**
+     * 随机获取一篇tips
+     * @return tips
+     */
+    Tips queryRandomTips();
+
+    /**
      * 通过id查询文章
      * @param id id
      * @return tips
