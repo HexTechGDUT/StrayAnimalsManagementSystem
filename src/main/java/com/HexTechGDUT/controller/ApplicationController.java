@@ -2,8 +2,6 @@ package com.HexTechGDUT.controller;
 
 import com.HexTechGDUT.entity.bo.ApplicationListBo;
 import com.HexTechGDUT.entity.bo.PageQueryApplicationBo;
-import com.HexTechGDUT.entity.bo.QueryAllApplicationsBo;
-import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.HexTechGDUT.entity.po.Application;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
@@ -12,7 +10,6 @@ import com.HexTechGDUT.service.AnimalService;
 import com.HexTechGDUT.service.ApplicationService;
 import com.HexTechGDUT.utils.ResultUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
