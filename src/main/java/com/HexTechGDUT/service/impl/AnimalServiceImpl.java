@@ -6,6 +6,7 @@ import com.HexTechGDUT.entity.po.AnimalRecord;
 
 import com.HexTechGDUT.entity.po.Application;
 import com.HexTechGDUT.service.AnimalService;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -114,7 +115,11 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
         //首先通过id获取application对象
         Application application = applicationMapper.selectById(applicationId);
         String animalRecordJson = application.getInformation();
-        return JSONObject.parseObject(animalRecordJson,AnimalRecord.class);
+        JSONObject jsonObject = JSON.parseObject(animalRecordJson);
+        System.out.println("---");
+        //System.out.println(jsonObject.getJSONObject("data").toJSONString());
+        System.out.println("---");
+        return JSONObject.parseObject(jsonObject.getJSONObject("data").toJSONString(),AnimalRecord.class);
     }
 
     /**
@@ -157,6 +162,7 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
         List<Application> applicationList;
         QueryWrapper<Application> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",userId);
+        wrapper.eq("status",1);
         applicationList = applicationMapper.selectList(wrapper);
         return applicationList;
     }

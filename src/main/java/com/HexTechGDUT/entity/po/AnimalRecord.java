@@ -126,6 +126,13 @@ public class AnimalRecord {
     private int recordType;
 
     /**
+     * 最后出现时间，在字符串规范化后通过String存储
+     */
+    @ApiModelProperty("最后发现时间")
+    @TableField("last_found_time")
+    private String lastFoundTime;
+
+    /**
      * 创建时间
      */
     @ApiModelProperty("创建时间")

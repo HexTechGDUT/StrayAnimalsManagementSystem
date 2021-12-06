@@ -19,6 +19,11 @@ public class ApplicationListBo {
     public Integer applicationId;
 
     /**
+     * 动物昵称
+     */
+    public String animalNickname;
+
+    /**
      * 图片路径
      */
     public String imgUrl;

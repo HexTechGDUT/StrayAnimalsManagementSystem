@@ -28,5 +28,7 @@ public class QueryAllAnimalsBo {
 
     private String aspectRatio;
 
+    private Integer status;
+
     private String createTime;
 }

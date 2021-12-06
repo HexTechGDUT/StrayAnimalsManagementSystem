@@ -11,8 +11,8 @@ import lombok.Data;
 public class AnimalQuery {
 
     @ApiModelProperty(value = "最后出现的地址的索引")
-    @TableField("last_address_index")
-    private String lastAddressIndex;
+    @TableField("address_first_index")
+    private String addressFirstIndex;
 
     @ApiModelProperty(value = "1=流浪动物 2=走失动物 3=弃养动物")
     @TableField("status")

@@ -1,8 +1,6 @@
 package com.HexTechGDUT.controller;
 
-import com.HexTechGDUT.entity.bo.ApplicationListBo;
-import com.HexTechGDUT.entity.bo.ConditionalQueryAnimalsBo;
-import com.HexTechGDUT.entity.bo.QueryAllAnimalsBo;
+import com.HexTechGDUT.entity.bo.*;
 import com.HexTechGDUT.entity.po.AnimalImg;
 import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.HexTechGDUT.entity.po.Application;
@@ -46,19 +44,22 @@ public class AnimalController {
      * 查询所有动物
      * @return recordList 结果集
      */
-    @PassToken
+
     @ApiOperation("查询全部动物")
     @GetMapping("queryAll")
-    public Result<List<QueryAllAnimalsBo>> queryAllAnimals(long current, long limit){
+    public Result<PageQueryAllAnimalsBo> queryAllAnimals(Long current, Long limit){
         //创建Bo对象
         List<QueryAllAnimalsBo> boList = new ArrayList<>();
+        //创建封装类Bo对象
+        PageQueryAllAnimalsBo pbo = new PageQueryAllAnimalsBo();
         //创建page对象
         Page<AnimalRecord> page = new Page<>(current,limit);
         //调用方法实现分页功能
         animalService.page(page,null);
         //获取每个动物信息
         List<AnimalRecord> recordList = page.getRecords();
-
+        //总记录数
+        Long totalRecordsNum = page.getTotal();
         for (AnimalRecord animalRecord : recordList) {
             QueryAllAnimalsBo bo = new QueryAllAnimalsBo();
             Integer animalId = animalRecord.getId();
@@ -68,6 +69,8 @@ public class AnimalController {
             String aspectRatio = animalImgService.queryAnimalImgListByAnimalId(animalRecord.getId()).get(0).getAspectRatio();
             //获取结果集中每个动物的昵称
             String nickname = animalRecord.getAnimalNickname();
+            //获取每个动物的状态
+            Integer status = animalRecord.getStatus();
             //获取结果集中每个动物的上传时间
             LocalDateTime createTime = animalRecord.getCreateTime();
             //将上传时间转换为"年-月-日"的格式，方便前端显示
@@ -78,11 +81,15 @@ public class AnimalController {
             bo.setAspectRatio(aspectRatio);
             bo.setImgUrl(imgUrl);
             bo.setAnimalNickname(nickname);
+            bo.setStatus(status);
             bo.setCreateTime(formatCreateTime);
             //将对象传给boList
             boList.add(bo);
         }
-        return ResultUtils.success(boList);
+        pbo.setAnimalList(boList);
+        pbo.setTotalRecordsNum(totalRecordsNum);
+
+        return ResultUtils.success(pbo);
     }
 
     /**
@@ -90,14 +97,14 @@ public class AnimalController {
      * @param animalId 动物id
      * @return 结果
      */
-    @PassToken
+
     @ApiOperation("查询一条动物记录")
     @GetMapping("queryOneAnimal")
     public Result<AnimalRecord> queryOneAnimal(Integer animalId){
         AnimalRecord animalRecord = animalService.getById(animalId);
-        if(animalRecord==null){
-            return ResultUtils.failWithInfo(null,"没有查询到该动物");
-        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        animalRecord.setLastFoundTime(animalRecord.getUpdateTime().format(formatter));
+        animalRecord.setAnimalImgList(animalImgService.queryAnimalImgListByAnimalId(animalRecord.getId()));
         return ResultUtils.success(animalRecord);
     }
 
@@ -106,7 +113,7 @@ public class AnimalController {
      * @param applicationId 申请id
      * @return 结果
      */
-    @AuthToken
+
     @ApiOperation("申请通过后，插入一条动物记录")
     @PostMapping("insertAnimal")
     public Result<String> insertAnimal(Integer applicationId){
@@ -132,7 +139,7 @@ public class AnimalController {
      * @param applicationId 申请id
      * @return 结果
      */
-    @AuthToken
+
     @ApiOperation("更新动物记录")
     @PostMapping("updateAnimal")
     public Result<String> updateAnimal(Integer applicationId){
@@ -150,7 +157,7 @@ public class AnimalController {
      * @param applicationId 申请id
      * @return 提示消息
      */
-    @AuthToken
+
     @ApiOperation("拒绝一个申请")
     @PostMapping("denyApplication")
     public Result<String> denyApplication(Integer applicationId){
@@ -165,17 +172,19 @@ public class AnimalController {
      * @param animalQuery 条件查询Vo类：包含动物最后出现的地址和动物的状态
      * @return boList 包含该页面所需动物信息的bo类的List
      */
-    @PassToken
+
     @ApiOperation("通过多种条件查询动物")
     @PostMapping("queryAnimal")
-    public Result<List<ConditionalQueryAnimalsBo>> queryAnimal(long current, long limit, @RequestBody AnimalQuery animalQuery){
+    public Result<PageConditionalQueryAnimalsBo> queryAnimal(Long current, Long limit, @RequestBody AnimalQuery animalQuery){
         List<ConditionalQueryAnimalsBo> boList = new ArrayList<>();
         //创建分页对象
         Page<AnimalRecord> page = new Page<>(current,limit);
         //条件查询对象
         QueryWrapper<AnimalRecord> wrapper = new QueryWrapper<>();
+        //创建Bo对象
+        PageConditionalQueryAnimalsBo pbo = new PageConditionalQueryAnimalsBo();
         //使用动态sql完成组合条件查询
-        String addressIndex = animalQuery.getLastAddressIndex();
+        String addressIndex = animalQuery.getAddressFirstIndex();
         int status = animalQuery.getStatus();
 
         wrapper.eq("address_first_index",addressIndex);
@@ -187,6 +196,8 @@ public class AnimalController {
         animalService.page(page,wrapper);
         //获取当前页的记录
         List<AnimalRecord> recordList = page.getRecords();
+        //返回总记录数
+        Long totalRecordsNum = page.getTotal();
 
         //为了返回每个动物的数据，首先遍历结果集
         for(int i=0;i<recordList.size();i++){
@@ -205,10 +216,13 @@ public class AnimalController {
             bo.setUpdateTime(formatCreateTime);
             boList.add(i,bo);
         }
-        return ResultUtils.success(boList);
+        pbo.setAnimalList(boList);
+        pbo.setTotalRecordsNum(totalRecordsNum);
+
+        return ResultUtils.success(pbo);
     }
 
-    @PassToken
+
     @ApiOperation("用户申请领养动物")
     @PostMapping("animalAdoption")
     public Result<String> applyForAnimalAdoption(Integer animalId){
@@ -221,7 +235,7 @@ public class AnimalController {
      * @param id 动物id
      * @return 是否删除成功
      */
-    @AuthToken
+
     @ApiOperation("通过动物id删除动物")
     @DeleteMapping({"{id}"})
     public Result<String> deleteAnimalRecord(@PathVariable int id){
@@ -237,7 +251,7 @@ public class AnimalController {
      * @param userId 用户id
      * @return 申请列表
      */
-    @AuthToken
+
     @ApiOperation("通过用户id查询该用户的所有申请")
     @GetMapping("queryApplicationList")
     public Result<List<ApplicationListBo>> queryApplicationList(String userId){
@@ -250,8 +264,9 @@ public class AnimalController {
             bo.setApplicationId(application.getId());
             bo.setImgUrl(animalService.getAnimalByApplicationId(application.getId()).getAnimalImgList().get(0).getPath());
             bo.setStatus(application.getStatus());
+            bo.setAnimalNickname(animalService.getAnimalByApplicationId(application.getId()).getAnimalNickname());
             bo.setUpdateTime(application.getUpdateTime().format(formatter));
-            boList.set(i,bo);
+            boList.add(i,bo);
         }
     return ResultUtils.success(boList);
     }
