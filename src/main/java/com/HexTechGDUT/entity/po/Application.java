@@ -52,7 +52,7 @@ public class Application {
      * 申请的具体信息
      */
     @TableField("information")
-    @ApiModelProperty("申请的具体信息")
+    @ApiModelProperty(value = "申请的具体信息",notes = "动物信息相关的JSON")
     private String information;
 
     /**
@@ -66,7 +66,7 @@ public class Application {
      * 31:追加走失动物信息
      */
     @TableField("type")
-    @ApiModelProperty(value = "申请类型", notes = "申请类型,包括领养/弃养/申请走失等")
+    @ApiModelProperty(value = "申请类型", notes = "申请类型,0、发布动物信息/1、修改动物信息")
     private int type;
 
     /**
@@ -74,7 +74,7 @@ public class Application {
      * 0:等待处理,1:申请被通过,2:申请被驳回,3:被申请用户撤销
      */
     @TableField("status")
-    @ApiModelProperty(value = "申请的状态", notes = "申请的状态等待处理/处理中/已处理等")
+    @ApiModelProperty(value = "申请的状态", notes = "0、等待处理/1、通过申请/2、不通过申请/3、用户取消申请")
     private int status;
 
     /**
