@@ -45,6 +45,7 @@ public class AnimalController {
      * @return recordList 结果集
      */
 
+//    @PassToken
     @ApiOperation("查询全部动物")
     @GetMapping("queryAll")
     public Result<PageQueryAllAnimalsBo> queryAllAnimals(Long current, Long limit){
@@ -98,6 +99,8 @@ public class AnimalController {
      * @return 结果
      */
 
+//    @PassToken
+
     @ApiOperation("查询一条动物记录")
     @GetMapping("queryOneAnimal")
     public Result<AnimalRecord> queryOneAnimal(Integer animalId){
@@ -114,7 +117,8 @@ public class AnimalController {
      * @return 结果
      */
 
-    @ApiOperation("申请通过后，插入一条动物记录")
+//    @AuthToken
+    @ApiOperation("插入一条动物记录")
     @PostMapping("insertAnimal")
     public Result<String> insertAnimal(Integer applicationId){
         //首先更改申请状态的字段
@@ -140,6 +144,7 @@ public class AnimalController {
      * @return 结果
      */
 
+//    @AuthToken
     @ApiOperation("更新动物记录")
     @PostMapping("updateAnimal")
     public Result<String> updateAnimal(Integer applicationId){
@@ -172,7 +177,8 @@ public class AnimalController {
      * @param animalQuery 条件查询Vo类：包含动物最后出现的地址和动物的状态
      * @return boList 包含该页面所需动物信息的bo类的List
      */
-
+  
+//    @PassToken
     @ApiOperation("通过多种条件查询动物")
     @PostMapping("queryAnimal")
     public Result<PageConditionalQueryAnimalsBo> queryAnimal(Long current, Long limit, @RequestBody AnimalQuery animalQuery){
@@ -236,6 +242,7 @@ public class AnimalController {
      * @return 是否删除成功
      */
 
+//    @AuthToken
     @ApiOperation("通过动物id删除动物")
     @DeleteMapping({"{id}"})
     public Result<String> deleteAnimalRecord(@PathVariable int id){

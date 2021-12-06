@@ -1,7 +1,6 @@
-package com.HexTechGDUT.service.impl;
+package com.HexTechGDUT.security;
 
 import com.HexTechGDUT.entity.po.User;
-import com.HexTechGDUT.service.TokenService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -63,6 +62,15 @@ public class JwtTokenServiceImpl implements TokenService {
     }
 
     @Override
+    public String refresh(String token) {
+        DecodedJWT jwt = JWT.decode(token);
+        User user = new User();
+        user.setUserId(jwt.getAudience().get(0));
+        user.setUserType(jwt.getClaims().get("auth").asInt());
+        return generate(user);
+    }
+
+    @Override
     public void verify(String token) {
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
@@ -73,7 +81,7 @@ public class JwtTokenServiceImpl implements TokenService {
     }
 
     @Override
-    public String getTokenUid(String token){
+    public String getTokenUserId(String token){
         if(StringUtils.isEmpty(token)) {
             return "";
         }

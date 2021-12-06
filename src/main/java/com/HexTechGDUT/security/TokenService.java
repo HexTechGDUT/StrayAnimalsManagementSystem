@@ -1,4 +1,4 @@
-package com.HexTechGDUT.service;
+package com.HexTechGDUT.security;
 
 import com.HexTechGDUT.entity.po.User;
 
@@ -17,6 +17,12 @@ public interface TokenService{
     String generate(User user);
 
     /**
+     * 刷新token的过期时间
+     * @param token old token
+     * @return new token
+     */
+    String refresh(String token);
+    /**
      * 验证Token
      * 验证成功什么也不做
      * 验证失败抛出异常
@@ -30,5 +36,5 @@ public interface TokenService{
      * @param token token
      * @return uid
      */
-    String getTokenUid(String token);
+    String getTokenUserId(String token);
 }

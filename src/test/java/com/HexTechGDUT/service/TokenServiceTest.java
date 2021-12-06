@@ -1,6 +1,7 @@
 package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.entity.po.User;
+import com.HexTechGDUT.security.TokenService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -29,12 +30,28 @@ public class TokenServiceTest {
     }
 
     @Test
-    public void getTokenUidTest(){
+    public void getTokenUserIdTest(){
         User user = new User();
-        user.setUserId("testu1");
-        user.setPassword("testp1");
+        user.setUserId("test_u1");
+        user.setPassword("test_p1");
         user.setUserType(1);
         String token = tokenService.generate(user);
-        System.out.println(tokenService.getTokenUid(token));
+        System.out.println(tokenService.getTokenUserId(token));
+    }
+
+    @Test
+    public void refreshTest(){
+        User user = new User();
+        user.setUserId("test_u1");
+        user.setPassword("test_p1");
+        user.setUserType(1);
+//        String token = tokenService.generate(user);
+//        System.out.println(token);
+//        try{
+//            Thread.sleep(2000);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        System.out.println(tokenService.refresh(token));
     }
 }
