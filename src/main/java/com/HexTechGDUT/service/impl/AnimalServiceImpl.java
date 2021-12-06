@@ -1,12 +1,19 @@
 package com.HexTechGDUT.service.impl;
 
 import com.HexTechGDUT.dao.AnimalMapper;
+import com.HexTechGDUT.dao.ApplicationMapper;
 import com.HexTechGDUT.entity.po.AnimalRecord;
+
+import com.HexTechGDUT.entity.po.Application;
 import com.HexTechGDUT.service.AnimalService;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -14,6 +21,11 @@ import java.util.List;
  */
 @Service
 public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> implements AnimalService{
+
+    @Resource
+    ApplicationMapper applicationMapper;
+
+
     /**
      * 动物登记;
      *
@@ -92,6 +104,82 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
         return null;
     }
 
+    /**
+     * 通过申请的id获取动物信息
+     *
+     * @param applicationId 申请id
+     * @return animalRecord 动物信息实体类
+     */
+    @Override
+    public AnimalRecord getAnimalByApplicationId(Integer applicationId) {
+        //首先通过id获取application对象
+        Application application = applicationMapper.selectById(applicationId);
+        String animalRecordJson = application.getInformation();
+        JSONObject jsonObject = JSON.parseObject(animalRecordJson);
+        System.out.println("---");
+        //System.out.println(jsonObject.getJSONObject("data").toJSONString());
+        System.out.println("---");
+        return JSONObject.parseObject(jsonObject.getJSONObject("data").toJSONString(),AnimalRecord.class);
+    }
 
+    /**
+     * 通过申请id将申请字段的状态改为已通过，由于这部分的逻辑是和增加和修改动物信息绑定在一起的，故不需要Application模块编写
+     * @param applicationId 申请id
+     * @return 是否成功通过申请
+     */
+    @Override
+    public int acceptApplication(Integer applicationId){
+        //首先通过id获取application对象
+        Application application = applicationMapper.selectById(applicationId);
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",applicationId);
+        application.setStatus(1);
+        return applicationMapper.update(application,wrapper);
+    }
+
+    /**
+     * 通过申请id将申请字段的状态改为已拒绝
+     * @param applicationId 申请id
+     * @return 是否成功拒绝申请
+     */
+    @Override
+    public int denyApplication(Integer applicationId){
+        //首先通过id获取application对象
+        Application application = applicationMapper.selectById(applicationId);
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",applicationId);
+        application.setStatus(2);
+        return applicationMapper.update(application,wrapper);
+    }
+
+    /**
+     * 通过用户id查询该用户的所有申请
+     * @param userId 用户id
+     * @return 申请列表
+     */
+    @Override
+    public List<Application> queryApplicationListByUserId(String userId) {
+        List<Application> applicationList;
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",userId);
+        wrapper.eq("status",1);
+        applicationList = applicationMapper.selectList(wrapper);
+        return applicationList;
+    }
+
+    /**
+     * 将一个动物的状态改为已被领养
+     *
+     * @param animalId 动物id
+     * @return 结果
+     */
+    @Override
+    public int animalAdoption(Integer animalId) {
+        AnimalRecord animalRecord = baseMapper.selectById(animalId);
+        QueryWrapper<AnimalRecord> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",animalId);
+        animalRecord.setStatus(1);
+        return baseMapper.update(animalRecord,wrapper);
+    }
 
 }

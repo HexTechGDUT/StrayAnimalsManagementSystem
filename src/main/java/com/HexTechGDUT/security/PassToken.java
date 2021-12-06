@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
  * 该注解表示http请求无需token
  * @author HexTechGDUT
  */
+@Deprecated
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface PassToken {

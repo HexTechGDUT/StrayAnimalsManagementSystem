@@ -34,7 +34,7 @@ public class TipsController {
      * @param tips tips
      * @return result of tips
      */
-    @AuthToken(value = 1)
+//    @AuthToken(value = 1)
     @ApiOperation("发布文章")
     @PostMapping("/publish")
     public Result<Tips> publish(@ApiParam("提示") @Validated @RequestBody Tips tips){
@@ -50,7 +50,7 @@ public class TipsController {
      * @param tips tips
      * @return result of tips
      */
-    @AuthToken(value = 1)
+//    @AuthToken(value = 1)
     @ApiOperation("更新文章")
     @PostMapping("/update")
     public Result<Tips> update(@ApiParam("提示") @Validated @RequestBody Tips tips){
@@ -61,7 +61,7 @@ public class TipsController {
         return ResultUtils.failWithInfo(null, "发布文章失败");
     }
 
-    @AuthToken(value = 1)
+//    @AuthToken(value = 1)
     @ApiOperation("删除文章")
     @ApiImplicitParam(name = "id", value = "文章id", dataType = "Integer",required = true)
     @PostMapping("/delete")
@@ -77,7 +77,7 @@ public class TipsController {
      * 无需登录即可查询tips
      * @return tips list
      */
-    @PassToken
+//    @PassToken
     @ApiOperation("查询全部文章")
     @GetMapping("/queryAllTips")
     public Result<List<Tips>> queryAllTips(){
@@ -88,7 +88,7 @@ public class TipsController {
         return ResultUtils.success(tipsList);
     }
 
-    @PassToken
+//    @PassToken
     @ApiOperation("随机查询一篇文章")
     @GetMapping("/queryRandomTips")
     public Result<Tips> queryRandomTips(){
@@ -104,7 +104,7 @@ public class TipsController {
      * @param id id
      * @return tips
      */
-    @PassToken
+//    @PassToken
     @ApiOperation("根据文章id查询文章")
     @ApiImplicitParam(name = "id", value = "文章id", dataType = "Integer", required = true)
     @PostMapping("/queryTipsById")
@@ -121,7 +121,7 @@ public class TipsController {
      * @param title tips 标题
      * @return tips list
      */
-    @PassToken
+//    @PassToken
     @ApiOperation("根据题目模糊查询文章")
     @ApiImplicitParam(name = "title", value = "标题", dataType = "String", required = true)
     @PostMapping("/queryTipsLikeTitle")

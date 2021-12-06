@@ -1,6 +1,8 @@
 package com.HexTechGDUT.service;
 
+import com.HexTechGDUT.entity.bo.ApplicationListBo;
 import com.HexTechGDUT.entity.po.AnimalRecord;
+import com.HexTechGDUT.entity.po.Application;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -59,4 +61,23 @@ public interface AnimalService extends IService<AnimalRecord>{
      */
     List<AnimalRecord> queryAnimalLikeAddress(String address);
 
+    /**
+     * 通过申请的id获取动物信息
+     * @param applicationId 申请id
+     * @return animalRecord 动物信息实体类
+     */
+    AnimalRecord getAnimalByApplicationId(Integer applicationId);
+
+    int acceptApplication(Integer applicationId);
+
+    int denyApplication(Integer applicationId);
+
+    List<Application> queryApplicationListByUserId(String userId);
+
+    /**
+     * 将一个动物的状态改为已被领养
+     * @param animalId 动物id
+     * @return 结果
+     */
+    int animalAdoption(Integer animalId);
 }
