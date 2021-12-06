@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.entity.bo.LoginBo;
+import com.HexTechGDUT.entity.bo.UidAndPwdBo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -13,10 +13,15 @@ public class UserServiceTest {
     UserService userService;
 
     @Test
-    public void loginTest(){
-        LoginBo loginBo = new LoginBo("uid0001", "password01");
-        System.out.println(userService.login(loginBo));
+    public void registerTest(){
+//        UidAndPwdBo uidAndPwdBo = new UidAndPwdBo("u1", "p1");
+//        System.out.println(userService.register(uidAndPwdBo));
+    }
 
+    @Test
+    public void loginTest(){
+//        UidAndPwdBo uidAndPwdBo = new UidAndPwdBo("uid0001", "password01");
+//        System.out.println(userService.login(uidAndPwdBo));
     }
 
     @Test

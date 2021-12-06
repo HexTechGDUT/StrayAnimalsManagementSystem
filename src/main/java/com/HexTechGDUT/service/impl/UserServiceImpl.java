@@ -1,6 +1,6 @@
 package com.HexTechGDUT.service.impl;
 
-import com.HexTechGDUT.entity.bo.LoginBo;
+import com.HexTechGDUT.entity.bo.UidAndPwdBo;
 import com.HexTechGDUT.dao.UserMapper;
 import com.HexTechGDUT.entity.po.User;
 import com.HexTechGDUT.service.TokenService;
@@ -27,17 +27,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int register(User user) {
+    public int register(UidAndPwdBo uidAndPwdBo) {
+        if(userService.queryUserByUserId(uidAndPwdBo.getUserId()) != null){
+            throw new RuntimeException("当前id已被使用");
+        }
+        User user = new User();
+        user.setUserId(uidAndPwdBo.getUserId());
+        user.setPassword(uidAndPwdBo.getPwd());
         return baseMapper.insert(user);
     }
 
     @Override
-    public String login(LoginBo loginBo) {
-        User user = userService.queryUserByUserId(loginBo.getUserId());
-        if(user!=null && user.getPassword().equals(loginBo.getPwd())){
-            return tokenService.generate(user);
+    public String login(UidAndPwdBo uidAndPwdBo) {
+        User user = userService.queryUserByUserId(uidAndPwdBo.getUserId());
+        if(user == null){
+            throw new RuntimeException("帐号不存在");
         }
-        throw new RuntimeException("帐号不存在或密码错误");
+        if(!user.getPassword().equals(uidAndPwdBo.getPwd())){
+            throw new RuntimeException("密码错误");
+        }
+        return tokenService.generate(user);
     }
 
     @Override

@@ -59,7 +59,7 @@ public class CommentController {
     @AuthToken
     @ApiOperation("通过用户id查询评论")
     @PostMapping("/queryCommentByUserId")
-    public Result<List<Comment>> queryCommentByUid(@Validated @RequestBody String userId){
+    public Result<List<Comment>> queryCommentByUserId(@Validated @RequestBody String userId){
         List<Comment> comments = commentService.queryCommentByUserId(userId);
         if (comments.isEmpty()){
             return ResultUtils.failWithInfo(null,"该用户还没有发布评论");
