@@ -51,6 +51,13 @@ public class UserController {
         return ResultUtils.successWithInfo(userService.login(uidAndPwdBo), "登录成功");
     }
 
+    @PassToken
+    @ApiOperation("根据token获取用户id")
+    @PostMapping("getUserIdByToken")
+    public Result<String> getUserIdByToken(@Validated @RequestBody String token){
+        return ResultUtils.success(tokenService.getTokenUserId(token));
+    }
+
     @AuthToken
     @ApiOperation("更新用户信息")
     @PostMapping("/update")
@@ -78,7 +85,7 @@ public class UserController {
     @ApiOperation("通过请求头携带的token查询用户")
     @PostMapping("queryUserByToken")
     public Result<User> queryUserByToken(@Validated @RequestBody String token){
-        User user = userService.queryUserByUserId(tokenService.getTokenUid(token));
+        User user = userService.queryUserByUserId(tokenService.getTokenUserId(token));
         if(user == null){
             return ResultUtils.failWithInfo(null, "用户不存在");
         }

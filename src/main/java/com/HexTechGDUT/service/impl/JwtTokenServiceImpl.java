@@ -73,7 +73,7 @@ public class JwtTokenServiceImpl implements TokenService {
     }
 
     @Override
-    public String getTokenUid(String token){
+    public String getTokenUserId(String token){
         if(StringUtils.isEmpty(token)) {
             return "";
         }
