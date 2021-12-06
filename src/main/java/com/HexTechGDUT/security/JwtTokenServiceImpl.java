@@ -1,7 +1,6 @@
-package com.HexTechGDUT.service.impl;
+package com.HexTechGDUT.security;
 
 import com.HexTechGDUT.entity.po.User;
-import com.HexTechGDUT.service.TokenService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -60,6 +59,15 @@ public class JwtTokenServiceImpl implements TokenService {
                 //token过期的时间
                 .withExpiresAt(expiresDate)
                 .sign(Algorithm.HMAC256(SECRET));
+    }
+
+    @Override
+    public String refresh(String token) {
+        DecodedJWT jwt = JWT.decode(token);
+        User user = new User();
+        user.setUserId(jwt.getAudience().get(0));
+        user.setUserType(jwt.getClaims().get("auth").asInt());
+        return generate(user);
     }
 
     @Override

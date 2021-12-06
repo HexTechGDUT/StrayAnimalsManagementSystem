@@ -25,7 +25,7 @@ public class CommentController {
     @Resource
     private CommentService commentService;
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("发布评论")
     @PostMapping("/publish")
     public Result<Comment> publish(@Validated @RequestBody Comment comment){
@@ -35,7 +35,7 @@ public class CommentController {
         return ResultUtils.failWithInfo(null,"发布失败");
     }
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("删除评论")
     @PostMapping("/delete")
     public Result<String> delete(@Validated @RequestBody int id){
@@ -45,7 +45,7 @@ public class CommentController {
         return ResultUtils.fail("删除失败");
     }
 
-    @PassToken
+//    @PassToken
     @ApiOperation("通过动物id查询评论")
     @PostMapping("/queryCommentByAnimalId")
     public Result<List<Comment>> queryCommentByAnimalId(@Validated @RequestBody int animalId){
@@ -56,7 +56,7 @@ public class CommentController {
         return ResultUtils.success(comments);
     }
 
-    @AuthToken
+//    @AuthToken
     @ApiOperation("通过用户id查询评论")
     @PostMapping("/queryCommentByUserId")
     public Result<List<Comment>> queryCommentByUserId(@Validated @RequestBody String userId){

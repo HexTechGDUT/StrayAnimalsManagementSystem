@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @author HexTechGDUT
  */
+@Deprecated
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
 
