@@ -30,5 +30,5 @@ public interface TokenService{
      * @param token token
      * @return uid
      */
-    String getTokenUid(String token);
+    String getTokenUserId(String token);
 }

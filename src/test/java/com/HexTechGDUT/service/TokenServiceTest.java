@@ -29,12 +29,12 @@ public class TokenServiceTest {
     }
 
     @Test
-    public void getTokenUidTest(){
+    public void getTokenUserIdTest(){
         User user = new User();
-        user.setUserId("testu1");
-        user.setPassword("testp1");
+        user.setUserId("test_u1");
+        user.setPassword("test_p1");
         user.setUserType(1);
         String token = tokenService.generate(user);
-        System.out.println(tokenService.getTokenUid(token));
+        System.out.println(tokenService.getTokenUserId(token));
     }
 }
