@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * 异常处理器
+ * 全局异常处理器
  * @author HexTechGDUT
  */
 @ControllerAdvice
