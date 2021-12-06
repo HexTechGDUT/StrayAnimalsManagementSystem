@@ -18,5 +18,7 @@ public class QueryAllApplicationsBo {
 
     private int status;
 
+    private String imgUrl;
+
     private String createTime;
 }

@@ -19,5 +19,5 @@ import java.util.List;
 public class PageQueryApplicationBo {
     private long total;
 
-    private List<QueryAllApplicationsBo> records;
+    private List<ApplicationListBo> records;
 }

@@ -1,22 +1,21 @@
 package com.HexTechGDUT.controller;
 
+import com.HexTechGDUT.entity.bo.ApplicationListBo;
 import com.HexTechGDUT.entity.bo.PageQueryApplicationBo;
 import com.HexTechGDUT.entity.bo.QueryAllApplicationsBo;
 import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.HexTechGDUT.entity.po.Application;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
+import com.HexTechGDUT.security.TokenService;
 import com.HexTechGDUT.service.AnimalService;
 import com.HexTechGDUT.service.ApplicationService;
-import com.HexTechGDUT.service.TokenService;
 import com.HexTechGDUT.utils.ResultUtils;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,13 +39,15 @@ public class ApplicationController {
     @Resource
     private TokenService tokenService;
 
+    @Resource
+    private AnimalService animalService;
+
     @AuthToken
     @ApiOperation("用户提交申请")
     @PostMapping("/apply")
     public Result<Application> apply(@RequestBody Application application,@RequestBody String token){
         String userId = tokenService.getTokenUserId(token);
         application.setUserId(userId);
-        application.setStatus(0);
         boolean isSuccess = applicationService.apply(application) == 1;
         if (isSuccess) {
             return ResultUtils.successWithInfo(application,"提交成功");
@@ -75,20 +76,6 @@ public class ApplicationController {
         return ResultUtils.fail("更新失败");
     }
 
-    @AuthToken(value = 1)
-    @ApiOperation("管理员通过申请")
-    @PostMapping("/pass")
-    public String process(@Validated @RequestBody Application application,int status){
-        return null;
-    }
-
-    @AuthToken(value = 1)
-    @ApiOperation("管理员驳回申请")
-    @PostMapping("/refused")
-    public String process(@Validated @RequestBody Application application){
-        return null;
-    }
-
     @AuthToken
     @ApiOperation("通过申请id查询申请")
     @PostMapping("/queryApplicationById")
@@ -105,15 +92,17 @@ public class ApplicationController {
     @PostMapping("/queryAll")
     public Result<PageQueryApplicationBo> queryAllApplication(long current, long limit){
         PageQueryApplicationBo pageBo = new PageQueryApplicationBo();
-        List<QueryAllApplicationsBo> bos = new ArrayList<>();
+        List<ApplicationListBo> bos = new ArrayList<>();
         Page<Application> page = new Page<>(current, limit);
         applicationService.page(page,null);
         List<Application> records = page.getRecords();
         for (Application application: records) {
-            QueryAllApplicationsBo bo = new QueryAllApplicationsBo();
-            bo.setId(application.getId());
+            ApplicationListBo bo = new ApplicationListBo();
+            bo.setApplicationId(application.getId());
+            bo.setAnimalNickname(animalService.getAnimalByApplicationId(application.getId()).getAnimalNickname());
             bo.setStatus(application.getStatus());
-            bo.setCreateTime(application.getCreateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            bo.setImgUrl(animalService.getAnimalByApplicationId(application.getId()).getAnimalImgList().get(0).getPath());
+            bo.setUpdateTime(application.getUpdateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             bos.add(bo);
         }
         pageBo.setRecords(bos);
@@ -125,43 +114,31 @@ public class ApplicationController {
     @ApiOperation("通过各种条件查询申请")
     @PostMapping("/queryApplication")
     public Result<PageQueryApplicationBo> queryApplication(long current,long limit,@RequestBody Application application){
-        return null;
-    }
-
-    @AuthToken
-    @ApiOperation("通过动物id查询申请")
-    @PostMapping("/queryApplicationByAnimalId")
-    public Result<List<Application>> queryApplicationByAnimalId(int current,int limit,@RequestBody int animalId){
-        List<QueryAllApplicationsBo> bos = new ArrayList<>();
+        PageQueryApplicationBo pageBo = new PageQueryApplicationBo();
+        List<ApplicationListBo> bos = new ArrayList<>();
         Page<Application> page = new Page<>(current, limit);
-        applicationService.page(page,null);
-        List<Application> applicationList = applicationService.queryApplicationByAnimalId(animalId);
-        if (applicationList.isEmpty()) {
-            return ResultUtils.failWithInfo(null,"没有该动物相关的申请");
+        QueryWrapper<Application> wrapper = new QueryWrapper<>();
+        wrapper.eq("animalId",application.getAnimalRecordId());
+        wrapper.eq("status",application.getStatus());
+        wrapper.eq("userId",application.getUserId());
+        wrapper.eq("type",application.getType());
+        wrapper.orderByDesc("update_time");
+        applicationService.page(page, wrapper);
+        List<Application> records = page.getRecords();
+        if (records.isEmpty()) {
+            return ResultUtils.failWithInfo(null,"查询失败");
         }
-        return ResultUtils.success(applicationList);
-    }
-
-    @AuthToken
-    @ApiOperation("通过申请状态查询申请")
-    @PostMapping("/queryApplicationByStatus")
-    public Result<List<Application>> queryApplicationByStatus(@Validated @RequestBody int status){
-        List<Application> applicationList = applicationService.queryApplicationByStatus(status);
-        if (applicationList.isEmpty()) {
-            return ResultUtils.failWithInfo(null,"没有相关的申请");
+        for (Application a: records) {
+            ApplicationListBo bo = new ApplicationListBo();
+            bo.setApplicationId(a.getId());
+            bo.setAnimalNickname(animalService.getAnimalByApplicationId(a.getId()).getAnimalNickname());
+            bo.setStatus(a.getStatus());
+            bo.setImgUrl(animalService.getAnimalByApplicationId(a.getId()).getAnimalImgList().get(0).getPath());
+            bo.setUpdateTime(a.getUpdateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            bos.add(bo);
         }
-        return ResultUtils.success(applicationList);
-    }
-
-    @AuthToken
-    @ApiOperation("通过用户id查询申请")
-    @PostMapping("/queryApplicationByUserId")
-    public Result<List<Application>> queryApplicationByUserId(@Validated @RequestBody String token){
-        String userId = tokenService.getTokenUserId(token);
-        List<Application> applicationList = applicationService.queryApplicationByUserId(userId);
-        if (applicationList.isEmpty()) {
-            return ResultUtils.failWithInfo(null,"没有该用户相关的申请");
-        }
-        return ResultUtils.success(applicationList);
+        pageBo.setRecords(bos);
+        pageBo.setTotal(page.getTotal());
+        return ResultUtils.success(pageBo);
     }
 }
