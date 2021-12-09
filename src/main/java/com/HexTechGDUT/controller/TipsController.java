@@ -2,14 +2,11 @@ package com.HexTechGDUT.controller;
 
 import com.HexTechGDUT.entity.po.Tips;
 import com.HexTechGDUT.result.Result;
-import com.HexTechGDUT.security.AuthToken;
-import com.HexTechGDUT.security.PassToken;
 import com.HexTechGDUT.service.TipsService;
 import com.HexTechGDUT.utils.ResultUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,15 +26,9 @@ public class TipsController {
     @Resource
     TipsService tipsService;
 
-    /**
-     * 管理员才能发布文章
-     * @param tips tips
-     * @return result of tips
-     */
-//    @AuthToken(value = 1)
     @ApiOperation("发布文章")
     @PostMapping("/publish")
-    public Result<Tips> publish(@ApiParam("提示") @Validated @RequestBody Tips tips){
+    public Result<Tips> publish(@Validated @RequestBody Tips tips){
         boolean isSuccess = tipsService.insert(tips) == 1;
         if(isSuccess){
             return ResultUtils.successWithInfo(tips, "发布文章成功");
@@ -45,15 +36,9 @@ public class TipsController {
         return ResultUtils.failWithInfo(null, "发布文章失败");
     }
 
-    /**
-     * 管理员才能修改文章
-     * @param tips tips
-     * @return result of tips
-     */
-//    @AuthToken(value = 1)
     @ApiOperation("更新文章")
     @PostMapping("/update")
-    public Result<Tips> update(@ApiParam("提示") @Validated @RequestBody Tips tips){
+    public Result<Tips> update(@Validated @RequestBody Tips tips){
         boolean isSuccess = tipsService.update(tips) == 1;
         if(isSuccess){
             return ResultUtils.successWithInfo(tips, "发布文章成功");
@@ -61,11 +46,10 @@ public class TipsController {
         return ResultUtils.failWithInfo(null, "发布文章失败");
     }
 
-//    @AuthToken(value = 1)
     @ApiOperation("删除文章")
     @ApiImplicitParam(name = "id", value = "文章id", dataType = "Integer",required = true)
     @PostMapping("/delete")
-    public Result<String> delete(@ApiParam("tips id") @Validated @RequestBody int id){
+    public Result<String> delete(@Validated @RequestBody int id){
         boolean isSuccess = tipsService.delete(id) == 1;
         if(isSuccess){
             return ResultUtils.success("删除成功");
@@ -73,11 +57,6 @@ public class TipsController {
         return ResultUtils.fail("删除失败");
     }
 
-    /**
-     * 无需登录即可查询tips
-     * @return tips list
-     */
-//    @PassToken
     @ApiOperation("查询全部文章")
     @GetMapping("/queryAllTips")
     public Result<List<Tips>> queryAllTips(){
@@ -88,7 +67,6 @@ public class TipsController {
         return ResultUtils.success(tipsList);
     }
 
-//    @PassToken
     @ApiOperation("随机查询一篇文章")
     @GetMapping("/queryRandomTips")
     public Result<Tips> queryRandomTips(){
@@ -99,16 +77,10 @@ public class TipsController {
         return ResultUtils.success(tips);
     }
 
-    /**
-     * 无需登录即可查询tips
-     * @param id id
-     * @return tips
-     */
-//    @PassToken
     @ApiOperation("根据文章id查询文章")
     @ApiImplicitParam(name = "id", value = "文章id", dataType = "Integer", required = true)
     @PostMapping("/queryTipsById")
-    public Result<Tips> queryTipsById(@ApiParam("tips id") @Validated @RequestBody int id){
+    public Result<Tips> queryTipsById(@Validated @RequestBody int id){
         Tips tips = tipsService.queryTipsById(id);
         if(tips == null){
             return ResultUtils.failWithInfo(null, "没有查询到相关tips");
@@ -116,16 +88,10 @@ public class TipsController {
         return ResultUtils.success(tips);
     }
 
-    /**
-     * 无需登录即可查询tips
-     * @param title tips 标题
-     * @return tips list
-     */
-//    @PassToken
     @ApiOperation("根据题目模糊查询文章")
     @ApiImplicitParam(name = "title", value = "标题", dataType = "String", required = true)
     @PostMapping("/queryTipsLikeTitle")
-    public Result<List<Tips>> queryTipsLikeTitle(@ApiParam("tips标题") @Validated @RequestBody String title){
+    public Result<List<Tips>> queryTipsLikeTitle(@Validated @RequestBody String title){
         List<Tips> tipsList = tipsService.queryTipsLikeTitle(title);
         if(tipsList == null || tipsList.isEmpty()){
             return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");

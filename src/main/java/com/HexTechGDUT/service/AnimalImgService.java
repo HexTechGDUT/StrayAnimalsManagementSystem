@@ -2,12 +2,14 @@ package com.HexTechGDUT.service;
 
 import com.HexTechGDUT.entity.po.AnimalImg;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @author HexTechGDUT
  */
+
 public interface AnimalImgService extends IService<AnimalImg> {
 
     /**

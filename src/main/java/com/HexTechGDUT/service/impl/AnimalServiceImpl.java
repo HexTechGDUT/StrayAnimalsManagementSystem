@@ -116,9 +116,9 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
         Application application = applicationMapper.selectById(applicationId);
         String animalRecordJson = application.getInformation();
         JSONObject jsonObject = JSON.parseObject(animalRecordJson);
-        System.out.println("---");
+        //System.out.println("---");
         //System.out.println(jsonObject.getJSONObject("data").toJSONString());
-        System.out.println("---");
+        //System.out.println("---");
         return JSONObject.parseObject(jsonObject.getJSONObject("data").toJSONString(),AnimalRecord.class);
     }
 
