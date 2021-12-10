@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
  * 带有该注解表示http请求必须带有token
  * @author HexTechGDUT
  */
+@Deprecated
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthToken {

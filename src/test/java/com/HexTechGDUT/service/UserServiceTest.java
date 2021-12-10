@@ -24,6 +24,7 @@ public class UserServiceTest {
 //        System.out.println(userService.login(uidAndPwdBo));
     }
 
+
     @Test
     public void queryUserByIdTest(){
         System.out.println(userService.queryUserByUserId("uid0002"));

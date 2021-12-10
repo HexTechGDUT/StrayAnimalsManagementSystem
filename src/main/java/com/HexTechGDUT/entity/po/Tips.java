@@ -26,13 +26,13 @@ public class Tips {
      * 文章id
      */
     @ApiModelProperty("文章id")
-    @TableId(value = "id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
 
     /**
      * 文章标题
      */
-    @ApiModelProperty("文章标题")
+    @ApiModelProperty(value = "文章标题", notes = "标题最长16字")
     @TableField("title")
     @Size(max = 16)
     public String title;

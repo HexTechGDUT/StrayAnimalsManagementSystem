@@ -10,26 +10,12 @@ import lombok.Data;
 @Data
 public class AnimalQuery {
 
-    @ApiModelProperty(value = "动物昵称，模糊查询")
-    @TableField("animal_nickname")
-    private String animalNickname;
+    @ApiModelProperty(value = "最后出现的地址的索引")
+    @TableField("address_first_index")
+    private String addressFirstIndex;
 
-    @ApiModelProperty(value = "最后出现的地址")
-    @TableField("last_address")
-    private String lastAddress;
-
-    @ApiModelProperty(value = "动物种类")
-    @TableField("animal_type")
-    private String animalType;
-
-    @ApiModelProperty(value = "目前状态" +
-            "流浪动物：0:未被领养；1已被领养" +
-            "寻找丢失动物：0:未找到，1已找到" +
-            "弃养：0:未被领养，1已被领养，2放弃弃养")
+    @ApiModelProperty(value = "1=流浪动物 2=走失动物 3=弃养动物")
     @TableField("status")
     private int status;
 
-    @ApiModelProperty(value = "记录类型")
-    @TableField("record_type")
-    private int recordType;
 }

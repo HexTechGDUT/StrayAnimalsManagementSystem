@@ -1,9 +1,6 @@
 package com.HexTechGDUT.entity.po;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -34,7 +31,7 @@ public class AnimalRecord {
      * 动物记录id
      */
     @ApiModelProperty("动物id")
-    @TableId("id")
+    @TableId(value = "id",type = IdType.AUTO)
     private Integer id;
 
 
@@ -63,10 +60,15 @@ public class AnimalRecord {
     private String lastAddress;
 
     /**
-     * 返回给前端时切分后的地址数组
+     * 最后出现位置的索引
      */
-    @TableField(exist = false)
-    private String[] returnAddress;
+    @ApiModelProperty("该动物最后出现的位置的一级索引，方便前端处理")
+    @TableField("address_first_index")
+    private int addressFirstIndex;
+
+    @ApiModelProperty("该动物最后出现的位置的二级索引，方便前端处理")
+    @TableField("address_second_index")
+    private int addressSecondIndex;
 
     /**
      * 动物的品种
@@ -75,6 +77,13 @@ public class AnimalRecord {
     @TableField("animal_type")
     @Size(max = 10)
     private String animalType;
+
+    /**
+     * 动物品种的索引
+     */
+    @ApiModelProperty("动物品种的索引，方便前端处理")
+    @TableField("animal_type_index")
+    private String animalTypeIndex;
 
     /**
      * 额外信息
@@ -101,6 +110,13 @@ public class AnimalRecord {
     private String health;
 
     /**
+     * 健康状况的索引
+     */
+    @ApiModelProperty("健康状况的索引，方便前端处理")
+    @TableField("health_index")
+    private String healthIndex;
+
+    /**
      * 记录的类型
      * 为流浪动物，还是弃养动物，还是寻找失去的宠物
      */
@@ -108,6 +124,13 @@ public class AnimalRecord {
     @TableField("record_type")
     @Size(max = 10)
     private int recordType;
+
+    /**
+     * 最后出现时间，在字符串规范化后通过String存储
+     */
+    @ApiModelProperty("最后发现时间")
+    @TableField("last_found_time")
+    private String lastFoundTime;
 
     /**
      * 创建时间
