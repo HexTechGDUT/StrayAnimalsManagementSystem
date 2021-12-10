@@ -2,8 +2,6 @@ package com.HexTechGDUT.controller;
 
 import com.HexTechGDUT.entity.po.Comment;
 import com.HexTechGDUT.result.Result;
-import com.HexTechGDUT.security.AuthToken;
-import com.HexTechGDUT.security.PassToken;
 import com.HexTechGDUT.service.CommentService;
 import com.HexTechGDUT.utils.ResultUtils;
 import io.swagger.annotations.Api;
@@ -25,7 +23,6 @@ public class CommentController {
     @Resource
     private CommentService commentService;
 
-//    @AuthToken
     @ApiOperation("发布评论")
     @PostMapping("/publish")
     public Result<Comment> publish(@Validated @RequestBody Comment comment){
@@ -35,7 +32,6 @@ public class CommentController {
         return ResultUtils.failWithInfo(null,"发布失败");
     }
 
-//    @AuthToken
     @ApiOperation("删除评论")
     @PostMapping("/delete")
     public Result<String> delete(@Validated @RequestBody int id){
@@ -45,7 +41,6 @@ public class CommentController {
         return ResultUtils.fail("删除失败");
     }
 
-//    @PassToken
     @ApiOperation("通过动物id查询评论")
     @PostMapping("/queryCommentByAnimalId")
     public Result<List<Comment>> queryCommentByAnimalId(@Validated @RequestBody int animalId){
@@ -56,7 +51,6 @@ public class CommentController {
         return ResultUtils.success(comments);
     }
 
-//    @AuthToken
     @ApiOperation("通过用户id查询评论")
     @PostMapping("/queryCommentByUserId")
     public Result<List<Comment>> queryCommentByUserId(@Validated @RequestBody String userId){

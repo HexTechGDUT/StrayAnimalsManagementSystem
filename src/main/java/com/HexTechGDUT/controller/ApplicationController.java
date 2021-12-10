@@ -2,17 +2,13 @@ package com.HexTechGDUT.controller;
 
 import com.HexTechGDUT.entity.bo.ApplicationListBo;
 import com.HexTechGDUT.entity.bo.PageQueryApplicationBo;
-import com.HexTechGDUT.entity.bo.QueryAllApplicationsBo;
-import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.HexTechGDUT.entity.po.Application;
 import com.HexTechGDUT.result.Result;
-import com.HexTechGDUT.security.AuthToken;
 import com.HexTechGDUT.security.TokenService;
 import com.HexTechGDUT.service.AnimalService;
 import com.HexTechGDUT.service.ApplicationService;
 import com.HexTechGDUT.utils.ResultUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +38,6 @@ public class ApplicationController {
     @Resource
     private AnimalService animalService;
 
-    @AuthToken
     @ApiOperation("用户提交申请")
     @PostMapping("/apply")
     public Result<Application> apply(@RequestBody Application application,@RequestBody String token){
@@ -55,7 +50,6 @@ public class ApplicationController {
         return ResultUtils.failWithInfo(null,"提交失败");
     }
 
-    @AuthToken
     @ApiOperation("用户取消申请")
     @PostMapping("/cancel")
     public Result<String> cancel(@Validated @RequestBody int id){
@@ -65,7 +59,6 @@ public class ApplicationController {
         return ResultUtils.fail("取消失败");
     }
 
-    @AuthToken
     @ApiOperation("用户修改申请")
     @PostMapping("/update")
     public Result<String> update(@Validated @RequestBody Application application){
@@ -76,7 +69,6 @@ public class ApplicationController {
         return ResultUtils.fail("更新失败");
     }
 
-    @AuthToken
     @ApiOperation("通过申请id查询申请")
     @PostMapping("/queryApplicationById")
     public Result<Application> queryApplicationById(@Validated @RequestBody int id){
@@ -87,7 +79,6 @@ public class ApplicationController {
         return ResultUtils.success(application);
     }
 
-    @AuthToken(value = 1)
     @ApiOperation("管理员查询所有申请")
     @PostMapping("/queryAll")
     public Result<PageQueryApplicationBo> queryAllApplication(long current, long limit){
@@ -110,7 +101,6 @@ public class ApplicationController {
         return ResultUtils.success(pageBo);
     }
 
-    @AuthToken(value = 1)
     @ApiOperation("通过各种条件查询申请")
     @PostMapping("/queryApplication")
     public Result<PageQueryApplicationBo> queryApplication(long current,long limit,@RequestBody Application application){
