@@ -8,6 +8,7 @@ import com.HexTechGDUT.entity.vo.AnimalQuery;
 import com.HexTechGDUT.result.Result;
 import com.HexTechGDUT.security.AuthToken;
 import com.HexTechGDUT.security.PassToken;
+import com.HexTechGDUT.security.TokenService;
 import com.HexTechGDUT.service.AnimalImgService;
 import com.HexTechGDUT.service.AnimalService;
 import com.HexTechGDUT.utils.ResultUtils;
@@ -39,6 +40,9 @@ public class AnimalController {
 
     @Resource
     public AnimalImgService animalImgService;
+
+    @Resource
+    private TokenService tokenService;
 
     /**
      * 查询所有动物
@@ -255,13 +259,14 @@ public class AnimalController {
 
     /**
      * 查看一名用户的所有申请
-     * @param userId 用户id
+     * @param token 用户token
      * @return 申请列表
      */
 
     @ApiOperation("通过用户id查询该用户的所有申请")
     @GetMapping("queryApplicationList")
-    public Result<List<ApplicationListBo>> queryApplicationList(String userId){
+    public Result<List<ApplicationListBo>> queryApplicationList(@RequestHeader("token") String token){
+        String userId = tokenService.getTokenUserId(token);
         List<ApplicationListBo> boList = new ArrayList<>();
         List<Application> applicationList = animalService.queryApplicationListByUserId(userId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

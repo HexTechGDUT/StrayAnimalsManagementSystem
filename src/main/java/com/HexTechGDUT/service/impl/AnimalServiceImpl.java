@@ -162,7 +162,7 @@ public class AnimalServiceImpl extends ServiceImpl<AnimalMapper, AnimalRecord> i
         List<Application> applicationList;
         QueryWrapper<Application> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id",userId);
-        wrapper.eq("status",1);
+        wrapper.eq("status",2);
         applicationList = applicationMapper.selectList(wrapper);
         return applicationList;
     }
