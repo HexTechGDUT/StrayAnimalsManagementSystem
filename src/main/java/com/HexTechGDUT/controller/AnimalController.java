@@ -4,7 +4,11 @@ import com.HexTechGDUT.entity.bo.*;
 import com.HexTechGDUT.entity.po.AnimalImg;
 import com.HexTechGDUT.entity.po.AnimalRecord;
 import com.HexTechGDUT.entity.po.Application;
+import com.HexTechGDUT.entity.vo.AnimalQuery;
 import com.HexTechGDUT.result.Result;
+import com.HexTechGDUT.security.AuthToken;
+import com.HexTechGDUT.security.PassToken;
+import com.HexTechGDUT.security.TokenService;
 import com.HexTechGDUT.service.AnimalImgService;
 import com.HexTechGDUT.service.AnimalService;
 import com.HexTechGDUT.utils.ResultUtils;
@@ -37,11 +41,15 @@ public class AnimalController {
     @Resource
     public AnimalImgService animalImgService;
 
+    @Resource
+    private TokenService tokenService;
+
     /**
      * 查询所有动物
      * @return recordList 结果集
      */
 
+//    @PassToken
     @ApiOperation("查询全部动物")
     @GetMapping("queryAll")
     public Result<PageQueryAllAnimalsBo> queryAllAnimals(Long current, Long limit){
@@ -113,6 +121,7 @@ public class AnimalController {
      * @return 结果
      */
 
+//    @AuthToken
     @ApiOperation("插入一条动物记录")
     @PostMapping("insertAnimal")
     public Result<String> insertAnimal(Integer applicationId){
@@ -139,6 +148,7 @@ public class AnimalController {
      * @return 结果
      */
 
+//    @AuthToken
     @ApiOperation("更新动物记录")
     @PostMapping("updateAnimal")
     public Result<String> updateAnimal(Integer applicationId){
@@ -168,14 +178,14 @@ public class AnimalController {
      * 条件查询动物信息
      * @param current 当前页码
      * @param limit 每页的页码数
-     * @param addressFirstIndex 动物最后出现地址一级索引
-     * @param status 状态
+     * @param animalQuery 条件查询Vo类：包含动物最后出现的地址和动物的状态
      * @return boList 包含该页面所需动物信息的bo类的List
      */
-
+  
+//    @PassToken
     @ApiOperation("通过多种条件查询动物")
     @PostMapping("queryAnimal")
-    public Result<PageConditionalQueryAnimalsBo> queryAnimal(Long current, Long limit, String addressFirstIndex,Integer status){
+    public Result<PageConditionalQueryAnimalsBo> queryAnimal(Long current, Long limit, @RequestBody AnimalQuery animalQuery){
         List<ConditionalQueryAnimalsBo> boList = new ArrayList<>();
         //创建分页对象
         Page<AnimalRecord> page = new Page<>(current,limit);
@@ -184,8 +194,10 @@ public class AnimalController {
         //创建Bo对象
         PageConditionalQueryAnimalsBo pbo = new PageConditionalQueryAnimalsBo();
         //使用动态sql完成组合条件查询
+        String addressIndex = animalQuery.getAddressFirstIndex();
+        int status = animalQuery.getStatus();
 
-        wrapper.eq("address_first_index",addressFirstIndex);
+        wrapper.eq("address_first_index",addressIndex);
         wrapper.eq("status",status);
 
         //根据最新的修改时间时间进行排序
@@ -220,6 +232,7 @@ public class AnimalController {
         return ResultUtils.success(pbo);
     }
 
+
     @ApiOperation("用户申请领养动物")
     @PostMapping("animalAdoption")
     public Result<String> applyForAnimalAdoption(Integer animalId){
@@ -233,6 +246,7 @@ public class AnimalController {
      * @return 是否删除成功
      */
 
+//    @AuthToken
     @ApiOperation("通过动物id删除动物")
     @DeleteMapping({"{id}"})
     public Result<String> deleteAnimalRecord(@PathVariable int id){
@@ -245,13 +259,14 @@ public class AnimalController {
 
     /**
      * 查看一名用户的所有申请
-     * @param userId 用户id
+     * @param token 用户token
      * @return 申请列表
      */
 
     @ApiOperation("通过用户id查询该用户的所有申请")
     @GetMapping("queryApplicationList")
-    public Result<List<ApplicationListBo>> queryApplicationList(String userId){
+    public Result<List<ApplicationListBo>> queryApplicationList(@RequestHeader("token") String token){
+        String userId = tokenService.getTokenUserId(token);
         List<ApplicationListBo> boList = new ArrayList<>();
         List<Application> applicationList = animalService.queryApplicationListByUserId(userId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

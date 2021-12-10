@@ -38,9 +38,10 @@ public class ApplicationController {
     @Resource
     private AnimalService animalService;
 
+    // @AuthToken
     @ApiOperation("用户提交申请")
     @PostMapping("/apply")
-    public Result<Application> apply(@RequestBody Application application,@RequestBody String token){
+    public Result<Application> apply(@RequestBody Application application,@RequestHeader("token") String token){
         String userId = tokenService.getTokenUserId(token);
         application.setUserId(userId);
         boolean isSuccess = applicationService.apply(application) == 1;
@@ -50,15 +51,17 @@ public class ApplicationController {
         return ResultUtils.failWithInfo(null,"提交失败");
     }
 
+    // @AuthToken
     @ApiOperation("用户取消申请")
-    @PostMapping("/cancel")
-    public Result<String> cancel(@Validated @RequestBody int id){
+    @GetMapping("/cancel")
+    public Result<String> cancel(@RequestParam int id){
         if (applicationService.cancel(id) == 1) {
             return ResultUtils.success("取消成功");
         }
         return ResultUtils.fail("取消失败");
     }
 
+    // @AuthToken
     @ApiOperation("用户修改申请")
     @PostMapping("/update")
     public Result<String> update(@Validated @RequestBody Application application){
@@ -69,9 +72,10 @@ public class ApplicationController {
         return ResultUtils.fail("更新失败");
     }
 
+    // @AuthToken
     @ApiOperation("通过申请id查询申请")
-    @PostMapping("/queryApplicationById")
-    public Result<Application> queryApplicationById(@Validated @RequestBody int id){
+    @GetMapping("/queryApplicationById")
+    public Result<Application> queryApplicationById(@RequestParam int id){
         Application application = applicationService.queryApplicationById(id);
         if (application == null) {
             return ResultUtils.failWithInfo(null,"申请不存在");
@@ -79,6 +83,7 @@ public class ApplicationController {
         return ResultUtils.success(application);
     }
 
+    // @AuthToken(value = 1)
     @ApiOperation("管理员查询所有申请")
     @PostMapping("/queryAll")
     public Result<PageQueryApplicationBo> queryAllApplication(long current, long limit){
@@ -101,17 +106,33 @@ public class ApplicationController {
         return ResultUtils.success(pageBo);
     }
 
+    // @AuthToken(value = 1)
     @ApiOperation("通过各种条件查询申请")
     @PostMapping("/queryApplication")
-    public Result<PageQueryApplicationBo> queryApplication(long current,long limit,@RequestBody Application application){
+    public Result<PageQueryApplicationBo> queryApplication(long current,
+                                                           long limit,
+                                                           int animalId,
+                                                           int status,
+                                                           int type,
+                                                           @RequestHeader("token") String token){
+
         PageQueryApplicationBo pageBo = new PageQueryApplicationBo();
         List<ApplicationListBo> bos = new ArrayList<>();
         Page<Application> page = new Page<>(current, limit);
         QueryWrapper<Application> wrapper = new QueryWrapper<>();
-        wrapper.eq("animalId",application.getAnimalRecordId());
-        wrapper.eq("status",application.getStatus());
-        wrapper.eq("userId",application.getUserId());
-        wrapper.eq("type",application.getType());
+        if (animalId != 0) {
+            wrapper.eq("animal_record_id",animalId);
+        }
+        if (status != 0) {
+            wrapper.eq("status",status);
+        }
+        if (!token.equals("NaN")) {
+            String userId = tokenService.getTokenUserId(token);
+            wrapper.eq("userId",userId);
+        }
+        if (type != 0) {
+            wrapper.eq("type",type);
+        }
         wrapper.orderByDesc("update_time");
         applicationService.page(page, wrapper);
         List<Application> records = page.getRecords();

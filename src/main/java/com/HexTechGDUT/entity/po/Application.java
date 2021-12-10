@@ -63,15 +63,15 @@ public class Application {
      * 31:追加走失动物信息
      */
     @TableField("type")
-    @ApiModelProperty(value = "申请类型", notes = "申请类型,0、发布动物信息/1、修改动物信息")
+    @ApiModelProperty(value = "申请类型", notes = "申请类型,1、发布动物信息/2、修改动物信息")
     private int type;
 
     /**
      * 申请状态
-     * 0:等待处理,1:申请被通过,2:申请被驳回,3:被申请用户撤销
+     * 1:等待处理,2:申请被通过,3:申请被驳回,4:被申请用户撤销
      */
     @TableField("status")
-    @ApiModelProperty(value = "申请的状态", notes = "0、等待处理/1、通过申请/2、不通过申请/3、用户取消申请")
+    @ApiModelProperty(value = "申请的状态", notes = "1、等待处理/2、通过申请/3、不通过申请/4、用户取消申请")
     private int status;
 
     /**

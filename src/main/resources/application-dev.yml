@@ -6,7 +6,7 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://1.14.202.218:3306/stray_animals_management_system?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+      url: jdbc:mysql://1.14.202.218:3306/stray_animals_management_system?characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
       username: moxiaoxiao
       password: moxiaoxiao-mysql
       initial-size: 10
