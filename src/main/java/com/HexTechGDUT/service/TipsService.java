@@ -1,53 +1,59 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.po.Tips;
+import com.HexTechGDUT.entity.po.Tips;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
 /**
  * @author HexTechGDUT
  */
-public interface TipsService {
+public interface TipsService extends IService<Tips> {
 
     /**
-     * 发布文章
-     * @param article article
+     * insert新的文章
+     * @param tips tips
      * @return 是否发布成功
      */
-    boolean publish(Tips article);
+    int insert(Tips tips);
 
     /**
      * 修改文章
-     * @param article article
+     * @param tips tips
      * @return 是否修改成功
      */
-    boolean update(Tips article);
+    int update(Tips tips);
 
     /**
      * 删除文章
      * @param id 文章id
      * @return 是否删除成功
      */
-    boolean delete(String id);
+    int delete(int id);
+
+    /**
+     * 查询全部tips
+     * @return tips list
+     */
+    List<Tips> queryAllTips();
+
+    /**
+     * 随机获取一篇tips
+     * @return tips
+     */
+    Tips queryRandomTips();
 
     /**
      * 通过id查询文章
      * @param id id
-     * @return article
+     * @return tips
      */
-    Tips queryArticleById(String id);
+    Tips queryTipsById(int id);
 
     /**
-     * 通过uid查询该用户发表过的文章list
-     * @param uid uid
-     * @return article list
+     * 根据文章名字模糊查询文章
+     * @param title title
+     * @return tips
      */
-    List<Tips> queryArticleByUid(String uid);
-
-    /**
-     * 通过文章类型查询文章list
-     * @param type String -> ArticleType
-     * @return article list
-     */
-    List<Tips> queryArticleByArticleType(String type);
+    List<Tips> queryTipsLikeTitle(String title);
 }

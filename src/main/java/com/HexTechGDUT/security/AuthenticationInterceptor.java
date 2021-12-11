@@ -1,6 +1,5 @@
 package com.HexTechGDUT.security;
 
-import com.HexTechGDUT.service.TokenService;
 import com.HexTechGDUT.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -16,6 +15,7 @@ import java.lang.reflect.Method;
 /**
  * @author HexTechGDUT
  */
+@Deprecated
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
@@ -28,7 +28,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest,
                              @Nullable HttpServletResponse httpServletResponse,
-                             @Nullable Object object) throws Exception {
+                             @Nullable Object object) {
         // 从 http 请求头中取出 token
         String token = httpServletRequest.getHeader("token");
         // 如果不是映射到方法直接通过
@@ -49,11 +49,20 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             AuthToken authToken = method.getAnnotation(AuthToken.class);
             if (authToken.required()) {
                 if (token == null) {
-                    throw new RuntimeException("无token，请登录");
+                    throw new RuntimeException("请登录后再使用");
                 }
                 //验证token
                 tokenService.verify(token);
-                //验证token中的登录用户id是否存在
+                //验证token中的登录用户id是否存在,暂时不写
+
+                //token的权限等级
+                int tokenAuth = JwtTokenServiceImpl.getTokenAuth(token);
+                //执行方法所需的权限等级
+                int methodAuth = authToken.value();
+                //验证token的权限是否高于执行方法的权限
+                if(tokenAuth < methodAuth){
+                    throw new RuntimeException("权限不足,该方法只提供管理员使用");
+                }
             }
         }
         return true;

@@ -6,9 +6,9 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/stray_animals_management_system?useSSL=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
-      username: root
-      password: root
+      url: jdbc:mysql://1.14.202.218:3306/stray_animals_management_system?characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+      username: moxiaoxiao
+      password: moxiaoxiao-mysql
       initial-size: 10
       max-active: 30
       min-idle: 5
@@ -24,9 +24,18 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     call-setters-on-nulls: true
+    # 下划线命名 <---> 驼峰命名
     map-underscore-to-camel-case: true
-  type-aliases-package: com.HexTechGDUT.po
+    # 别名所在的package
+  type-aliases-package: com.HexTechGDUT.entity.po
+  global-config:
+    db-config:
+      # 字段为 null 或 “” 时不更新
+      field-strategy: not_empty
+      # 自动更新id的值
+      id-type: auto
 
-#logging:
-#  level: warn
-
+aliyun.oss.file.endpoint: oss-cn-shenzhen.aliyuncs.com
+aliyun.oss.file.keyid: LTAI5tKz4Pn4Rjw8xYN5Wp4b
+aliyun.oss.file.keysecret: D3c0IfghhPj0de7aqahSn0tTGd7mW7
+aliyun.oss.file.bucketname: se-byflandre

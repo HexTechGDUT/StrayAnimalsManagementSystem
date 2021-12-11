@@ -1,7 +1,8 @@
 package com.HexTechGDUT.service;
 
-import com.HexTechGDUT.bo.LoginBo;
-import com.HexTechGDUT.po.User;
+import com.HexTechGDUT.entity.bo.UidAndPwdBo;
+import com.HexTechGDUT.entity.bo.UserLoginBo;
+import com.HexTechGDUT.entity.po.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -13,43 +14,58 @@ public interface UserService extends IService<User> {
 
     /**
      * 用户注册
-     * @param user 注册用户
+     * @param uidAndPwdBo 注册用户
      * @return 是否注册成功
      */
-    boolean register(User user);
+    int register(UidAndPwdBo uidAndPwdBo);
 
     /**
      * 用户登录
-     * @param loginBo 登录帐号和密码
+     * @param uidAndPwdBo 登录帐号和密码
      * @return String token
      */
-    String login(LoginBo loginBo);
+    String login(UidAndPwdBo uidAndPwdBo);
 
     /**
      * 用户信息更新
      * @param user 更新信息的用户
      * @return 是否更新成功
      */
-    boolean updateUser(User user);
+    int updateUser(User user);
 
     /**
      * 删除用户
-     * @param uid uid
+     * 将userType设为-1
+     * @param userId userId
      * @return 是否删除成功
      */
-    boolean deleteUser(String uid);
+    int deleteUser(String userId);
 
     /**
-     * 通过uid查询用户
-     * @param uid uid
+     * 通过userid查询用户
+     * @param userid uid
      * @return User
      */
-    User queryUserByUid(String uid);
+    User queryUserByUserId(String userid);
 
     /**
      * 通过名字模糊查询用户
      * @param name name
-     * @return 用户list
+     * @return user list
      */
     List<User> queryUserLikeName(String name);
+
+    /**
+     * 根据地址模糊查询地址周围的用户
+     * @param address address
+     * @return user list
+     */
+    List<User> queryUserLikeAddress(String address);
+
+    /**
+     * 根据用户权限查询所有相同权限的用户
+     * @param type type
+     * @return user list
+     */
+    List<User> queryUserByUserType(int type);
 }

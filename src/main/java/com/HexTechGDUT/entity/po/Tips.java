@@ -1,8 +1,7 @@
-package com.HexTechGDUT.po;
+package com.HexTechGDUT.entity.po;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.apache.ibatis.type.Alias;
@@ -14,6 +13,8 @@ import java.time.LocalDateTime;
  * 文章
  * @author HexTechGDUT
  */
+
+@ApiModel("文章")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,12 +25,14 @@ public class Tips {
     /**
      * 文章id
      */
-    @TableId("id")
-    private int id;
+    @ApiModelProperty("文章id")
+    @TableId(value = "id",type = IdType.AUTO)
+    private Integer id;
 
     /**
      * 文章标题
      */
+    @ApiModelProperty(value = "文章标题", notes = "标题最长16字")
     @TableField("title")
     @Size(max = 16)
     public String title;
@@ -37,6 +40,7 @@ public class Tips {
     /**
      * 内容
      */
+    @ApiModelProperty("内容")
     @TableField("content")
     private String content;
 
@@ -44,12 +48,13 @@ public class Tips {
      * 创建时间
      */
     @ApiModelProperty("创建时间")
-    @TableField("create_time")
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @TableField("update_time")
+    @ApiModelProperty("更新时间")
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }

@@ -1,24 +1,26 @@
 package com.HexTechGDUT.controller;
 
-import com.HexTechGDUT.bo.LoginBo;
-import com.HexTechGDUT.po.User;
+import com.HexTechGDUT.entity.bo.UidAndPwdBo;
+import com.HexTechGDUT.entity.po.User;
 import com.HexTechGDUT.result.Result;
-import com.HexTechGDUT.security.AuthToken;
-import com.HexTechGDUT.security.PassToken;
+import com.HexTechGDUT.security.TokenService;
 import com.HexTechGDUT.service.UserService;
 import com.HexTechGDUT.utils.ResultUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author HexTechGDUT
  */
 @Api("用户")
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -26,41 +28,110 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    @PassToken
+    @Resource
+    private TokenService tokenService;
+
     @ApiOperation("注册")
     @PostMapping("/register")
-    public @ResponseBody Result<User> register(@ApiParam("用户注册信息")@Validated @RequestBody User user){
-        boolean isSuccess = userService.register(user);
-        user.setPassword("");
+    public Result<String> register(@Validated @RequestBody UidAndPwdBo uidAndPwdBo){
+        boolean isSuccess = userService.register(uidAndPwdBo) == 1;
         if(isSuccess){
-            return ResultUtils.successWithInfo(user, "注册成功");
+            return ResultUtils.successWithInfo(userService.login(uidAndPwdBo), "注册成功");
         }
-        return ResultUtils.failWithInfo(user, "注册失败");
+        return ResultUtils.fail("注册失败");
     }
 
-    @PassToken
     @ApiOperation("登录")
     @PostMapping("/login")
-    public @ResponseBody Result<String> login(@ApiParam("用户登录Bo") @Validated @RequestBody LoginBo loginBo){
-        return ResultUtils.successWithInfo(userService.login(loginBo), "登录成功");
+    public Result<String> login(@Validated @RequestBody UidAndPwdBo uidAndPwdBo){
+        return ResultUtils.successWithInfo(userService.login(uidAndPwdBo), "登录成功");
     }
 
-    @AuthToken
+    @ApiOperation("刷新token的过期时间")
+    @PostMapping("refreshToken")
+    public Result<String> refreshToken(@Validated @RequestHeader("token") String oldToken){
+        return ResultUtils.success(tokenService.refresh(oldToken));
+    }
+
+    @ApiOperation("根据token获取用户id")
+    @PostMapping("getUserIdByToken")
+    public Result<String> getUserIdByToken(@Validated @RequestHeader("token") String token){
+        return ResultUtils.success(tokenService.getTokenUserId(token));
+    }
+
     @ApiOperation("更新用户信息")
     @PostMapping("/update")
-    public @ResponseBody Result<User> update(@ApiParam("用户更新信息")@Validated @RequestBody User user){
-        boolean isSuccess = userService.updateUser(user);
-        user.setPassword("");
+    public Result<String> update(@Validated @RequestBody User user, @RequestHeader("token") String token){
+        user.setUserId(tokenService.getTokenUserId(token));
+        boolean isSuccess = userService.updateUser(user) == 1;
         if(isSuccess){
-            return ResultUtils.successWithInfo(user, "更新成功");
+            return ResultUtils.success("更新成功");
         }
-        return ResultUtils.failWithInfo(user, "更新失败");
+        return ResultUtils.fail("更新失败");
     }
 
-    @PassToken
-    @ApiOperation("来到首页")
-    @GetMapping("/index")
-    public @ResponseBody Result<String> toIndex(){
-        return ResultUtils.success("来到首页");
+    @ApiOperation("删除用户")
+    @ApiImplicitParam(name = "userId", value = "要删除的用户id", dataType = "String", required = true)
+    @PostMapping("/delete")
+    private Result<String> deleteUser(@Validated @RequestHeader("token") String token){
+        String userId = tokenService.getTokenUserId(token);
+        boolean isSuccess = userService.deleteUser(userId) == 1;
+        if(isSuccess){
+            return ResultUtils.success("更新成功");
+        }
+        return ResultUtils.fail("更新失败");
+    }
+
+    @ApiOperation("通过请求头携带的token查询用户")
+    @PostMapping("queryUserByToken")
+    public Result<User> queryUserByToken(@RequestHeader("token") String token){
+        User user = userService.queryUserByUserId(tokenService.getTokenUserId(token));
+        if(user == null){
+            return ResultUtils.failWithInfo(null, "用户不存在");
+        }
+        user.setPassword("");
+        return ResultUtils.success(user);
+    }
+
+    @ApiOperation("通过名字模糊查询用户")
+    @ApiImplicitParam(name = "name", value = "用户名", dataType = "String", required = true)
+    @PostMapping("/queryUserLikeName")
+    public Result<List<User>> queryUserLikeName(@Validated @RequestBody String name){
+        List<User> userList = userService.queryUserLikeName(name);
+        if(userList == null || userList.isEmpty()){
+            return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
+        }
+        for (User user : userList) {
+            user.setPassword("");
+        }
+        return ResultUtils.success(userList);
+    }
+
+    @ApiOperation("通过地址模糊查询用户")
+    @ApiImplicitParam(name = "address", value = "用户联系地址", dataType = "String", required = true)
+    @PostMapping("/queryUserLikeAddress")
+    public Result<List<User>> queryUserLikeAddress(@Validated @RequestBody String address){
+        List<User> userList = userService.queryUserLikeAddress(address);
+        if(userList == null || userList.isEmpty()){
+            return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
+        }
+        for (User user : userList) {
+            user.setPassword("");
+        }
+        return ResultUtils.success(userList);
+    }
+
+    @ApiOperation("通过用户权限查询用户")
+    @ApiImplicitParam(name = "type", value = "用户类型：1-管理员,0-普通用户", dataType = "Integer", required = true)
+    @PostMapping("/queryUserByUserType")
+    public Result<List<User>> queryUserByUserType(@Validated @RequestBody int type){
+        List<User> userList = userService.queryUserByUserType(type);
+        if(userList == null || userList.isEmpty()){
+            return ResultUtils.failWithInfo(new ArrayList<>(), "查询结果为空");
+        }
+        for (User user : userList) {
+            user.setPassword("");
+        }
+        return ResultUtils.success(userList);
     }
 }

@@ -1,7 +1,6 @@
-package com.HexTechGDUT.service.impl;
+package com.HexTechGDUT.security;
 
-import com.HexTechGDUT.bo.LoginBo;
-import com.HexTechGDUT.service.TokenService;
+import com.HexTechGDUT.entity.po.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -27,22 +26,17 @@ public class JwtTokenServiceImpl implements TokenService {
     public static final int CALENDAR_FIELD = Calendar.DATE;
 
     /**
-     * token 过期时间: 10天
+     * token 过期时间: 7天
      */
-    public static final int CALENDAR_INTERVAL = 10;
+    public static final int CALENDAR_INTERVAL = 7;
 
     /**
      * token密钥
      */
-    public static final String SECRET = "...";
+    public static final String SECRET = "token secret service";
 
-    /**
-     * 生成token
-     * @param loginBo uid & pwd
-     * @return String token
-     */
     @Override
-    public String generate(LoginBo loginBo){
+    public String generate(User user){
         // 获取过期时间
         Calendar nowTime = Calendar.getInstance();
         nowTime.add(CALENDAR_FIELD, CALENDAR_INTERVAL);
@@ -54,17 +48,28 @@ public class JwtTokenServiceImpl implements TokenService {
         map.put("typ", "JWT");
 
         return JWT.create().withHeader(map)
+                //token的签发证明人
                 .withIssuer("SERVICE")
-                .withAudience(loginBo.getUid())
-                .withIssuedAt(nowTime.getTime())
+                //token的有效持有者
+                .withAudience(user.getUserId())
+                //token的用户权限
+                .withClaim("auth", user.getUserType())
+                //token签发的时间
+                .withIssuedAt(Calendar.getInstance().getTime())
+                //token过期的时间
                 .withExpiresAt(expiresDate)
                 .sign(Algorithm.HMAC256(SECRET));
     }
 
-    /**
-     * 验证Token
-     * @param token token
-     */
+    @Override
+    public String refresh(String token) {
+        DecodedJWT jwt = JWT.decode(token);
+        User user = new User();
+        user.setUserId(jwt.getAudience().get(0));
+        user.setUserType(jwt.getClaims().get("auth").asInt());
+        return generate(user);
+    }
+
     @Override
     public void verify(String token) {
         try {
@@ -75,16 +80,26 @@ public class JwtTokenServiceImpl implements TokenService {
         }
     }
 
-    /**
-     * 不验证token,直接获取token中的用户id
-     * @param token token
-     * @return uid
-     */
-    public String getTokenUid(String token){
+    @Override
+    public String getTokenUserId(String token){
         if(StringUtils.isEmpty(token)) {
             return "";
         }
         DecodedJWT jwt = JWT.decode(token);
         return jwt.getAudience().get(0);
+    }
+
+    /**
+     * 用于获取登录用户的权限等级
+     * 不验证token,直接获取token中的userType
+     * @param token token
+     * @return user type ( 0 , 1 )
+     */
+    public static int getTokenAuth(String token){
+        if(StringUtils.isEmpty(token)) {
+            return 0;
+        }
+        DecodedJWT jwt = JWT.decode(token);
+        return jwt.getClaims().get("auth").asInt();
     }
 }
